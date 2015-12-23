@@ -25,6 +25,17 @@ console.log(boxen('unicorn', {padding: 1}));
 │             │
 └─────────────┘
 */
+
+console.log(boxen('unicorn', {padding: 1, margin: 1}));
+/*
+
+   ┌─────────────┐   
+   │             │   
+   │   unicorn   │   
+   │             │   
+   └─────────────┘   
+
+*/
 ```
 
 
@@ -53,6 +64,13 @@ Type: `number`, `object`
 Default: `0`
 
 Space between the text and box border.
+
+##### margin
+
+Type: `number`, `object`  
+Default: `0`
+
+Space around the box border.
 
 Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` properties. When a number is specified, the left/right padding is 3 times the top/bottom to make it look nice.
 
