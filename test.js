@@ -42,18 +42,16 @@ test('padding option - advanced', t => {
 	`);
 });
 
-test('padding option', t => {
+test('margin option', t => {
 	compare(t, fn('foo', {padding: 2, margin: 2}), `
 	
-      ┌───────────────┐      
-      │               │      
-      │               │      
-      │      foo      │      
-      │               │      
-      │               │      
-      └───────────────┘      
+      ┌───────────────┐
+      │               │
+      │               │
+      │      foo      │
+      │               │
+      │               │
+      └───────────────┘
       
-      
-
-	`);
+    `);
 });

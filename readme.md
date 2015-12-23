@@ -63,6 +63,8 @@ Color of the box border.
 Type: `number`, `object`  
 Default: `0`
 
+Space between the text and box border.
+
 ##### margin
 
 Type: `number`, `object`  
