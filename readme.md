@@ -77,6 +77,11 @@ Space around the box.
 Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` properties. When a number is specified, the left/right margin is 3 times the top/bottom to make it look nice.
 
 
+## Related
+
+- [boxen-cli](https://github.com/icyflame/boxen-cli) - CLI for this module
+
+
 ## License
 
 MIT © [Sindre Sorhus](http://sindresorhus.com)
