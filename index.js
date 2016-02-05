@@ -5,6 +5,7 @@ var chalk = require('chalk');
 var objectAssign = require('object-assign');
 var widestLine = require('widest-line');
 var filledArray = require('filled-array');
+var borderChars = require('./border-characters');
 
 var getObject = function (detail) {
 	var obj;
@@ -25,16 +26,35 @@ var getObject = function (detail) {
 	}
 	return obj;
 };
+var getBorderChars = function (borderStyle) {
+	var chars;
+	if(typeof borderStyle === 'string') {
+		chars = borderChars[borderStyle];
+		if (!chars) {
+			throw new TypeError('Invalid borderStyle ' + borderStyle);
+		}
+	} else {
+		['topLeft', 'topRight', 'bottomRight', 'bottomLeft', 'vertical', 'horizontal'].forEach(function (key) {
+			if(!borderStyle[key] || typeof borderStyle[key] !== 'string') {
+				throw new TypeError('Invalid borderStyle, missing or wrong valued key ' + key);
+			}
+		});
+		chars = borderStyle;
+	}
+	return chars;
+}
 
 module.exports = function (text, opts) {
 	opts = objectAssign({
-		padding: 0
+		padding: 0,
+		borderStyle: 'single'
 	}, opts);
 
 	if (opts.borderColor && !chalk[opts.borderColor]) {
 		throw new Error(opts.borderColor + ' is not a valid borderColor');
 	}
 
+	var chars = getBorderChars(opts.borderStyle);
 	var padding = getObject(opts.padding);
 	var margin = getObject(opts.margin);
 
@@ -53,10 +73,10 @@ module.exports = function (text, opts) {
 	}
 
 	var contentWidth = widestLine(text) + padding.left + padding.right;
-	var horizontal = repeating('─', contentWidth);
-	var top = colorizeBorder(repeating('\n', margin.top) + repeating(' ', margin.left) + '┌' + horizontal + '┐');
-	var bottom = colorizeBorder(repeating(' ', margin.left) + '└' + horizontal + '┘' + repeating('\n', margin.bottom));
-	var side = colorizeBorder('│');
+	var horizontal = repeating(chars.horizontal, contentWidth);
+	var top = colorizeBorder(repeating('\n', margin.top) + repeating(' ', margin.left) + chars.topLeft + horizontal + chars.topRight);
+	var bottom = colorizeBorder(repeating(' ', margin.left) + chars.bottomLeft + horizontal + chars.bottomRight + repeating('\n', margin.bottom));
+	var side = colorizeBorder(chars.vertical);
 
 	var middle = lines.map(function (line) {
 		var paddingLeft = repeating(' ', padding.left);
