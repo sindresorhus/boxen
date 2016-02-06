@@ -79,6 +79,7 @@ module.exports = function (text, opts) {
 	};
 
 	var NL = '\n';
+	var PAD = ' ';
 	var lines = text.split(NL);
 
 	if (padding.top > 0) {
@@ -92,15 +93,15 @@ module.exports = function (text, opts) {
 	var contentWidth = widestLine(text) + padding.left + padding.right;
 
 	var horizontal = repeating(chars.horizontal, contentWidth);
-	var top = colorizeBorder(repeating(NL, margin.top) + repeating(' ', margin.left) + chars.topLeft + horizontal + chars.topRight);
-	var bottom = colorizeBorder(repeating(' ', margin.left) + chars.bottomLeft + horizontal + chars.bottomRight + repeating(NL, margin.bottom));
+	var top = colorizeBorder(repeating(NL, margin.top) + repeating(PAD, margin.left) + chars.topLeft + horizontal + chars.topRight);
+	var bottom = colorizeBorder(repeating(PAD, margin.left) + chars.bottomLeft + horizontal + chars.bottomRight + repeating(NL, margin.bottom));
 	var side = colorizeBorder(chars.vertical);
 
 	var middle = lines.map(function (line) {
-		var paddingLeft = repeating(' ', padding.left);
-		var paddingRight = repeating(' ', contentWidth - stringWidth(line) - padding.left);
+		var paddingLeft = repeating(PAD, padding.left);
+		var paddingRight = repeating(PAD, contentWidth - stringWidth(line) - padding.left);
 
-		return repeating(' ', margin.left) + side + paddingLeft + line + paddingRight + side;
+		return repeating(PAD, margin.left) + side + paddingLeft + line + paddingRight + side;
 	}).join(NL);
 
 	return top + NL + middle + NL + bottom;
