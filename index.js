@@ -97,8 +97,8 @@ module.exports = function (text, opts) {
 	var bottom = colorizeBorder(repeating(PAD, margin.left) + chars.bottomLeft + horizontal + chars.bottomRight + repeating(NL, margin.bottom));
 	var side = colorizeBorder(chars.vertical);
 
+	var paddingLeft = repeating(PAD, padding.left);
 	var middle = lines.map(function (line) {
-		var paddingLeft = repeating(PAD, padding.left);
 		var paddingRight = repeating(PAD, contentWidth - stringWidth(line) - padding.left);
 
 		return repeating(PAD, margin.left) + side + paddingLeft + line + paddingRight + side;
