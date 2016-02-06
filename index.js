@@ -91,17 +91,18 @@ module.exports = function (text, opts) {
 	}
 
 	var contentWidth = widestLine(text) + padding.left + padding.right;
+	var paddingLeft = repeating(PAD, padding.left);
+	var marginLeft = repeating(PAD, margin.left);
 
 	var horizontal = repeating(chars.horizontal, contentWidth);
-	var top = colorizeBorder(repeating(NL, margin.top) + repeating(PAD, margin.left) + chars.topLeft + horizontal + chars.topRight);
-	var bottom = colorizeBorder(repeating(PAD, margin.left) + chars.bottomLeft + horizontal + chars.bottomRight + repeating(NL, margin.bottom));
+	var top = colorizeBorder(repeating(NL, margin.top) + marginLeft + chars.topLeft + horizontal + chars.topRight);
+	var bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + repeating(NL, margin.bottom));
 	var side = colorizeBorder(chars.vertical);
 
-	var paddingLeft = repeating(PAD, padding.left);
 	var middle = lines.map(function (line) {
 		var paddingRight = repeating(PAD, contentWidth - stringWidth(line) - padding.left);
 
-		return repeating(PAD, margin.left) + side + paddingLeft + line + paddingRight + side;
+		return marginLeft + side + paddingLeft + line + paddingRight + side;
 	}).join(NL);
 
 	return top + NL + middle + NL + bottom;
