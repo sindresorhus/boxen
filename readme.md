@@ -26,14 +26,14 @@ console.log(boxen('unicorn', {padding: 1}));
 └─────────────┘
 */
 
-console.log(boxen('unicorn', {padding: 1, margin: 1}));
+console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 /*
 
-   ┌─────────────┐
-   │             │
-   │   unicorn   │
-   │             │
-   └─────────────┘
+   ╔═════════════╗
+   ║             ║
+   ║   unicorn   ║
+   ║             ║
+   ╚═════════════╝
 
 */
 ```
@@ -57,6 +57,54 @@ Type: `string`
 Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray`
 
 Color of the box border.
+
+##### borderStyle
+
+Type: `string`, `object`
+Default: `single`
+Values:
+- `single`, e.g.
+```
+┌───┐
+│foo│
+└───┘
+```
+- `double`, e.g.
+```
+╔═══╗
+║foo║
+╚═══╝
+```
+- `round` (`single` sides with round corners), e.g.
+```
+╭───╮
+│foo│
+╰───╯
+```
+- `single-double` (`single` on top and bottom, `double` on right and left), e.g.
+```
+╓───╖
+║foo║
+╙───╜
+```
+- `double-single` (`double` on top and bottom, `single` on right and left), e.g.
+```
+╒═══╕
+│foo│
+╘═══╛
+```
+
+Style of the box border. Can be any of the predefined styles from above or an object with the following keys:
+
+- `topLeft`: The string to use for the top-left corner
+- `topRight`: The string to use for the top-right corner
+- `bottomLeft`: The string to use for the bottom-left corner
+- `bottomRight`: The string to use for the bottom-right corner
+- `vertical`: The string to use for the vertical sides (right and left)
+- `horizontal`: The string to use for the horizontal sides (top and bottom)
+
+The following object would render an ASCII-like box: `{ topLeft: '+', topRight: '+', bottomLeft: '+', bottomRight '+', horizontal: '-', vertical: '|'};`.
+
 
 ##### padding
 
