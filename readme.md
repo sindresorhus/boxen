@@ -1,4 +1,4 @@
-# ![boxen](screenshot.png)
+# <img src="screenshot.png" width="400" alt="boxen">
 
 > Create boxes in the terminal
 
@@ -53,62 +53,66 @@ Text inside the box.
 
 ##### borderColor
 
-Type: `string`  
+Type: `string`<br>
 Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray`
 
 Color of the box border.
 
 ##### borderStyle
 
-Type: `string`, `object`
-Default: `single`
+Type: `string` `object`<br>
+Default: `single`<br>
 Values:
-- `single`, e.g.
+- `single`
 ```
 ┌───┐
 │foo│
 └───┘
 ```
-- `double`, e.g.
+- `double`
 ```
 ╔═══╗
 ║foo║
 ╚═══╝
 ```
-- `round` (`single` sides with round corners), e.g.
+- `round` (`single` sides with round corners)
 ```
 ╭───╮
 │foo│
 ╰───╯
 ```
-- `single-double` (`single` on top and bottom, `double` on right and left), e.g.
+- `single-double` (`single` on top and bottom, `double` on right and left)
 ```
 ╓───╖
 ║foo║
 ╙───╜
 ```
-- `double-single` (`double` on top and bottom, `single` on right and left), e.g.
+- `double-single` (`double` on top and bottom, `single` on right and left)
 ```
 ╒═══╕
 │foo│
 ╘═══╛
 ```
 
-Style of the box border. Can be any of the predefined styles from above or an object with the following keys:
+Style of the box border.
 
-- `topLeft`: The string to use for the top-left corner
-- `topRight`: The string to use for the top-right corner
-- `bottomLeft`: The string to use for the bottom-left corner
-- `bottomRight`: The string to use for the bottom-right corner
-- `vertical`: The string to use for the vertical sides (right and left)
-- `horizontal`: The string to use for the horizontal sides (top and bottom)
+Can be any of the above predefined styles or an object with the following keys:
 
-The following object would render an ASCII-like box: `{ topLeft: '+', topRight: '+', bottomLeft: '+', bottomRight '+', horizontal: '-', vertical: '|'};`.
+```js
+{
+	topLeft: '+',
+	topRight: '+',
+	bottomLeft: '+',
+	bottomRight: '+',
+	horizontal: '-',
+	vertical: '|'
+}
+```
 
 
 ##### padding
 
-Type: `number`, `object`  
+Type: `number` `object`<br>
 Default: `0`
 
 Space between the text and box border.
@@ -117,7 +121,7 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 
 ##### margin
 
-Type: `number`, `object`  
+Type: `number` `object`<br>
 Default: `0`
 
 Space around the box.

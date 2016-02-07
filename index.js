@@ -9,6 +9,7 @@ var borderChars = require('./border-characters');
 
 var getObject = function (detail) {
 	var obj;
+
 	if (typeof detail === 'number') {
 		obj = {
 			top: detail,
@@ -24,25 +25,40 @@ var getObject = function (detail) {
 			left: 0
 		}, detail);
 	}
+
 	return obj;
 };
+
 var getBorderChars = function (borderStyle) {
+	var sides = [
+		'topLeft',
+		'topRight',
+		'bottomRight',
+		'bottomLeft',
+		'vertical',
+		'horizontal'
+	];
+
 	var chars;
-	if(typeof borderStyle === 'string') {
+
+	if (typeof borderStyle === 'string') {
 		chars = borderChars[borderStyle];
+
 		if (!chars) {
-			throw new TypeError('Invalid borderStyle ' + borderStyle);
+			throw new TypeError('Invalid border style: ' + borderStyle);
 		}
 	} else {
-		['topLeft', 'topRight', 'bottomRight', 'bottomLeft', 'vertical', 'horizontal'].forEach(function (key) {
-			if(!borderStyle[key] || typeof borderStyle[key] !== 'string') {
-				throw new TypeError('Invalid borderStyle, missing or wrong valued key ' + key);
+		sides.forEach(function (key) {
+			if (!borderStyle[key] || typeof borderStyle[key] !== 'string') {
+				throw new TypeError('Invalid border style: ' + key);
 			}
 		});
+
 		chars = borderStyle;
 	}
+
 	return chars;
-}
+};
 
 module.exports = function (text, opts) {
 	opts = objectAssign({

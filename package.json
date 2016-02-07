@@ -13,10 +13,11 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "ava"
+    "test": "xo && ava"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "border-characters.js"
   ],
   "keywords": [
     "cli",

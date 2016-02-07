@@ -92,6 +92,7 @@ test('borderStyle option with object', t => {
 	const asciiStyle = {
 		topLeft: '1', topRight: '2', bottomLeft: '3', bottomRight: '4', horizontal: '-', vertical: '|'
 	};
+
 	compare(t, fn('foo', {borderStyle: asciiStyle}), `
 1---2
 |foo|
@@ -99,16 +100,22 @@ test('borderStyle option with object', t => {
 	`);
 });
 
-test('throws (with hint) on unexpected borderStyle as string', t => {
-	t.throws(() => fn('foo', {borderStyle: 'shaken-snake'}), /borderStyle/);
+test('throws on unexpected borderStyle as string', t => {
+	t.throws(() => fn('foo', {borderStyle: 'shaken-snake'}), /border style/);
 });
 
-test('throws (with hint) on unexpected borderStyle as object', t => {
-	t.throws(() => fn('foo', {borderStyle: {shake: 'snake'}}), /borderStyle/);
+test('throws on unexpected borderStyle as object', t => {
+	t.throws(() => fn('foo', {borderStyle: {shake: 'snake'}}), /border style/);
+
 	// missing bottomRight
 	const invalid = {
-		topLeft: '1', topRight: '2', bottomLeft: '3', horizontal: '-', vertical: '|'
+		topLeft: '1',
+		topRight: '2',
+		bottomLeft: '3',
+		horizontal: '-',
+		vertical: '|'
 	};
+
 	t.throws(() => fn('foo', {borderStyle: invalid}), /bottomRight/);
 });
 
@@ -116,10 +123,10 @@ test('borderColor option', t => {
 	const box = fn('foo', {borderColor: 'yellow'});
 	const yellowAnsiOpen = '\u001b[33m';
 	const colorAnsiClose = '\u001b[39m';
-	t.ok(box.indexOf(yellowAnsiOpen) !== -1);
-	t.ok(box.indexOf(colorAnsiClose) !== -1);
-})
+	t.true(box.indexOf(yellowAnsiOpen) !== -1);
+	t.true(box.indexOf(colorAnsiClose) !== -1);
+});
 
-test('throws (with hint) on unexpected borderColor', t => {
+test('throws on unexpected borderColor', t => {
 	t.throws(() => fn('foo', {borderColor: 'greasy-white'}), /borderColor/);
 });

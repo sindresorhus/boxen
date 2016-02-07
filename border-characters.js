@@ -6,6 +6,7 @@ exports.single = {
 	vertical: '│',
 	horizontal: '─'
 };
+
 exports.double = {
 	topLeft: '╔',
 	topRight: '╗',
@@ -14,6 +15,7 @@ exports.double = {
 	vertical: '║',
 	horizontal: '═'
 };
+
 exports.round = {
 	topLeft: '╭',
 	topRight: '╮',
@@ -22,6 +24,7 @@ exports.round = {
 	vertical: '│',
 	horizontal: '─'
 };
+
 // 1st: top and bottom, 2nd: left and right (as in CSS shorthands)
 exports['single-double'] = {
 	topLeft: '╓',
@@ -31,6 +34,7 @@ exports['single-double'] = {
 	vertical: '║',
 	horizontal: '─'
 };
+
 exports['double-single'] = {
 	topLeft: '╒',
 	topRight: '╕',
