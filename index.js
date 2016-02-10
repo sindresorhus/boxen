@@ -107,3 +107,5 @@ module.exports = function (text, opts) {
 
 	return top + NL + middle + NL + bottom;
 };
+
+module.exports._borderStyles = borderChars;
