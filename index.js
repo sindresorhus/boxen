@@ -5,7 +5,7 @@ var chalk = require('chalk');
 var objectAssign = require('object-assign');
 var widestLine = require('widest-line');
 var filledArray = require('filled-array');
-var borderChars = require('./border-characters');
+var cliBoxes = require('cli-boxes');
 
 var getObject = function (detail) {
 	var obj;
@@ -42,7 +42,7 @@ var getBorderChars = function (borderStyle) {
 	var chars;
 
 	if (typeof borderStyle === 'string') {
-		chars = borderChars[borderStyle];
+		chars = cliBoxes[borderStyle];
 
 		if (!chars) {
 			throw new TypeError('Invalid border style: ' + borderStyle);
@@ -108,4 +108,4 @@ module.exports = function (text, opts) {
 	return top + NL + middle + NL + bottom;
 };
 
-module.exports._borderStyles = borderChars;
+module.exports._borderStyles = cliBoxes;

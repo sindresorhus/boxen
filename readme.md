@@ -93,6 +93,12 @@ Values:
 │foo│
 ╘═══╛
 ```
+- `classic`
+```
++---+
+|foo|
++---+
+```
 
 Style of the box border.
 
@@ -132,6 +138,7 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 ## Related
 
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
+- [cli-boxes](https://github.com/sindresorhus/cli-boxes) - Boxes for use in the terminal
 
 
 ## License

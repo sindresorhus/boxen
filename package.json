@@ -16,8 +16,7 @@
     "test": "xo && ava"
   },
   "files": [
-    "index.js",
-    "border-characters.js"
+    "index.js"
   ],
   "keywords": [
     "cli",
@@ -33,6 +32,7 @@
   ],
   "dependencies": {
     "chalk": "^1.1.1",
+    "cli-boxes": "^1.0.0",
     "filled-array": "^1.0.0",
     "object-assign": "^4.0.1",
     "repeating": "^2.0.0",
