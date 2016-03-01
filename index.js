@@ -71,6 +71,10 @@ module.exports = function (text, opts) {
 		throw new Error(opts.borderColor + ' is not a valid borderColor');
 	}
 
+	if (opts.backgroundColor && !chalk[opts.backgroundColor]) {
+		throw new Error(opts.borderColor + ' is not a valid backgroundColor');
+	}
+
 	var chars = getBorderChars(opts.borderStyle);
 	var padding = getObject(opts.padding);
 	var margin = getObject(opts.margin);
@@ -78,6 +82,11 @@ module.exports = function (text, opts) {
 	var colorizeBorder = function (x) {
 		var ret = opts.borderColor ? chalk[opts.borderColor](x) : x;
 		return opts.dimBorder ? chalk.dim(ret) : ret;
+	};
+
+	var colorizeContent = function (x) {
+		var ret = opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
+		return ret;
 	};
 
 	var NL = '\n';
@@ -104,7 +113,7 @@ module.exports = function (text, opts) {
 	var middle = lines.map(function (line) {
 		var paddingRight = repeating(PAD, contentWidth - stringWidth(line) - padding.left);
 
-		return marginLeft + side + paddingLeft + line + paddingRight + side;
+		return marginLeft + side + colorizeContent(paddingLeft) + colorizeContent(line) + colorizeContent(paddingRight) + side;
 	}).join(NL);
 
 	return top + NL + middle + NL + bottom;
