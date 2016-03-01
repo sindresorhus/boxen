@@ -140,6 +140,13 @@ Space around the box.
 
 Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` properties. When a number is specified, the left/right margin is 3 times the top/bottom to make it look nice.
 
+##### backgroundColor
+
+Type: `string`<br>
+Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white`
+
+Color of the background.
+
 
 ## Related
 

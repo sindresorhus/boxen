@@ -130,3 +130,15 @@ test('borderColor option', t => {
 test('throws on unexpected borderColor', t => {
 	t.throws(() => fn('foo', {borderColor: 'greasy-white'}), /borderColor/);
 });
+
+test('backgroundColor option', t => {
+	const box = fn('foo', {backgroundColor: 'red'});
+	const redAnsiOpen = '\u001b[41m';
+	const redAnsiClose = '\u001b[49m';
+	t.true(box.indexOf(redAnsiOpen) !== -1);
+	t.true(box.indexOf(redAnsiClose) !== -1);
+});
+
+test('throws on unexpected backgroundColor', t => {
+	t.throws(() => fn('foo', {backgroundColor: 'dark-yellow'}), /backgroundColor/);
+});
