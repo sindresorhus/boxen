@@ -85,8 +85,7 @@ module.exports = function (text, opts) {
 	};
 
 	var colorizeContent = function (x) {
-		var ret = opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
-		return ret;
+		return opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
 	};
 
 	var NL = '\n';
@@ -113,7 +112,7 @@ module.exports = function (text, opts) {
 	var middle = lines.map(function (line) {
 		var paddingRight = repeating(PAD, contentWidth - stringWidth(line) - padding.left);
 
-		return marginLeft + side + colorizeContent(paddingLeft) + colorizeContent(line) + colorizeContent(paddingRight) + side;
+		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
 	}).join(NL);
 
 	return top + NL + middle + NL + bottom;
