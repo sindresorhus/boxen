@@ -132,7 +132,7 @@ test('throws on unexpected borderColor', t => {
 });
 
 test('backgroundColor option', t => {
-	const box = fn('foo', {backgroundColor: 'bgRed'});
+	const box = fn('foo', {backgroundColor: 'red'});
 	const redAnsiOpen = '\u001b[41m';
 	const redAnsiClose = '\u001b[49m';
 	t.true(box.indexOf(redAnsiOpen) !== -1);

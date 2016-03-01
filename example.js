@@ -19,7 +19,7 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: 'yellow',
-	backgroundColor: 'bgRed',
+	backgroundColor: 'magenta',
 	borderStyle: {
 		topLeft: '+',
 		topRight: '+',

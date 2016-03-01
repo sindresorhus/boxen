@@ -6,6 +6,7 @@ var objectAssign = require('object-assign');
 var widestLine = require('widest-line');
 var filledArray = require('filled-array');
 var cliBoxes = require('cli-boxes');
+var camelCase = require('camelcase');
 
 var getObject = function (detail) {
 	var obj;
@@ -60,12 +61,20 @@ var getBorderChars = function (borderStyle) {
 	return chars;
 };
 
+var getBackgroundColorName = function (x) {
+	return camelCase('bg', x);
+};
+
 module.exports = function (text, opts) {
 	opts = objectAssign({
 		padding: 0,
 		borderStyle: 'single',
 		dimBorder: false
 	}, opts);
+
+	if (opts.backgroundColor) {
+		opts.backgroundColor = getBackgroundColorName(opts.backgroundColor);
+	}
 
 	if (opts.borderColor && !chalk[opts.borderColor]) {
 		throw new Error(opts.borderColor + ' is not a valid borderColor');

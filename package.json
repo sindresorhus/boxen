@@ -31,6 +31,7 @@
     "text"
   ],
   "dependencies": {
+    "camelcase": "^2.1.0",
     "chalk": "^1.1.1",
     "cli-boxes": "^1.0.0",
     "filled-array": "^1.0.0",

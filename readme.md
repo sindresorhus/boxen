@@ -143,7 +143,7 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 ##### backgroundColor
 
 Type: `string`<br>
-Values: `bgBlack` `bgRed` `bgGreen` `bgYellow` `bgBlue` `bgMagenta` `bgCyan` `bgWhite`
+Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white`
 
 Color of the background.
 
