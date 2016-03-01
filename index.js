@@ -63,7 +63,8 @@ var getBorderChars = function (borderStyle) {
 module.exports = function (text, opts) {
 	opts = objectAssign({
 		padding: 0,
-		borderStyle: 'single'
+		borderStyle: 'single',
+		dimBorder: false
 	}, opts);
 
 	if (opts.borderColor && !chalk[opts.borderColor]) {
@@ -75,7 +76,8 @@ module.exports = function (text, opts) {
 	var margin = getObject(opts.margin);
 
 	var colorizeBorder = function (x) {
-		return opts.borderColor ? chalk[opts.borderColor](x) : x;
+		var ret = opts.borderColor ? chalk[opts.borderColor](x) : x;
+		return opts.dimBorder ? chalk.dim(ret) : ret;
 	};
 
 	var NL = '\n';

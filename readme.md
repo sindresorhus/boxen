@@ -115,6 +115,12 @@ Can be any of the above predefined styles or an object with the following keys:
 }
 ```
 
+##### dimBorder
+
+Type: `boolean`<br>
+Default: `false`
+
+Reduce opacity of the border.
 
 ##### padding
 
