@@ -81,7 +81,7 @@ module.exports = function (text, opts) {
 	}
 
 	if (opts.backgroundColor && !chalk[opts.backgroundColor]) {
-		throw new Error(opts.borderColor + ' is not a valid backgroundColor');
+		throw new Error(opts.backgroundColor + ' is not a valid backgroundColor');
 	}
 
 	var chars = getBorderChars(opts.borderStyle);
