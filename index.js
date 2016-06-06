@@ -7,6 +7,7 @@ var widestLine = require('widest-line');
 var filledArray = require('filled-array');
 var cliBoxes = require('cli-boxes');
 var camelCase = require('camelcase');
+var ansiAlign = require('ansi-align');
 
 var getObject = function (detail) {
 	var obj;
@@ -99,6 +100,15 @@ module.exports = function (text, opts) {
 
 	var NL = '\n';
 	var PAD = ' ';
+
+	if (opts.align) {
+		text = ansiAlign(text, {
+			align: opts.align,
+			split: NL,
+			pad: PAD
+		});
+	}
+
 	var lines = text.split(NL);
 
 	if (padding.top > 0) {

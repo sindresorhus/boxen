@@ -147,6 +147,13 @@ Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white`
 
 Color of the background.
 
+##### align
+
+Type: `string`<br>
+Values: `center` `right`
+
+Align the text in the box based on the widest line.
+
 
 ## Related
 
