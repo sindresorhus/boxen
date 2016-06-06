@@ -70,7 +70,8 @@ module.exports = function (text, opts) {
 	opts = objectAssign({
 		padding: 0,
 		borderStyle: 'single',
-		dimBorder: false
+		dimBorder: false,
+		align: 'left'
 	}, opts);
 
 	if (opts.backgroundColor) {
@@ -98,13 +99,10 @@ module.exports = function (text, opts) {
 		return opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
 	};
 
+	text = ansiAlign(text, {align: opts.align});
+
 	var NL = '\n';
 	var PAD = ' ';
-
-	if (opts.align && opts.align !== 'left') {
-		text = ansiAlign(text, {align: opts.align});
-	}
-
 	var lines = text.split(NL);
 
 	if (padding.top > 0) {
