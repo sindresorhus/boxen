@@ -101,7 +101,7 @@ module.exports = function (text, opts) {
 	var NL = '\n';
 	var PAD = ' ';
 
-	if (opts.align) {
+	if (opts.align && opts.align !== 'left') {
 		text = ansiAlign(text, {
 			align: opts.align,
 			split: NL,

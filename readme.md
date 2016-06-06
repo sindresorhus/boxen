@@ -150,7 +150,8 @@ Color of the background.
 ##### align
 
 Type: `string`<br>
-Values: `center` `right`
+Default: `left`<br>
+Values: `left` `center` `right`
 
 Align the text in the box based on the widest line.
 

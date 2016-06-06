@@ -170,3 +170,14 @@ test('align option `right`', t => {
 └───────────────────┘
 	`);
 });
+
+test('align option `left`', t => {
+	const beautifulColor = chalk.magenta('B E A U T I F U L');
+	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'left'}), `
+┌───────────────────┐
+│Boxes are          │
+│${beautifulColor}  │
+│and beneficial too!│
+└───────────────────┘
+	`);
+});
