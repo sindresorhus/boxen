@@ -1,4 +1,5 @@
 import test from 'ava';
+import chalk from 'chalk';
 import fn from './';
 
 function compare(t, actual, expected) {
@@ -141,4 +142,42 @@ test('backgroundColor option', t => {
 
 test('throws on unexpected backgroundColor', t => {
 	t.throws(() => fn('foo', {backgroundColor: 'dark-yellow'}), /backgroundColor/);
+});
+
+test('align option `center`', t => {
+	const beautifulColor = chalk.magenta('B E A U T I F U L');
+	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {
+		align: 'center',
+		padding: 1
+	}), `
+┌─────────────────────────┐
+│                         │
+│        Boxes are        │
+│    ${beautifulColor}    │
+│   and beneficial too!   │
+│                         │
+└─────────────────────────┘
+	`);
+});
+
+test('align option `right`', t => {
+	const beautifulColor = chalk.magenta('B E A U T I F U L');
+	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'right'}), `
+┌───────────────────┐
+│          Boxes are│
+│  ${beautifulColor}│
+│and beneficial too!│
+└───────────────────┘
+	`);
+});
+
+test('align option `left`', t => {
+	const beautifulColor = chalk.magenta('B E A U T I F U L');
+	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'left'}), `
+┌───────────────────┐
+│Boxes are          │
+│${beautifulColor}  │
+│and beneficial too!│
+└───────────────────┘
+	`);
 });

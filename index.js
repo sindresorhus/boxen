@@ -7,6 +7,7 @@ var widestLine = require('widest-line');
 var filledArray = require('filled-array');
 var cliBoxes = require('cli-boxes');
 var camelCase = require('camelcase');
+var ansiAlign = require('ansi-align');
 
 var getObject = function (detail) {
 	var obj;
@@ -69,7 +70,8 @@ module.exports = function (text, opts) {
 	opts = objectAssign({
 		padding: 0,
 		borderStyle: 'single',
-		dimBorder: false
+		dimBorder: false,
+		align: 'left'
 	}, opts);
 
 	if (opts.backgroundColor) {
@@ -96,6 +98,8 @@ module.exports = function (text, opts) {
 	var colorizeContent = function (x) {
 		return opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
 	};
+
+	text = ansiAlign(text, {align: opts.align});
 
 	var NL = '\n';
 	var PAD = ' ';
