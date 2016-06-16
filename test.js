@@ -44,7 +44,10 @@ test('padding option - advanced', t => {
 });
 
 test('margin option', t => {
-	compare(t, fn('foo', {padding: 2, margin: 2}), `
+	compare(t, fn('foo', {
+		padding: 2,
+		margin: 2
+	}), `
 
       ┌───────────────┐
       │               │
@@ -91,7 +94,12 @@ test('borderStyle option `double-single`', t => {
 
 test('borderStyle option with object', t => {
 	const asciiStyle = {
-		topLeft: '1', topRight: '2', bottomLeft: '3', bottomRight: '4', horizontal: '-', vertical: '|'
+		topLeft: '1',
+		topRight: '2',
+		bottomLeft: '3',
+		bottomRight: '4',
+		horizontal: '-',
+		vertical: '|'
 	};
 
 	compare(t, fn('foo', {borderStyle: asciiStyle}), `
