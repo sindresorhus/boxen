@@ -128,6 +128,7 @@ module.exports = function (text, opts) {
 
 		case 'right':
 			padWidth = currentColumns - contentWidth - 2;
+			padWidth = padWidth < 0 ? 0 : padWidth;
 			marginLeft = repeating(PAD, padWidth);
 			break;
 
