@@ -71,7 +71,8 @@ module.exports = function (text, opts) {
 		padding: 0,
 		borderStyle: 'single',
 		dimBorder: false,
-		align: 'left'
+		align: 'left',
+		float: 'left'
 	}, opts);
 
 	if (opts.backgroundColor) {
@@ -115,7 +116,26 @@ module.exports = function (text, opts) {
 
 	var contentWidth = widestLine(text) + padding.left + padding.right;
 	var paddingLeft = repeating(PAD, padding.left);
-	var marginLeft = repeating(PAD, margin.left);
+
+	var marginLeft;
+	var padWidth;
+	var currentColumns = process.stdout.columns;
+	switch (opts.float) {
+		case 'center':
+			padWidth = (currentColumns - contentWidth) / 2;
+			marginLeft = repeating(PAD, padWidth);
+			break;
+
+		case 'right':
+			padWidth = Math.max(currentColumns - contentWidth - 2, 0);
+			padWidth = padWidth < 0 ? 0 : padWidth;
+			marginLeft = repeating(PAD, padWidth);
+			break;
+
+		default:
+			marginLeft = repeating(PAD, margin.left);
+			break;
+	}
 
 	var horizontal = repeating(chars.horizontal, contentWidth);
 	var top = colorizeBorder(repeating(NL, margin.top) + marginLeft + chars.topLeft + horizontal + chars.topRight);

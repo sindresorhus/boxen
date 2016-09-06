@@ -140,6 +140,14 @@ Space around the box.
 
 Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` properties. When a number is specified, the left/right margin is 3 times the top/bottom to make it look nice.
 
+##### float
+
+Type: `string`<br>
+Values: `right` `center` `left`<br>
+Default: `left`
+
+Float the box on the available terminal screen space.
+
 ##### backgroundColor
 
 Type: `string`<br>
