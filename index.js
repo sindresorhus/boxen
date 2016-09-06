@@ -1,16 +1,13 @@
 'use strict';
-var stringWidth = require('string-width');
-var repeating = require('repeating');
-var chalk = require('chalk');
-var objectAssign = require('object-assign');
-var widestLine = require('widest-line');
-var filledArray = require('filled-array');
-var cliBoxes = require('cli-boxes');
-var camelCase = require('camelcase');
-var ansiAlign = require('ansi-align');
+const stringWidth = require('string-width');
+const chalk = require('chalk');
+const widestLine = require('widest-line');
+const cliBoxes = require('cli-boxes');
+const camelCase = require('camelcase');
+const ansiAlign = require('ansi-align');
 
-var getObject = function (detail) {
-	var obj;
+const getObject = detail => {
+	let obj;
 
 	if (typeof detail === 'number') {
 		obj = {
@@ -20,7 +17,7 @@ var getObject = function (detail) {
 			left: detail * 3
 		};
 	} else {
-		obj = objectAssign({
+		obj = Object.assign({
 			top: 0,
 			right: 0,
 			bottom: 0,
@@ -31,8 +28,8 @@ var getObject = function (detail) {
 	return obj;
 };
 
-var getBorderChars = function (borderStyle) {
-	var sides = [
+const getBorderChars = borderStyle => {
+	const sides = [
 		'topLeft',
 		'topRight',
 		'bottomRight',
@@ -41,18 +38,18 @@ var getBorderChars = function (borderStyle) {
 		'horizontal'
 	];
 
-	var chars;
+	let chars;
 
 	if (typeof borderStyle === 'string') {
 		chars = cliBoxes[borderStyle];
 
 		if (!chars) {
-			throw new TypeError('Invalid border style: ' + borderStyle);
+			throw new TypeError(`Invalid border style: ${borderStyle}`);
 		}
 	} else {
-		sides.forEach(function (key) {
+		sides.forEach(key => {
 			if (!borderStyle[key] || typeof borderStyle[key] !== 'string') {
-				throw new TypeError('Invalid border style: ' + key);
+				throw new TypeError(`Invalid border style: ${key}`);
 			}
 		});
 
@@ -62,12 +59,10 @@ var getBorderChars = function (borderStyle) {
 	return chars;
 };
 
-var getBackgroundColorName = function (x) {
-	return camelCase('bg', x);
-};
+const getBackgroundColorName = x => camelCase('bg', x);
 
-module.exports = function (text, opts) {
-	opts = objectAssign({
+module.exports = (text, opts) => {
+	opts = Object.assign({
 		padding: 0,
 		borderStyle: 'single',
 		dimBorder: false,
@@ -80,71 +75,60 @@ module.exports = function (text, opts) {
 	}
 
 	if (opts.borderColor && !chalk[opts.borderColor]) {
-		throw new Error(opts.borderColor + ' is not a valid borderColor');
+		throw new Error(`${opts.borderColor} is not a valid borderColor`);
 	}
 
 	if (opts.backgroundColor && !chalk[opts.backgroundColor]) {
-		throw new Error(opts.backgroundColor + ' is not a valid backgroundColor');
+		throw new Error(`${opts.backgroundColor} is not a valid backgroundColor`);
 	}
 
-	var chars = getBorderChars(opts.borderStyle);
-	var padding = getObject(opts.padding);
-	var margin = getObject(opts.margin);
+	const chars = getBorderChars(opts.borderStyle);
+	const padding = getObject(opts.padding);
+	const margin = getObject(opts.margin);
 
-	var colorizeBorder = function (x) {
-		var ret = opts.borderColor ? chalk[opts.borderColor](x) : x;
+	const colorizeBorder = x => {
+		const ret = opts.borderColor ? chalk[opts.borderColor](x) : x;
 		return opts.dimBorder ? chalk.dim(ret) : ret;
 	};
 
-	var colorizeContent = function (x) {
-		return opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
-	};
+	const colorizeContent = x => opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
 
 	text = ansiAlign(text, {align: opts.align});
 
-	var NL = '\n';
-	var PAD = ' ';
-	var lines = text.split(NL);
+	const NL = '\n';
+	const PAD = ' ';
+
+	let lines = text.split(NL);
 
 	if (padding.top > 0) {
-		lines = filledArray('', padding.top).concat(lines);
+		lines = Array(padding.top).fill('').concat(lines);
 	}
 
 	if (padding.bottom > 0) {
-		lines = lines.concat(filledArray('', padding.bottom));
+		lines = lines.concat(Array(padding.bottom).fill(''));
 	}
 
-	var contentWidth = widestLine(text) + padding.left + padding.right;
-	var paddingLeft = repeating(PAD, padding.left);
+	const contentWidth = widestLine(text) + padding.left + padding.right;
+	const paddingLeft = PAD.repeat(padding.left);
+	const columns = process.stdout.columns;
+	let marginLeft = PAD.repeat(margin.left);
 
-	var marginLeft;
-	var padWidth;
-	var currentColumns = process.stdout.columns;
-	switch (opts.float) {
-		case 'center':
-			padWidth = (currentColumns - contentWidth) / 2;
-			marginLeft = repeating(PAD, padWidth);
-			break;
-
-		case 'right':
-			padWidth = Math.max(currentColumns - contentWidth - 2, 0);
-			padWidth = padWidth < 0 ? 0 : padWidth;
-			marginLeft = repeating(PAD, padWidth);
-			break;
-
-		default:
-			marginLeft = repeating(PAD, margin.left);
-			break;
+	if (opts.float === 'center') {
+		const padWidth = (columns - contentWidth) / 2;
+		marginLeft = PAD.repeat(padWidth);
+	} else if (opts.float === 'right') {
+		let padWidth = Math.max(columns - contentWidth - 2, 0);
+		padWidth = padWidth < 0 ? 0 : padWidth;
+		marginLeft = PAD.repeat(padWidth);
 	}
 
-	var horizontal = repeating(chars.horizontal, contentWidth);
-	var top = colorizeBorder(repeating(NL, margin.top) + marginLeft + chars.topLeft + horizontal + chars.topRight);
-	var bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + repeating(NL, margin.bottom));
-	var side = colorizeBorder(chars.vertical);
+	const horizontal = chars.horizontal.repeat(contentWidth);
+	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + horizontal + chars.topRight);
+	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
+	const side = colorizeBorder(chars.vertical);
 
-	var middle = lines.map(function (line) {
-		var paddingRight = repeating(PAD, contentWidth - stringWidth(line) - padding.left);
-
+	const middle = lines.map(line => {
+		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
 		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
 	}).join(NL);
 

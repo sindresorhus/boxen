@@ -1,13 +1,11 @@
 import test from 'ava';
 import chalk from 'chalk';
-import fn from './';
+import m from './';
 
-function compare(t, actual, expected) {
-	return t.is(actual.trim(), expected.trim());
-}
+const compare = (t, actual, expected) => t.is(actual.trim(), expected.trim());
 
 test('creates a box', t => {
-	compare(t, fn('foo'), `
+	compare(t, m('foo'), `
 ┌───┐
 │foo│
 └───┘
@@ -15,7 +13,7 @@ test('creates a box', t => {
 });
 
 test('padding option', t => {
-	compare(t, fn('foo', {padding: 2}), `
+	compare(t, m('foo', {padding: 2}), `
 ┌───────────────┐
 │               │
 │               │
@@ -27,7 +25,7 @@ test('padding option', t => {
 });
 
 test('padding option - advanced', t => {
-	compare(t, fn('foo', {
+	compare(t, m('foo', {
 		padding: {
 			top: 0,
 			bottom: 2,
@@ -44,7 +42,7 @@ test('padding option - advanced', t => {
 });
 
 test('margin option', t => {
-	compare(t, fn('foo', {
+	compare(t, m('foo', {
 		padding: 2,
 		margin: 2
 	}), `
@@ -61,7 +59,7 @@ test('margin option', t => {
 });
 
 test('float option (left)', t => {
-	compare(t, fn('foo', {
+	compare(t, m('foo', {
 		float: 'left'
 	}), `
 ┌───┐
@@ -71,9 +69,10 @@ test('float option (left)', t => {
 });
 
 test('float option (center)', t => {
-	let padSize = Math.ceil((process.stdout.columns - 2) / 2);
-	let padding = new Array(padSize).join(' ');
-	compare(t, fn('foo', {
+	const padSize = Math.ceil((process.stdout.columns - 2) / 2) - 1;
+	const padding = ' '.repeat(padSize);
+
+	compare(t, m('foo', {
 		float: 'center'
 	}), `
 ${padding}┌───┐
@@ -83,9 +82,10 @@ ${padding}    `);
 });
 
 test('float option (right)', t => {
-	let padSize = Math.max(process.stdout.columns - 4, 0);
-	let padding = new Array(padSize).join(' ');
-	compare(t, fn('foo', {
+	const padSize = Math.max(process.stdout.columns - 4, 0) - 1;
+	const padding = ' '.repeat(padSize);
+
+	compare(t, m('foo', {
 		float: 'right'
 	}), `
 ${padding}┌───┐
@@ -95,7 +95,7 @@ ${padding}    `);
 });
 
 test('borderStyle option `double`', t => {
-	compare(t, fn('foo', {borderStyle: 'double'}), `
+	compare(t, m('foo', {borderStyle: 'double'}), `
 ╔═══╗
 ║foo║
 ╚═══╝
@@ -103,7 +103,7 @@ test('borderStyle option `double`', t => {
 });
 
 test('borderStyle option `round`', t => {
-	compare(t, fn('foo', {borderStyle: 'round'}), `
+	compare(t, m('foo', {borderStyle: 'round'}), `
 ╭───╮
 │foo│
 ╰───╯
@@ -111,7 +111,7 @@ test('borderStyle option `round`', t => {
 });
 
 test('borderStyle option `single-double`', t => {
-	compare(t, fn('foo', {borderStyle: 'single-double'}), `
+	compare(t, m('foo', {borderStyle: 'single-double'}), `
 ╓───╖
 ║foo║
 ╙───╜
@@ -119,7 +119,7 @@ test('borderStyle option `single-double`', t => {
 });
 
 test('borderStyle option `double-single`', t => {
-	compare(t, fn('foo', {borderStyle: 'double-single'}), `
+	compare(t, m('foo', {borderStyle: 'double-single'}), `
 ╒═══╕
 │foo│
 ╘═══╛
@@ -136,7 +136,7 @@ test('borderStyle option with object', t => {
 		vertical: '|'
 	};
 
-	compare(t, fn('foo', {borderStyle: asciiStyle}), `
+	compare(t, m('foo', {borderStyle: asciiStyle}), `
 1---2
 |foo|
 3---4
@@ -144,11 +144,11 @@ test('borderStyle option with object', t => {
 });
 
 test('throws on unexpected borderStyle as string', t => {
-	t.throws(() => fn('foo', {borderStyle: 'shaken-snake'}), /border style/);
+	t.throws(() => m('foo', {borderStyle: 'shaken-snake'}), /border style/);
 });
 
 test('throws on unexpected borderStyle as object', t => {
-	t.throws(() => fn('foo', {borderStyle: {shake: 'snake'}}), /border style/);
+	t.throws(() => m('foo', {borderStyle: {shake: 'snake'}}), /border style/);
 
 	// missing bottomRight
 	const invalid = {
@@ -159,11 +159,11 @@ test('throws on unexpected borderStyle as object', t => {
 		vertical: '|'
 	};
 
-	t.throws(() => fn('foo', {borderStyle: invalid}), /bottomRight/);
+	t.throws(() => m('foo', {borderStyle: invalid}), /bottomRight/);
 });
 
 test('borderColor option', t => {
-	const box = fn('foo', {borderColor: 'yellow'});
+	const box = m('foo', {borderColor: 'yellow'});
 	const yellowAnsiOpen = '\u001b[33m';
 	const colorAnsiClose = '\u001b[39m';
 	t.true(box.indexOf(yellowAnsiOpen) !== -1);
@@ -171,11 +171,11 @@ test('borderColor option', t => {
 });
 
 test('throws on unexpected borderColor', t => {
-	t.throws(() => fn('foo', {borderColor: 'greasy-white'}), /borderColor/);
+	t.throws(() => m('foo', {borderColor: 'greasy-white'}), /borderColor/);
 });
 
 test('backgroundColor option', t => {
-	const box = fn('foo', {backgroundColor: 'red'});
+	const box = m('foo', {backgroundColor: 'red'});
 	const redAnsiOpen = '\u001b[41m';
 	const redAnsiClose = '\u001b[49m';
 	t.true(box.indexOf(redAnsiOpen) !== -1);
@@ -183,12 +183,12 @@ test('backgroundColor option', t => {
 });
 
 test('throws on unexpected backgroundColor', t => {
-	t.throws(() => fn('foo', {backgroundColor: 'dark-yellow'}), /backgroundColor/);
+	t.throws(() => m('foo', {backgroundColor: 'dark-yellow'}), /backgroundColor/);
 });
 
 test('align option `center`', t => {
 	const beautifulColor = chalk.magenta('B E A U T I F U L');
-	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {
+	compare(t, m(`Boxes are\n${beautifulColor}\nand beneficial too!`, {
 		align: 'center',
 		padding: 1
 	}), `
@@ -204,7 +204,7 @@ test('align option `center`', t => {
 
 test('align option `right`', t => {
 	const beautifulColor = chalk.magenta('B E A U T I F U L');
-	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'right'}), `
+	compare(t, m(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'right'}), `
 ┌───────────────────┐
 │          Boxes are│
 │  ${beautifulColor}│
@@ -215,7 +215,7 @@ test('align option `right`', t => {
 
 test('align option `left`', t => {
 	const beautifulColor = chalk.magenta('B E A U T I F U L');
-	compare(t, fn(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'left'}), `
+	compare(t, m(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'left'}), `
 ┌───────────────────┐
 │Boxes are          │
 │${beautifulColor}  │
