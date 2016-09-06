@@ -143,8 +143,8 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 ##### float
 
 Type: `string`<br>
-Values: `right` `center` `left`<br/>
-Default: `right`
+Values: `right` `center` `left`<br>
+Default: `left`
 
 Float the box on the available terminal screen space.
 
