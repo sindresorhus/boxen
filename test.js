@@ -60,6 +60,40 @@ test('margin option', t => {
     `);
 });
 
+test('float option (left)', t => {
+	compare(t, fn('foo', {
+		float: 'left'
+	}), `
+┌───┐
+│foo│
+└───┘
+    `);
+});
+
+test('float option (right)', t => {
+	let padSize = Math.max(process.stdout.columns - 4, 0);
+	let padding = (new Array(padSize).join(' '));
+	compare(t, fn('foo', {
+		float: 'right'
+	}), `
+${padding}┌───┐
+${padding}│foo│
+${padding}└───┘
+${padding}    `);
+});
+
+test('float option (center)', t => {
+	let padSize = Math.ceil((process.stdout.columns - 2) / 2);
+	let padding = (new Array(padSize).join(' '));
+	compare(t, fn('foo', {
+		float: 'center'
+	}), `
+${padding}┌───┐
+${padding}│foo│
+${padding}└───┘
+${padding}    `);
+});
+
 test('borderStyle option `double`', t => {
 	compare(t, fn('foo', {borderStyle: 'double'}), `
 ╔═══╗
