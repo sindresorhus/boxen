@@ -122,17 +122,18 @@ module.exports = function (text, opts) {
 	var currentColumns = process.stdout.columns;
 	switch (opts.float) {
 		case 'center':
-			padWidth = (currentColumns / 2) - (contentWidth / 2);
+			padWidth = (currentColumns - contentWidth) / 2;
 			marginLeft = repeating(PAD, padWidth);
 			break;
 
 		case 'right':
-			padWidth = currentColumns - contentWidth - 2;
+			padWidth = Math.max(currentColumns - contentWidth - 2, 0);
 			padWidth = padWidth < 0 ? 0 : padWidth;
 			marginLeft = repeating(PAD, padWidth);
 			break;
 
-		default: marginLeft = repeating(PAD, margin.left);
+		default:
+			marginLeft = repeating(PAD, margin.left);
 			break;
 	}
 
