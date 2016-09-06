@@ -72,7 +72,7 @@ test('float option (left)', t => {
 
 test('float option (center)', t => {
 	let padSize = Math.ceil((process.stdout.columns - 2) / 2);
-	let padding = (new Array(padSize).join(' '));
+	let padding = new Array(padSize).join(' ');
 	compare(t, fn('foo', {
 		float: 'center'
 	}), `
@@ -84,7 +84,7 @@ ${padding}    `);
 
 test('float option (right)', t => {
 	let padSize = Math.max(process.stdout.columns - 4, 0);
-	let padding = (new Array(padSize).join(' '));
+	let padding = new Array(padSize).join(' ');
 	compare(t, fn('foo', {
 		float: 'right'
 	}), `
