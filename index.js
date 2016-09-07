@@ -110,7 +110,7 @@ module.exports = (text, opts) => {
 
 	const contentWidth = widestLine(text) + padding.left + padding.right;
 	const paddingLeft = PAD.repeat(padding.left);
-	const columns = process.stdout.columns;
+	const columns = process.env.STDOUT_COLUMNS || process.stdout.columns;
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (opts.float === 'center') {
