@@ -172,4 +172,4 @@ Align the text in the box based on the widest line.
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)
