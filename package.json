@@ -32,10 +32,10 @@
   ],
   "dependencies": {
     "ansi-align": "^1.1.0",
-    "camelcase": "^3.0.0",
+    "camelcase": "^4.0.0",
     "chalk": "^1.1.1",
     "cli-boxes": "^1.0.0",
-    "string-width": "^1.0.1",
+    "string-width": "^2.0.0",
     "term-size": "^0.1.0",
     "widest-line": "^1.0.0"
   },
