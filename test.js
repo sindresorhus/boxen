@@ -225,3 +225,14 @@ test('align option `left`', t => {
 └───────────────────┘
 	`);
 });
+
+test('dimBorder option', t => {
+	const dimTopBorder = chalk.dim('┌───┐');
+	const dimSide = chalk.dim('│');
+	const dimBottomBorder = chalk.dim('└───┘');
+	compare(t, m('foo', {dimBorder: true}), `
+${dimTopBorder}
+${dimSide}foo${dimSide}
+${dimBottomBorder}
+	`);
+});
