@@ -152,7 +152,7 @@ test('throws on unexpected borderStyle as string', t => {
 test('throws on unexpected borderStyle as object', t => {
 	t.throws(() => m('foo', {borderStyle: {shake: 'snake'}}), /border style/);
 
-	// missing bottomRight
+	// Missing bottomRight
 	const invalid = {
 		topLeft: '1',
 		topRight: '2',
