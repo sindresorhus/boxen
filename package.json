@@ -31,7 +31,7 @@
     "text"
   ],
   "dependencies": {
-    "ansi-align": "^1.1.0",
+    "ansi-align": "^2.0.0",
     "camelcase": "^4.0.0",
     "chalk": "^1.1.1",
     "cli-boxes": "^1.0.0",
