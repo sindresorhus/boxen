@@ -152,7 +152,7 @@ test('throws on unexpected borderStyle as string', t => {
 test('throws on unexpected borderStyle as object', t => {
 	t.throws(() => m('foo', {borderStyle: {shake: 'snake'}}), /border style/);
 
-	// missing bottomRight
+	// Missing bottomRight
 	const invalid = {
 		topLeft: '1',
 		topRight: '2',
@@ -223,5 +223,16 @@ test('align option `left`', t => {
 │${beautifulColor}  │
 │and beneficial too!│
 └───────────────────┘
+	`);
+});
+
+test('dimBorder option', t => {
+	const dimTopBorder = chalk.dim('┌───┐');
+	const dimSide = chalk.dim('│');
+	const dimBottomBorder = chalk.dim('└───┘');
+	compare(t, m('foo', {dimBorder: true}), `
+${dimTopBorder}
+${dimSide}foo${dimSide}
+${dimBottomBorder}
 	`);
 });
