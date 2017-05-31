@@ -93,8 +93,27 @@ module.exports = (text, opts) => {
 	};
 
 	const colorizeContent = x => opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
+	const columns = termSize().columns;
 
 	text = ansiAlign(text, {align: opts.align});
+
+	if (text.length > columns) {
+		const wrapAt = columns - (padding.left + padding.right);
+		let newText = '';
+		let lineLength = 0;
+
+		text.split(' ').forEach(word => {
+			word += ' ';
+			lineLength += word.length;
+			if (lineLength < wrapAt) {
+				newText += word;
+			} else {
+				newText = `${newText.trim()}\n`;
+				lineLength = 0;
+			}
+		});
+		text = newText;
+	}
 
 	const NL = '\n';
 	const PAD = ' ';
@@ -111,7 +130,6 @@ module.exports = (text, opts) => {
 
 	const contentWidth = widestLine(text) + padding.left + padding.right;
 	const paddingLeft = PAD.repeat(padding.left);
-	const columns = termSize().columns;
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (opts.float === 'center') {
