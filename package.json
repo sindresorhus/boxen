@@ -1,6 +1,6 @@
 {
   "name": "boxen",
-  "version": "0.8.0",
+  "version": "1.1.0",
   "description": "Create boxes in the terminal",
   "license": "MIT",
   "repository": "sindresorhus/boxen",
@@ -13,7 +13,7 @@
     "node": ">=4"
   },
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo && nyc ava"
   },
   "files": [
     "index.js"
@@ -31,15 +31,17 @@
     "text"
   ],
   "dependencies": {
-    "ansi-align": "^1.1.0",
-    "camelcase": "^3.0.0",
+    "ansi-align": "^2.0.0",
+    "camelcase": "^4.0.0",
     "chalk": "^1.1.1",
     "cli-boxes": "^1.0.0",
-    "string-width": "^1.0.1",
+    "string-width": "^2.0.0",
+    "term-size": "^0.1.0",
     "widest-line": "^1.0.0"
   },
   "devDependencies": {
     "ava": "*",
+    "nyc": "^10.3.0",
     "xo": "*"
   },
   "xo": {
