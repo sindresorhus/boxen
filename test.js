@@ -1,6 +1,6 @@
-import test from "ava";
-import chalk from "chalk";
-import m from "./";
+import test from 'ava';
+import chalk from 'chalk';
+import m from './';
 
 chalk.enabled = true;
 
