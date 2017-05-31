@@ -239,15 +239,24 @@ ${dimBottomBorder}
 
 test('wrap text', t => {
 	const text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus efficitur, nibh at consectetur vehicula, ante mauris sodales mi, sit amet sagittis lacus ante at diam. Aliquam quis posuere odio, quis lacinia felis. Quisque scelerisque ac tellus a hendrerit. Curabitur sit amet mauris aliquam, aliquet leo et, dignissim turpis. Phasellus pulvinar, velit sed ultrices lobortis, neque sem euismod est, ut dignissim nibh sapien at quam. Integer odio urna, luctus malesuada turpis in, consectetur pretium arcu. Vivamus magna nisi, facilisis pretium interdum nec, gravida eget ante. Quisque semper blandit scelerisque. Donec et feugiat arcu. Duis pretium pulvinar egestas. Nunc blandit diam velit, sit amet viverra ligula dictum eu. Mauris sapien elit, feugiat ac maximus vitae, dignissim a eros. Vivamus lobortis eros quis dui tincidunt hendrerit.';
+	process.stdout.columns = 80;
 	compare(t, m(text, {padding: 1}), `
-┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                                                                                                           │
-│   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus efficitur, nibh at consectetur vehicula, ante mauris sodales mi, sit amet sagittis lacus ante at     │
-│   Aliquam quis posuere odio, quis lacinia felis. Quisque scelerisque ac tellus a hendrerit. Curabitur sit amet mauris aliquam, aliquet leo et, dignissim turpis.          │
-│   pulvinar, velit sed ultrices lobortis, neque sem euismod est, ut dignissim nibh sapien at quam. Integer odio urna, luctus malesuada turpis in, consectetur pretium      │
-│   Vivamus magna nisi, facilisis pretium interdum nec, gravida eget ante. Quisque semper blandit scelerisque. Donec et feugiat arcu. Duis pretium pulvinar egestas. Nunc   │
-│   diam velit, sit amet viverra ligula dictum eu. Mauris sapien elit, feugiat ac maximus vitae, dignissim a eros. Vivamus lobortis eros quis dui tincidunt hendrerit.      │
-│                                                                                                                                                                           │
-└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                                                             │
+│   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus        │
+│   efficitur, nibh at consectetur vehicula, ante mauris sodales mi, sit      │
+│   amet sagittis lacus ante at diam. Aliquam quis posuere odio, quis         │
+│   lacinia felis. Quisque scelerisque ac tellus a hendrerit. Curabitur sit   │
+│   amet mauris aliquam, aliquet leo et, dignissim turpis. Phasellus          │
+│   pulvinar, velit sed ultrices lobortis, neque sem euismod est, ut          │
+│   dignissim nibh sapien at quam. Integer odio urna, luctus malesuada        │
+│   turpis in, consectetur pretium arcu. Vivamus magna nisi, facilisis        │
+│   pretium interdum nec, gravida eget ante. Quisque semper blandit           │
+│   scelerisque. Donec et feugiat arcu. Duis pretium pulvinar egestas. Nunc   │
+│   blandit diam velit, sit amet viverra ligula dictum eu. Mauris sapien      │
+│   elit, feugiat ac maximus vitae, dignissim a eros. Vivamus lobortis eros   │
+│   quis dui tincidunt hendrerit.                                             │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 	`);
 });
