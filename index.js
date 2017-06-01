@@ -6,6 +6,7 @@ const cliBoxes = require('cli-boxes');
 const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const termSize = require('term-size');
+const wrapAnsi = require('wrap-ansi');
 
 const getObject = detail => {
 	let obj;
@@ -98,23 +99,7 @@ module.exports = (text, opts) => {
 	text = ansiAlign(text, {align: opts.align});
 
 	if (text.length > columns) {
-		const wrapAt = columns - (padding.left + padding.right);
-		let newText = '';
-		let lineLength = 0;
-
-		text = text.split(' ');
-		for (let w = 0; w < text.length; w += 1) {
-			const word = text[w] + ' ';
-			lineLength += word.length;
-			if (lineLength < wrapAt) {
-				newText += word;
-			} else {
-				newText = newText.trim() + '\n';
-				w -= 1;
-				lineLength = 0;
-			}
-		}
-		text = newText;
+		text = wrapAnsi(text, columns);
 	}
 
 	const NL = '\n';

@@ -37,7 +37,8 @@
     "cli-boxes": "^1.0.0",
     "string-width": "^2.0.0",
     "term-size": "^1.1.0",
-    "widest-line": "^1.0.0"
+    "widest-line": "^1.0.0",
+    "wrap-ansi": "^2.1.0"
   },
   "devDependencies": {
     "ava": "*",
