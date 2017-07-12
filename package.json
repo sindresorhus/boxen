@@ -36,7 +36,7 @@
     "chalk": "^2.0.1",
     "cli-boxes": "^1.0.0",
     "string-width": "^2.0.0",
-    "term-size": "^0.1.0",
+    "term-size": "^1.2.0",
     "widest-line": "^1.0.0"
   },
   "devDependencies": {
