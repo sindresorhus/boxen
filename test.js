@@ -97,7 +97,8 @@ ${padding}    `);
 });
 
 test('float option (right) with margin', t => {
-	const padSize = Math.max(process.stdout.columns - 4 - 6, 0) - 1;
+	const marginWidth = 6;
+	const padSize = Math.max(process.stdout.columns - 4 - marginWidth, 0) - 1;
 	const padding = ' '.repeat(padSize);
 
 	compare(t, m('foo', {
@@ -115,7 +116,8 @@ ${padding}└───┘
 });
 
 test('float option (right) with margin right', t => {
-	const padSize = Math.max(process.stdout.columns - 4 - 2, 0) - 1;
+	const marginWidth = 2;
+	const padSize = Math.max(process.stdout.columns - 4 - marginWidth, 0) - 1;
 	const padding = ' '.repeat(padSize);
 
 	compare(t, m('foo', {
