@@ -1,6 +1,6 @@
 {
   "name": "boxen",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "Create boxes in the terminal",
   "license": "MIT",
   "repository": "sindresorhus/boxen",
@@ -33,19 +33,15 @@
   "dependencies": {
     "ansi-align": "^2.0.0",
     "camelcase": "^4.0.0",
-    "chalk": "^1.1.1",
+    "chalk": "^2.0.1",
     "cli-boxes": "^1.0.0",
     "string-width": "^2.0.0",
-    "term-size": "^1.1.0",
-    "widest-line": "^1.0.0",
-    "wrap-ansi": "^2.1.0"
+    "term-size": "^1.2.0",
+    "widest-line": "^1.0.0"
   },
   "devDependencies": {
     "ava": "*",
-    "nyc": "^10.3.0",
+    "nyc": "^11.0.3",
     "xo": "*"
-  },
-  "xo": {
-    "esnext": true
   }
 }
