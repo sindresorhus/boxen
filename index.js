@@ -96,11 +96,8 @@ module.exports = (text, opts) => {
 	const colorizeContent = x => opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
 	const columns = termSize().columns;
 
+	text = wrapAnsi(text, columns);
 	text = ansiAlign(text, {align: opts.align});
-
-	if (text.length > columns) {
-		text = wrapAnsi(text, columns);
-	}
 
 	const NL = '\n';
 	const PAD = ' ';
