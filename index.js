@@ -6,6 +6,7 @@ const cliBoxes = require('cli-boxes');
 const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const termSize = require('term-size');
+const wrapAnsi = require('wrap-ansi');
 
 const getObject = detail => {
 	let obj;
@@ -93,7 +94,9 @@ module.exports = (text, opts) => {
 	};
 
 	const colorizeContent = x => opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
+	const columns = termSize().columns;
 
+	text = wrapAnsi(text, columns);
 	text = ansiAlign(text, {align: opts.align});
 
 	const NL = '\n';
@@ -111,7 +114,6 @@ module.exports = (text, opts) => {
 
 	const contentWidth = widestLine(text) + padding.left + padding.right;
 	const paddingLeft = PAD.repeat(padding.left);
-	const columns = termSize().columns;
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (opts.float === 'center') {
