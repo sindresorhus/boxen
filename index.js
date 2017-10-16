@@ -122,7 +122,10 @@ module.exports = (text, opts) => {
 		}
 	} else if (opts.float === 'right') {
 		const padWidth = Math.max(columns - contentWidth - margin.right - 2, 0);
-		marginLeft = PAD.repeat(padWidth);
+
+		if (padWidth > 0) {
+			marginLeft = PAD.repeat(padWidth);
+		}
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
