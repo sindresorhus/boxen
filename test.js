@@ -83,6 +83,31 @@ ${padding}└───┘
 ${padding}    `);
 });
 
+test('float option (center) does not throw when content > columns', t => {
+	const longContent = 'ab'.repeat(process.stdout.columns);
+	t.notThrows(() => {
+		m(longContent, {
+			float: 'center'
+		});
+	});
+});
+
+test('float option (center) ignored when content > columns', t => {
+	const longContent = 'ab'.repeat(process.stdout.columns);
+	const gotWithCenter = m(longContent, {
+		float: 'center'
+	});
+	const gotWithLeft = m(longContent, {
+		float: 'left'
+	});
+	const gotWithRight = m(longContent, {
+		float: 'right'
+	});
+
+	compare(t, gotWithCenter, gotWithLeft);
+	compare(t, gotWithCenter, gotWithRight);
+});
+
 test('float option (right)', t => {
 	const padSize = Math.max(process.stdout.columns - 4, 0) - 1;
 	const padding = ' '.repeat(padSize);
