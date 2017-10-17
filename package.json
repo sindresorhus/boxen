@@ -1,6 +1,6 @@
 {
   "name": "boxen",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Create boxes in the terminal",
   "license": "MIT",
   "repository": "sindresorhus/boxen",
