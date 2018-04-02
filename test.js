@@ -254,7 +254,7 @@ test('backgroundColor option', t => {
 });
 
 test('backgroundColor function', t => {
-	const box = m('foo', {backgroundColor: chalk.red});
+	const box = m('foo', {backgroundColor: chalk.bgRed});
 	const redAnsiOpen = '\u001B[41m';
 	const redAnsiClose = '\u001B[49m';
 	t.true(box.indexOf(redAnsiOpen) !== -1);

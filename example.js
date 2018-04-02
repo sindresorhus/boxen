@@ -26,6 +26,7 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: chalk.keyword('pink'),
+	backgroundColor: chalk.bgKeyword('cyan'),
 	borderStyle: 'double'
 }) + '\n');
 
