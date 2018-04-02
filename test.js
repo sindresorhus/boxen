@@ -1,6 +1,6 @@
 import test from 'ava';
 import chalk from 'chalk';
-import m from './';
+import m from '.';
 
 chalk.enabled = true;
 
@@ -227,8 +227,8 @@ test('throws on unexpected borderStyle as object', t => {
 
 test('borderColor option', t => {
 	const box = m('foo', {borderColor: 'yellow'});
-	const yellowAnsiOpen = '\u001b[33m';
-	const colorAnsiClose = '\u001b[39m';
+	const yellowAnsiOpen = '\u001B[33m';
+	const colorAnsiClose = '\u001B[39m';
 	t.true(box.indexOf(yellowAnsiOpen) !== -1);
 	t.true(box.indexOf(colorAnsiClose) !== -1);
 });
@@ -239,8 +239,8 @@ test('throws on unexpected borderColor', t => {
 
 test('backgroundColor option', t => {
 	const box = m('foo', {backgroundColor: 'red'});
-	const redAnsiOpen = '\u001b[41m';
-	const redAnsiClose = '\u001b[49m';
+	const redAnsiOpen = '\u001B[41m';
+	const redAnsiClose = '\u001B[49m';
 	t.true(box.indexOf(redAnsiOpen) !== -1);
 	t.true(box.indexOf(redAnsiClose) !== -1);
 });

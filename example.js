@@ -1,6 +1,6 @@
 'use strict';
 const chalk = require('chalk');
-const boxen = require('./');
+const boxen = require('.');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,

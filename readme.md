@@ -1,8 +1,8 @@
-# <img src="screenshot.png" width="400" alt="boxen">
+# boxen [![Build Status](https://travis-ci.org/sindresorhus/boxen.svg?branch=master)](https://travis-ci.org/sindresorhus/boxen)
 
 > Create boxes in the terminal
 
-[![Build Status](https://travis-ci.org/sindresorhus/boxen.svg?branch=master)](https://travis-ci.org/sindresorhus/boxen)
+![](screenshot.png)
 
 
 ## Install
@@ -10,6 +10,10 @@
 ```
 $ npm install boxen
 ```
+
+<a href="https://www.patreon.com/sindresorhus">
+	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
 
 
 ## Usage
@@ -50,6 +54,8 @@ Type: `string`
 Text inside the box.
 
 #### options
+
+Type: `Object`
 
 ##### borderColor
 
@@ -168,6 +174,7 @@ Align the text in the box based on the widest line.
 
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
 - [cli-boxes](https://github.com/sindresorhus/cli-boxes) - Boxes for use in the terminal
+- [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink that uses this package
 
 
 ## License

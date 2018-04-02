@@ -102,11 +102,11 @@ module.exports = (text, opts) => {
 	let lines = text.split(NL);
 
 	if (padding.top > 0) {
-		lines = Array(padding.top).fill('').concat(lines);
+		lines = new Array(padding.top).fill('').concat(lines);
 	}
 
 	if (padding.bottom > 0) {
-		lines = lines.concat(Array(padding.bottom).fill(''));
+		lines = lines.concat(new Array(padding.bottom).fill(''));
 	}
 
 	const contentWidth = widestLine(text) + padding.left + padding.right;
