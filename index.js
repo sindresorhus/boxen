@@ -60,11 +60,7 @@ const getBorderChars = borderStyle => {
 	return chars;
 };
 
-const getBackgroundColorName = x => {
-	const input = ['bg', String(x)];
-	const result = camelCase(input);
-	return result;
-};
+const getBackgroundColorName = x => camelCase(['bg', String(x)]);
 
 // Color must either be a valid chalk color function or a function
 const isColorValid = color => !((typeof color === 'string' && chalk[color]) || typeof color === 'function');
@@ -88,7 +84,6 @@ module.exports = (text, opts) => {
 	}
 
 	if (opts.backgroundColor && isColorValid(opts.backgroundColor)) {
-		console.log(opts.backgroundColor);
 		throw new Error(`${opts.backgroundColor} is not a valid backgroundColor`);
 	}
 
