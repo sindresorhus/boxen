@@ -59,8 +59,9 @@ Type: `Object`
 
 ##### borderColor
 
-Type: `string`<br>
+Type: `string` or `function`<br>
 Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray`
+Value in the case of a function should be a `chalk.hex` or `chalk.rgb` or any other [chalk color models](https://github.com/chalk/chalk#256-and-truecolor-color-support)
 
 Color of the box border.
 
@@ -156,8 +157,9 @@ Float the box on the available terminal screen space.
 
 ##### backgroundColor
 
-Type: `string`<br>
-Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white`
+Type: `string` or `function`<br>
+Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray`
+Value in the case of a function should be a `chalk.hex` or `chalk.rgb` or any other [chalk color models](https://github.com/chalk/chalk#256-and-truecolor-color-support)
 
 Color of the background.
 

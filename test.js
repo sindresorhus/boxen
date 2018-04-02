@@ -233,12 +233,28 @@ test('borderColor option', t => {
 	t.true(box.indexOf(colorAnsiClose) !== -1);
 });
 
+test('borderColor function', t => {
+	const box = m('foo', {borderColor: chalk.yellow});
+	const yellowAnsiOpen = '\u001B[33m';
+	const colorAnsiClose = '\u001B[39m';
+	t.true(box.indexOf(yellowAnsiOpen) !== -1);
+	t.true(box.indexOf(colorAnsiClose) !== -1);
+});
+
 test('throws on unexpected borderColor', t => {
 	t.throws(() => m('foo', {borderColor: 'greasy-white'}), /borderColor/);
 });
 
 test('backgroundColor option', t => {
 	const box = m('foo', {backgroundColor: 'red'});
+	const redAnsiOpen = '\u001B[41m';
+	const redAnsiClose = '\u001B[49m';
+	t.true(box.indexOf(redAnsiOpen) !== -1);
+	t.true(box.indexOf(redAnsiClose) !== -1);
+});
+
+test('backgroundColor function', t => {
+	const box = m('foo', {backgroundColor: chalk.red});
 	const redAnsiOpen = '\u001B[41m';
 	const redAnsiClose = '\u001B[49m';
 	t.true(box.indexOf(redAnsiOpen) !== -1);
