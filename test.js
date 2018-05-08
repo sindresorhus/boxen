@@ -233,11 +233,11 @@ test('borderColor option', t => {
 	t.true(box.indexOf(colorAnsiClose) !== -1);
 });
 
-test('borderColor function', t => {
-	const box = m('foo', {borderColor: chalk.yellow});
-	const yellowAnsiOpen = '\u001B[33m';
+test('borderColor hex', t => {
+	const box = m('foo', {borderColor: '#FF0000'});
+	const rgbAnsiOpen = '\u001B[38;2;255;0;0m';
 	const colorAnsiClose = '\u001B[39m';
-	t.true(box.indexOf(yellowAnsiOpen) !== -1);
+	t.true(box.indexOf(rgbAnsiOpen) !== -1);
 	t.true(box.indexOf(colorAnsiClose) !== -1);
 });
 
@@ -253,12 +253,12 @@ test('backgroundColor option', t => {
 	t.true(box.indexOf(redAnsiClose) !== -1);
 });
 
-test('backgroundColor function', t => {
-	const box = m('foo', {backgroundColor: chalk.bgRed});
-	const redAnsiOpen = '\u001B[41m';
-	const redAnsiClose = '\u001B[49m';
-	t.true(box.indexOf(redAnsiOpen) !== -1);
-	t.true(box.indexOf(redAnsiClose) !== -1);
+test('backgroundColor hex', t => {
+	const box = m('foo', {backgroundColor: '#FF0000'});
+	const rgbAnsiOpen = '\u001B[48;2;255;0;0m';
+	const colorAnsiClose = '\u001B[49m';
+	t.true(box.indexOf(rgbAnsiOpen) !== -1);
+	t.true(box.indexOf(colorAnsiClose) !== -1);
 });
 
 test('throws on unexpected backgroundColor', t => {

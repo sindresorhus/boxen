@@ -60,11 +60,11 @@ const getBorderChars = borderStyle => {
 	return chars;
 };
 
-const getBackgroundColorName = x => camelCase(['bg', String(x)]);
-
-// Color must either be a valid chalk color function or a function
-const isColorValid = color => !((typeof color === 'string' && chalk[color]) || typeof color === 'function');
-const getColorFn = color => typeof color === 'function' ? color : chalk[color];
+// Color must either be a valid chalk color or a color hex ( #55aabb )
+const isHex = color => color.match(/^#[0-f]{6}/i);
+const isColorValid = color => !(typeof color === 'string' && ((chalk[color]) || isHex(color)));
+const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
+const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase('bg', color)];
 
 module.exports = (text, opts) => {
 	opts = Object.assign({
@@ -74,10 +74,6 @@ module.exports = (text, opts) => {
 		align: 'left',
 		float: 'left'
 	}, opts);
-
-	if (opts.backgroundColor) {
-		opts.backgroundColor = typeof opts.backgroundColor === 'function' ? opts.backgroundColor : getBackgroundColorName(opts.backgroundColor);
-	}
 
 	if (opts.borderColor && isColorValid(opts.borderColor)) {
 		throw new Error(`${opts.borderColor} is not a valid borderColor`);
@@ -96,7 +92,7 @@ module.exports = (text, opts) => {
 		return opts.dimBorder ? chalk.dim(ret) : ret;
 	};
 
-	const colorizeContent = x => opts.backgroundColor ? getColorFn(opts.backgroundColor)(x) : x;
+	const colorizeContent = x => opts.backgroundColor ? getBGColorFn(opts.backgroundColor)(x) : x;
 
 	text = ansiAlign(text, {align: opts.align});
 

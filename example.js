@@ -18,15 +18,15 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
-	borderColor: chalk.hex('#eebbaa'),
+	borderColor: '#eebbaa',
 	borderStyle: 'double'
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
-	borderColor: chalk.keyword('pink'),
-	backgroundColor: chalk.bgKeyword('cyan'),
+	borderColor: '#FFC0CB',
+	backgroundColor: '#00FFFF',
 	borderStyle: 'double'
 }) + '\n');
 
