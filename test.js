@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import m from '.';
 
 chalk.enabled = true;
+chalk.level = 3;
 
 const compare = (t, actual, expected) => t.is(actual.trim(), expected.trim());
 
