@@ -61,7 +61,7 @@ const getBorderChars = borderStyle => {
 };
 
 // Color must either be a valid chalk color or a color hex ( #55aabb )
-const isHex = color => color.match(/^#[0-f]{6}/i);
+const isHex = color => color.match(/^#[0-f]{3}(?:[0-f]{3})?$/i);
 const isColorValid = color => !(typeof color === 'string' && ((chalk[color]) || isHex(color)));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase('bg', color)];
