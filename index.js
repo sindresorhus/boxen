@@ -159,10 +159,11 @@ module.exports = (text, options) => {
 	let marginLeft = PAD.repeat(margin.left);
 
 	if(columns < contentWidth + margin.right + margin.left){
-		const newWidestLine = widestLine(text) - (contentWidth + margin.right + margin.left - columns);
+		const newWidestLine = widestLine(text) + (columns - (contentWidth + margin.right + margin.left));
+		
 		const wrapText = wrapAnsi(text, newWidestLine, {hard: true});
 		lines = new Array(padding.top).fill('')
-				.concat(hasAnsi(wrapText) ?  ansiSplit(wrapText) : text.split(NL))
+				.concat(hasAnsi(wrapText) ?  ansiSplit(wrapText) : wrapText.split(NL))
 				.concat(new Array(padding.bottom).fill(''));
 		contentWidth = widestLine(wrapText) + padding.left + padding.right;
 	}
@@ -181,8 +182,6 @@ module.exports = (text, options) => {
 	const side = colorizeBorder(chars.vertical);
 
 	const middle = lines.map(line => {
-		console.log(line)
-		console.log(contentWidth - stringWidth(line) - padding.left);
 		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
 		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
 	}).join(NL);
