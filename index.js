@@ -7,8 +7,8 @@ const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const termSize = require('term-size');
 const wrapAnsi = require('wrap-ansi');
-const hasAnsi = require('has-ansi')
-const ansi_Split = require('ansi-split')
+const hasAnsi = require('has-ansi');
+const ansiSplit = require('ansi-split');
 
 const getObject = detail => {
 	let object;
@@ -68,44 +68,45 @@ const isHex = color => color.match(/^#[0-f]{3}(?:[0-f]{3})?$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
-const ansiSplit = text => {
-	let lines = []
-	let currStr = ""
-	let resetAnsi = '\u001b[39m'
-	let lastAnsi = resetAnsi
 
-	for(const el of ansi_Split(text)){
-		if(el === ""){
-			continue
+const splitAnsiCorrectly = text => {
+	const lines = [];
+	let currStr = '';
+	const resetAnsi = '\u001B[39m';
+	let lastAnsi = resetAnsi;
+	let stringStart = true;
+
+	for (const el of ansiSplit(text)) {
+		if (el === '') {
+			continue;
 		}
 
-		if(hasAnsi(el)){
-			const ansiCodes = el.split("m")
-			lastAnsi = ansiCodes[ansiCodes.length - 2]
-			currStr += lastAnsi + 'm'
-		}
-		else{
-			let nlIndex
-			let txt = el
-			do{
-				nlIndex = txt.indexOf("\n")
-				if(nlIndex === -1){
-					currStr += txt
+		if (hasAnsi(el)) {
+			const ansiCodes = el.split('m');
+			lastAnsi = ansiCodes[ansiCodes.length - 2] + 'm';
+			currStr = (stringStart ? lastAnsi : (currStr + lastAnsi));
+		} else {
+			let nlIndex;
+			let txt = el;
+			do {
+				nlIndex = txt.indexOf('\n');
+				if (nlIndex === -1 && txt !== '') {
+					currStr += txt;
+					stringStart = false;
+				} else if (txt !== '') {
+					currStr += txt.slice(0, nlIndex) + (lastAnsi === resetAnsi ? '' : resetAnsi);
+					lines.push(currStr);
+					currStr = lastAnsi === resetAnsi ? '' : lastAnsi;
+					stringStart = true;
+					txt = txt.slice(nlIndex + 1);
 				}
-				else{
-					currStr += txt.slice(0, nlIndex) + resetAnsi
-					lines.push(currStr)
-					currStr = ""
-					currStr += lastAnsi + 'm'
-					txt = txt.slice(nlIndex+1)
-				}
-			}while(nlIndex !== -1)
+			} while (nlIndex !== -1);
 		}
 	}
-	lines.push(currStr)
+	lines.push(currStr + (lastAnsi === resetAnsi ? '' : resetAnsi));
 
 	return lines;
-}
+};
 
 const getBackgroundColorName = x => camelCase('bg', x);
 
@@ -143,7 +144,7 @@ module.exports = (text, options) => {
 	const NL = '\n';
 	const PAD = ' ';
 
-	let lines = hasAnsi(text) ?  ansiSplit(text) : text.split(NL);
+	let lines = hasAnsi(text) ? splitAnsiCorrectly(text) : text.split(NL);
 
 	if (padding.top > 0) {
 		lines = new Array(padding.top).fill('').concat(lines);
@@ -158,13 +159,13 @@ module.exports = (text, options) => {
 	const {columns} = termSize();
 	let marginLeft = PAD.repeat(margin.left);
 
-	if(columns < contentWidth + margin.right + margin.left){
+	if (columns < contentWidth + margin.right + margin.left) {
 		const newWidestLine = widestLine(text) + (columns - (contentWidth + margin.right + margin.left));
-		
+
 		const wrapText = wrapAnsi(text, newWidestLine, {hard: true});
 		lines = new Array(padding.top).fill('')
-				.concat(hasAnsi(wrapText) ?  ansiSplit(wrapText) : wrapText.split(NL))
-				.concat(new Array(padding.bottom).fill(''));
+			.concat(hasAnsi(wrapText) ? splitAnsiCorrectly(wrapText) : wrapText.split(NL))
+			.concat(new Array(padding.bottom).fill(''));
 		contentWidth = widestLine(wrapText) + padding.left + padding.right;
 	}
 
