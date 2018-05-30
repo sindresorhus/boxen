@@ -160,8 +160,10 @@ module.exports = (text, options) => {
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (columns < contentWidth + margin.right + margin.left) {
-		const newWidestLine = widestLine(text) + (columns - (contentWidth + margin.right + margin.left));
-
+		if (opts.float) {
+			delete opts.float;
+		}
+		const newWidestLine = widestLine(text) + (columns - (contentWidth + margin.right + margin.left)) - 2; // The 2 is for the two box characters
 		const wrapText = wrapAnsi(text, newWidestLine, {hard: true});
 		lines = new Array(padding.top).fill('')
 			.concat(hasAnsi(wrapText) ? splitAnsiCorrectly(wrapText) : wrapText.split(NL))
