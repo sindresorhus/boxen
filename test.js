@@ -326,3 +326,11 @@ ${dimSide}foo${dimSide}
 ${dimBottomBorder}
 	`);
 });
+
+test('text wraps when content > columns', t => {
+	const longContent = 'ab'.repeat(process.stdout.columns);
+	const lineLengths = m(longContent).split('\n').map(line => line.length);
+	for (const len of lineLengths) {
+		t.is(len, process.stdout.columns);
+	}
+});
