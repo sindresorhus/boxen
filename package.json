@@ -10,7 +10,7 @@
 		"url": "sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=4"
+		"node": ">=6"
 	},
 	"scripts": {
 		"test": "xo && nyc ava"
@@ -32,16 +32,16 @@
 	],
 	"dependencies": {
 		"ansi-align": "^2.0.0",
-		"camelcase": "^4.0.0",
-		"chalk": "^2.0.1",
+		"camelcase": "^5.0.0",
+		"chalk": "^2.4.1",
 		"cli-boxes": "^1.0.0",
-		"string-width": "^2.0.0",
+		"string-width": "^2.1.1",
 		"term-size": "^1.2.0",
 		"widest-line": "^2.0.0"
 	},
 	"devDependencies": {
-		"ava": "*",
-		"nyc": "^11.0.3",
-		"xo": "*"
+		"ava": "^0.25.0",
+		"nyc": "^13.0.1",
+		"xo": "^0.23.0"
 	}
 }

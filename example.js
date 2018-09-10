@@ -25,8 +25,8 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
-	borderColor: '#FFC0CB',
-	backgroundColor: '#00FFFF',
+	borderColor: '#ffc0cb',
+	backgroundColor: '#00ffff',
 	borderStyle: 'double'
 }) + '\n');
 

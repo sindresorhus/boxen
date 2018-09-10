@@ -60,11 +60,10 @@ const getBorderChars = borderStyle => {
 	return chars;
 };
 
-// Color must either be a valid chalk color or a color hex ( #55aabb )
 const isHex = color => color.match(/^#[0-f]{3}(?:[0-f]{3})?$/i);
-const isColorValid = color => !(typeof color === 'string' && ((chalk[color]) || isHex(color)));
+const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
-const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase('bg', color)];
+const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
 module.exports = (text, opts) => {
 	opts = Object.assign({
@@ -75,11 +74,11 @@ module.exports = (text, opts) => {
 		float: 'left'
 	}, opts);
 
-	if (opts.borderColor && isColorValid(opts.borderColor)) {
+	if (opts.borderColor && !isColorValid(opts.borderColor)) {
 		throw new Error(`${opts.borderColor} is not a valid borderColor`);
 	}
 
-	if (opts.backgroundColor && isColorValid(opts.backgroundColor)) {
+	if (opts.backgroundColor && !isColorValid(opts.backgroundColor)) {
 		throw new Error(`${opts.backgroundColor} is not a valid backgroundColor`);
 	}
 
