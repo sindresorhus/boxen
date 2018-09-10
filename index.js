@@ -60,7 +60,11 @@ const getBorderChars = borderStyle => {
 	return chars;
 };
 
-const getBackgroundColorName = x => camelCase('bg', x);
+// Color must either be a valid chalk color or a color hex ( #55aabb )
+const isHex = color => color.match(/^#[0-f]{3}(?:[0-f]{3})?$/i);
+const isColorValid = color => !(typeof color === 'string' && ((chalk[color]) || isHex(color)));
+const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
+const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase('bg', color)];
 
 module.exports = (text, opts) => {
 	opts = Object.assign({
@@ -71,15 +75,11 @@ module.exports = (text, opts) => {
 		float: 'left'
 	}, opts);
 
-	if (opts.backgroundColor) {
-		opts.backgroundColor = getBackgroundColorName(opts.backgroundColor);
-	}
-
-	if (opts.borderColor && !chalk[opts.borderColor]) {
+	if (opts.borderColor && isColorValid(opts.borderColor)) {
 		throw new Error(`${opts.borderColor} is not a valid borderColor`);
 	}
 
-	if (opts.backgroundColor && !chalk[opts.backgroundColor]) {
+	if (opts.backgroundColor && isColorValid(opts.backgroundColor)) {
 		throw new Error(`${opts.backgroundColor} is not a valid backgroundColor`);
 	}
 
@@ -88,11 +88,11 @@ module.exports = (text, opts) => {
 	const margin = getObject(opts.margin);
 
 	const colorizeBorder = x => {
-		const ret = opts.borderColor ? chalk[opts.borderColor](x) : x;
+		const ret = opts.borderColor ? getColorFn(opts.borderColor)(x) : x;
 		return opts.dimBorder ? chalk.dim(ret) : ret;
 	};
 
-	const colorizeContent = x => opts.backgroundColor ? chalk[opts.backgroundColor](x) : x;
+	const colorizeContent = x => opts.backgroundColor ? getBGColorFn(opts.backgroundColor)(x) : x;
 
 	text = ansiAlign(text, {align: opts.align});
 
@@ -111,7 +111,7 @@ module.exports = (text, opts) => {
 
 	const contentWidth = widestLine(text) + padding.left + padding.right;
 	const paddingLeft = PAD.repeat(padding.left);
-	const columns = termSize().columns;
+	const {columns} = termSize();
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (opts.float === 'center') {

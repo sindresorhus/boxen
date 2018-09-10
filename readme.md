@@ -59,8 +59,8 @@ Type: `Object`
 
 ##### borderColor
 
-Type: `string`<br>
-Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray`
+Type: `string` or `function`<br>
+Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray` or a hex value like so: `#FF0000`
 
 Color of the box border.
 
@@ -156,8 +156,8 @@ Float the box on the available terminal screen space.
 
 ##### backgroundColor
 
-Type: `string`<br>
-Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white`
+Type: `string`
+Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray` or a hex value like so: `#FF0000`
 
 Color of the background.
 
