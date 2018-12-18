@@ -31,16 +31,16 @@
 		"text"
 	],
 	"dependencies": {
-		"ansi-align": "^2.0.0",
+		"ansi-align": "^3.0.0",
 		"camelcase": "^5.0.0",
 		"chalk": "^2.4.1",
 		"cli-boxes": "^1.0.0",
-		"string-width": "^2.1.1",
+		"string-width": "^3.0.0",
 		"term-size": "^1.2.0",
 		"widest-line": "^2.0.0"
 	},
 	"devDependencies": {
-		"ava": "^0.25.0",
+		"ava": "^1.0.1",
 		"nyc": "^13.0.1",
 		"xo": "^0.23.0"
 	}
