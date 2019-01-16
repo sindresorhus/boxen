@@ -13,10 +13,11 @@
 		"node": ">=6"
 	},
 	"scripts": {
-		"test": "xo && nyc ava"
+		"test": "xo && nyc ava && tsd-check"
 	},
 	"files": [
-		"index.js"
+		"index.js",
+		"index.d.ts"
 	],
 	"keywords": [
 		"cli",
@@ -42,6 +43,7 @@
 	"devDependencies": {
 		"ava": "^1.0.1",
 		"nyc": "^13.0.1",
+		"tsd-check": "^0.3.0",
 		"xo": "^0.23.0"
 	}
 }
