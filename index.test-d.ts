@@ -1,5 +1,5 @@
-import { expectType } from 'tsd-check';
-import boxen, { BorderStyle, Spacing, _borderStyles } from '.';
+import {expectType} from 'tsd-check';
+import boxen, {BorderStyle, Spacing} from '.';
 
 const border: BorderStyle = {
 	topLeft: ' ',
@@ -29,5 +29,3 @@ expectType<string>(boxen('unicorns', {margin: spacing}));
 expectType<string>(boxen('unicorns', {float: 'center'}));
 expectType<string>(boxen('unicorns', {backgroundColor: 'green'}));
 expectType<string>(boxen('unicorns', {align: 'right'}));
-
-expectType<BorderStyle[]>(_borderStyles);
