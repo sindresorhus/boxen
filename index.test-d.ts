@@ -30,5 +30,3 @@ expectType<string>(boxen('unicorns', {margin: spacing}));
 expectType<string>(boxen('unicorns', {float: 'center'}));
 expectType<string>(boxen('unicorns', {backgroundColor: 'green'}));
 expectType<string>(boxen('unicorns', {align: 'right'}));
-
-const b: Options = {borderColor: 'b'}
