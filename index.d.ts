@@ -1,13 +1,34 @@
+import cliBoxes, {BoxStyle} from 'cli-boxes';
+
 /**
- * Style of the box border.
+ * Characters used for custom border.
+ *
+ * @example
+ * // affffb
+ * // e    e
+ * // dffffc
+ *
+ * const border: CustomBorderStyle = {
+ * 	topLeft: 'a',
+ * 	topRight: 'b',
+ * 	bottomRight: 'c',
+ * 	bottomLeft: 'd',
+ * 	vertical: 'e',
+ * 	horizontal: 'f'
+ * };
  */
-export interface BorderStyle {
-	readonly topLeft: string;
-	readonly topRight: string;
-	readonly bottomLeft: string;
-	readonly bottomRight: string;
-	readonly horizontal: string;
-	readonly vertical: string;
+export interface CustomBorderStyle extends BoxStyle{ }
+
+/**
+ * Border styles from `cli-boxes`.
+ */
+declare const enum BorderStyle {
+	Single = 'single',
+	Double = 'double',
+	Round = 'round',
+	SingleDouble = 'singleDouble',
+	DoubleSingle = 'doubleSingle',
+	Classic = 'classic'
 }
 
 /**
@@ -24,26 +45,45 @@ export interface Options {
 	/**
 	 * Color of the box border.
 	 */
-	readonly borderColor?: string;
+	readonly borderColor?:
+		| 'black'
+		| 'red'
+		| 'green'
+		| 'yellow'
+		| 'blue'
+		| 'magenta'
+		| 'cyan'
+		| 'white'
+		| 'gray'
+		| 'grey'
+		| 'blackBright'
+		| 'redBright'
+		| 'greenBright'
+		| 'yellowBright'
+		| 'blueBright'
+		| 'magentaBright'
+		| 'cyanBright'
+		| 'whiteBright'
+		| string;
 
 	/**
 	 * Style of the box border.
 	 *
-	 * @default 'single'
+	 * @default BorderStyle.Single
 	 */
-	readonly borderStyle?: string | BorderStyle;
+	readonly borderStyle?: BorderStyle | CustomBorderStyle;
 
 	/**
 	 * Reduce opacity of the border.
 	 *
-	 * @default: false
+	 * @default false
 	 */
 	readonly dimBorder?: boolean;
 
 	/**
 	 * Space between the text and box border.
 	 *
-	 * @default: 0
+	 * @default 0
 	 */
 	readonly padding?: number | Spacing;
 
@@ -59,25 +99,37 @@ export interface Options {
 	 *
 	 * @default 'left'
 	 */
-	readonly float?: string;
+	readonly float?: 'left' | 'right' | 'center';
 
 	/**
 	 * Color of the background.
 	 */
-	readonly backgroundColor?: string;
+	readonly backgroundColor?:
+		| 'black'
+		| 'red'
+		| 'green'
+		| 'yellow'
+		| 'blue'
+		| 'magenta'
+		| 'cyan'
+		| 'white'
+		| 'blackBright'
+		| 'redBright'
+		| 'greenBright'
+		| 'yellowBright'
+		| 'blueBright'
+		| 'magentaBright'
+		| 'cyanBright'
+		| 'whiteBright'
+		| string;
 
 	/**
 	 * Align the text in the box based on the widest line.
 	 *
 	 * @default 'left'
 	 */
-	readonly align?: string;
+	readonly align?: 'left' | 'right' | 'center';
 }
-
-/**
- * Border styles imported from `sindresorhus/cli-boxes`
- */
-declare const _borderStyles: BorderStyle[];
 
 /**
  * Creates a box in the terminal.
