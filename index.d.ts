@@ -4,6 +4,7 @@ import cliBoxes, {BoxStyle} from 'cli-boxes';
  * Characters used for custom border.
  *
  * @example
+ *
  * // affffb
  * // e    e
  * // dffffc
@@ -17,10 +18,10 @@ import cliBoxes, {BoxStyle} from 'cli-boxes';
  * 	horizontal: 'f'
  * };
  */
-export interface CustomBorderStyle extends BoxStyle{ }
+export interface CustomBorderStyle extends BoxStyle {}
 
 /**
- * Border styles from `cli-boxes`.
+ * Border styles from [`cli-boxes`](https://github.com/sindresorhus/cli-boxes).
  */
 declare const enum BorderStyle {
 	Single = 'single',
