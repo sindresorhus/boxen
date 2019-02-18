@@ -23,7 +23,7 @@ export interface CustomBorderStyle extends BoxStyle {}
 /**
  * Border styles from [`cli-boxes`](https://github.com/sindresorhus/cli-boxes).
  */
-declare const enum BorderStyle {
+export const enum BorderStyle {
 	Single = 'single',
 	Double = 'double',
 	Round = 'round',
