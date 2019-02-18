@@ -1,8 +1,7 @@
 import {expectType} from 'tsd-check';
-import boxen, {Spacing, BorderStyle, Options} from '.';
-import {BoxStyle} from 'cli-boxes';
+import boxen, {Spacing, BorderStyle, CustomBorderStyle} from '.';
 
-const border: BoxStyle = {
+const border: CustomBorderStyle = {
 	topLeft: ' ',
 	topRight: ' ',
 	bottomLeft: ' ',
@@ -20,6 +19,7 @@ const spacing: Spacing = {
 
 expectType<string>(boxen('unicorns'));
 expectType<string>(boxen('unicorns', {borderColor: 'green'}));
+expectType<string>(boxen('unicorns', {borderColor: '#ff0000'}));
 expectType<string>(boxen('unicorns', {borderStyle: BorderStyle.Double}));
 expectType<string>(boxen('unicorns', {borderStyle: border}));
 expectType<string>(boxen('unicorns', {dimBorder: true}));
@@ -29,4 +29,5 @@ expectType<string>(boxen('unicorns', {margin: 3}));
 expectType<string>(boxen('unicorns', {margin: spacing}));
 expectType<string>(boxen('unicorns', {float: 'center'}));
 expectType<string>(boxen('unicorns', {backgroundColor: 'green'}));
+expectType<string>(boxen('unicorns', {backgroundColor: '#ff0000'}));
 expectType<string>(boxen('unicorns', {align: 'right'}));

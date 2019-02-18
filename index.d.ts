@@ -1,6 +1,13 @@
 import cliBoxes, {BoxStyle} from 'cli-boxes';
 
 /**
+ * Placeholder type allowing hex values in `borderColor` and `backgroundColor`,
+ *
+ * @todo Remove if [TypeScript issue](https://github.com/Microsoft/TypeScript/issues/29729) is resolved.
+ */
+type HexColor = string & {hex?: any};
+
+/**
  * Characters used for custom border.
  *
  * @example
@@ -65,7 +72,7 @@ export interface Options {
 		| 'magentaBright'
 		| 'cyanBright'
 		| 'whiteBright'
-		| string;
+		| HexColor;
 
 	/**
 	 * Style of the box border.
@@ -122,7 +129,7 @@ export interface Options {
 		| 'magentaBright'
 		| 'cyanBright'
 		| 'whiteBright'
-		| string;
+		| HexColor;
 
 	/**
 	 * Align the text in the box based on the widest line.
