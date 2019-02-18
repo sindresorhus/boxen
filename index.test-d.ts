@@ -1,6 +1,6 @@
 import {expectType} from 'tsd-check';
-import boxen, { Spacing, BorderStyle, Options} from '.';
-import { BoxStyle } from 'cli-boxes';
+import boxen, {Spacing, BorderStyle, Options} from '.';
+import {BoxStyle} from 'cli-boxes';
 
 const border: BoxStyle = {
 	topLeft: ' ',
