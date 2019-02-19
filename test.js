@@ -175,7 +175,7 @@ test('borderStyle option `round`', t => {
 });
 
 test('borderStyle option `single-double`', t => {
-	compare(t, m('foo', {borderStyle: 'single-double'}), `
+	compare(t, m('foo', {borderStyle: 'singleDouble'}), `
 ╓───╖
 ║foo║
 ╙───╜
@@ -183,7 +183,7 @@ test('borderStyle option `single-double`', t => {
 });
 
 test('borderStyle option `double-single`', t => {
-	compare(t, m('foo', {borderStyle: 'double-single'}), `
+	compare(t, m('foo', {borderStyle: 'doubleSingle'}), `
 ╒═══╕
 │foo│
 ╘═══╛
