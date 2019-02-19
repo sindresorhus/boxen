@@ -34,16 +34,16 @@
 	"dependencies": {
 		"ansi-align": "^3.0.0",
 		"camelcase": "^5.0.0",
-		"chalk": "^2.4.1",
+		"chalk": "^2.4.2",
 		"cli-boxes": "^2.0.0",
 		"string-width": "^3.0.0",
 		"term-size": "^1.2.0",
 		"widest-line": "^2.0.0"
 	},
 	"devDependencies": {
-		"ava": "^1.0.1",
-		"nyc": "^13.0.1",
+		"ava": "^1.2.1",
+		"nyc": "^13.3.0",
 		"tsd-check": "^0.3.0",
-		"xo": "^0.23.0"
+		"xo": "^0.24.0"
 	}
 }
