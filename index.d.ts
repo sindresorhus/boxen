@@ -1,7 +1,7 @@
 import cliBoxes, {BoxStyle} from 'cli-boxes';
 
 /**
- * Placeholder type allowing hex values in `borderColor` and `backgroundColor`,
+ * Placeholder type allowing hex values in `borderColor` and `backgroundColor`.
  *
  * @todo Remove if [TypeScript issue](https://github.com/Microsoft/TypeScript/issues/29729) is resolved.
  */
