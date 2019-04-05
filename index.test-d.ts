@@ -1,5 +1,6 @@
-import {expectType} from 'tsd-check';
-import boxen, {Spacing, BorderStyle, CustomBorderStyle} from '.';
+import {expectType} from 'tsd';
+import boxen = require('.');
+import {Spacing, BorderStyle, CustomBorderStyle} from '.';
 
 const border: CustomBorderStyle = {
 	topLeft: ' ',

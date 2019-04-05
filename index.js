@@ -135,6 +135,7 @@ const boxen = (text, opts) => {
 };
 
 module.exports = boxen;
+// TODO: Remove this for the next major release
 module.exports.default = boxen;
 
 module.exports._borderStyles = cliBoxes;
