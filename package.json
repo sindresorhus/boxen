@@ -13,7 +13,7 @@
 		"node": ">=6"
 	},
 	"scripts": {
-		"test": "xo && nyc ava && tsd-check"
+		"test": "xo && nyc ava && tsd"
 	},
 	"files": [
 		"index.js",
@@ -33,17 +33,18 @@
 	],
 	"dependencies": {
 		"ansi-align": "^3.0.0",
-		"camelcase": "^5.0.0",
+		"camelcase": "^5.3.1",
 		"chalk": "^2.4.2",
-		"cli-boxes": "^2.0.0",
+		"cli-boxes": "^2.1.0",
 		"string-width": "^3.0.0",
 		"term-size": "^1.2.0",
+		"type-fest": "^0.3.0",
 		"widest-line": "^2.0.0"
 	},
 	"devDependencies": {
-		"ava": "^1.2.1",
+		"ava": "^1.4.1",
 		"nyc": "^13.3.0",
-		"tsd-check": "^0.3.0",
+		"tsd": "^0.7.2",
 		"xo": "^0.24.0"
 	}
 }
