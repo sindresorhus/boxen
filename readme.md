@@ -45,9 +45,9 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 
 ## API
 
-### boxen(input, [options])
+### boxen(text, [options])
 
-#### input
+#### text
 
 Type: `string`
 
@@ -66,7 +66,7 @@ Color of the box border.
 
 ##### borderStyle
 
-Type: `string` `object`<br>
+Type: `string | object`<br>
 Default: `single`<br>
 Values:
 - `single`
@@ -86,6 +86,12 @@ Values:
 ╭───╮
 │foo│
 ╰───╯
+```
+- `bold`
+```
+┏━━━┓
+┃foo┃
+┗━━━┛
 ```
 - `single-double` (`single` on top and bottom, `double` on right and left)
 ```
@@ -130,7 +136,7 @@ Reduce opacity of the border.
 
 ##### padding
 
-Type: `number` `Object`<br>
+Type: `number | object`<br>
 Default: `0`
 
 Space between the text and box border.
@@ -139,7 +145,7 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 
 ##### margin
 
-Type: `number` `Object`<br>
+Type: `number | object`<br>
 Default: `0`
 
 Space around the box.

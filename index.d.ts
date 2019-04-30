@@ -130,6 +130,7 @@ declare const enum BorderStyle {
 	Single = 'single',
 	Double = 'double',
 	Round = 'round',
+	Bold = 'bold',
 	SingleDouble = 'singleDouble',
 	DoubleSingle = 'doubleSingle',
 	Classic = 'classic'

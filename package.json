@@ -35,7 +35,7 @@
 		"ansi-align": "^3.0.0",
 		"camelcase": "^5.3.1",
 		"chalk": "^2.4.2",
-		"cli-boxes": "^2.1.0",
+		"cli-boxes": "^2.2.0",
 		"string-width": "^3.0.0",
 		"term-size": "^1.2.0",
 		"type-fest": "^0.3.0",
