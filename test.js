@@ -5,7 +5,9 @@ import boxen from '.';
 chalk.enabled = true;
 chalk.level = 3;
 
-const compare = (t, actual, expected) => t.is(actual.trim(), expected.trim());
+const compare = (t, actual, expected) => {
+	t.is(actual.trim(), expected.trim());
+};
 
 test('creates a box', t => {
 	compare(t, boxen('foo'), `
@@ -208,11 +210,15 @@ test('borderStyle option with object', t => {
 });
 
 test('throws on unexpected borderStyle as string', t => {
-	t.throws(() => boxen('foo', {borderStyle: 'shakenSnake'}), /border style/);
+	t.throws(() => {
+		boxen('foo', {borderStyle: 'shakenSnake'});
+	}, /border style/);
 });
 
 test('throws on unexpected borderStyle as object', t => {
-	t.throws(() => boxen('foo', {borderStyle: {shake: 'snake'}}), /border style/);
+	t.throws(() => {
+		boxen('foo', {borderStyle: {shake: 'snake'}});
+	}, /border style/);
 
 	// Missing bottomRight
 	const invalid = {
@@ -223,7 +229,9 @@ test('throws on unexpected borderStyle as object', t => {
 		vertical: '|'
 	};
 
-	t.throws(() => boxen('foo', {borderStyle: invalid}), /bottomRight/);
+	t.throws(() => {
+		boxen('foo', {borderStyle: invalid});
+	}, /bottomRight/);
 });
 
 test('borderColor option', t => {
@@ -243,7 +251,9 @@ test('borderColor hex', t => {
 });
 
 test('throws on unexpected borderColor', t => {
-	t.throws(() => boxen('foo', {borderColor: 'greasy-white'}), /borderColor/);
+	t.throws(() => {
+		boxen('foo', {borderColor: 'greasy-white'});
+	}, /borderColor/);
 });
 
 test('backgroundColor option', t => {
@@ -263,7 +273,9 @@ test('backgroundColor hex', t => {
 });
 
 test('throws on unexpected backgroundColor', t => {
-	t.throws(() => boxen('foo', {backgroundColor: 'dark-yellow'}), /backgroundColor/);
+	t.throws(() => {
+		boxen('foo', {backgroundColor: 'dark-yellow'});
+	}, /backgroundColor/);
 });
 
 test('align option `center`', t => {

@@ -41,7 +41,7 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 
 ## API
 
-### boxen(text, [options])
+### boxen(text, options?)
 
 #### text
 
@@ -51,57 +51,57 @@ Text inside the box.
 
 #### options
 
-Type: `Object`
+Type: `object`
 
 ##### borderColor
 
 Type: `string`<br>
-Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray` or a hex value like `#ff0000`
+Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
 
 Color of the box border.
 
 ##### borderStyle
 
 Type: `string | object`<br>
-Default: `single`<br>
+Default: `'single'`<br>
 Values:
-- `single`
+- `'single'`
 ```
 ┌───┐
 │foo│
 └───┘
 ```
-- `double`
+- `'double'`
 ```
 ╔═══╗
 ║foo║
 ╚═══╝
 ```
-- `round` (`single` sides with round corners)
+- `'round'` (`'single'` sides with round corners)
 ```
 ╭───╮
 │foo│
 ╰───╯
 ```
-- `bold`
+- `'bold'`
 ```
 ┏━━━┓
 ┃foo┃
 ┗━━━┛
 ```
-- `single-double` (`single` on top and bottom, `double` on right and left)
+- `'singleDouble'` (`'single'` on top and bottom, `'double'` on right and left)
 ```
 ╓───╖
 ║foo║
 ╙───╜
 ```
-- `double-single` (`double` on top and bottom, `single` on right and left)
+- `'doubleSingle'` (`'double'` on top and bottom, `'single'` on right and left)
 ```
 ╒═══╕
 │foo│
 ╘═══╛
 ```
-- `classic`
+- `'classic'`
 ```
 +---+
 |foo|
@@ -151,23 +151,23 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 ##### float
 
 Type: `string`<br>
-Values: `right` `center` `left`<br>
-Default: `left`
+Default: `'left'`
+Values: `'right'` `'center'` `'left'`<br>
 
 Float the box on the available terminal screen space.
 
 ##### backgroundColor
 
 Type: `string`
-Values: `black` `red` `green` `yellow` `blue` `magenta` `cyan` `white` `gray` or a hex value like `#ff0000`
+Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
 
 Color of the background.
 
 ##### align
 
 Type: `string`<br>
-Default: `left`<br>
-Values: `left` `center` `right`
+Default: `'left'`<br>
+Values: `'left'` `'center'` `'right'`
 
 Align the text in the box based on the widest line.
 
@@ -177,8 +177,3 @@ Align the text in the box based on the widest line.
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
 - [cli-boxes](https://github.com/sindresorhus/cli-boxes) - Boxes for use in the terminal
 - [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink that uses this package
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)
