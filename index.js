@@ -92,10 +92,11 @@ module.exports = (text, options) => {
 		const newBorder = options.borderColor ? getColorFn(options.borderColor)(border) : border;
 		return options.dimBorder ? chalk.dim(newBorder) : newBorder;
 	};
-	const colorizeTitle = title =>{
+
+	const colorizeTitle = title => {
 		const newTitle = options.titleColor ? getColorFn(options.titleColor)(title) : title;
 		return options.dimTitle ? chalk.dim(newTitle) : newTitle;
-	}
+	};
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
 
@@ -128,7 +129,7 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const horizontalTop = chars.horizontal + ' ' + colorizeTitle(options.title) + ' ' + chars.horizontal.repeat(contentWidth -3 -stringWidth(options.title));
+	const horizontalTop = chars.horizontal + ' ' + colorizeTitle(options.title) + ' ' + chars.horizontal.repeat(contentWidth - 3 - stringWidth(options.title));
 	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + horizontalTop + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
