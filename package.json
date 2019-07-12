@@ -1,9 +1,9 @@
 {
-	"name": "boxen",
+	"name": "fieldset-cli",
 	"version": "4.1.0",
-	"description": "Create boxes in the terminal",
+	"description": "Create fieldset in the terminal",
 	"license": "MIT",
-	"repository": "sindresorhus/boxen",
+	"repository": "horosgrisa/fieldset-cli",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",

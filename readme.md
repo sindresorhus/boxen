@@ -1,23 +1,28 @@
-# boxen [![Build Status](https://travis-ci.org/sindresorhus/boxen.svg?branch=master)](https://travis-ci.org/sindresorhus/boxen)
+# fieldset-cli [![Build Status](https://travis-ci.org/horosgrisa/fieldset-cli.svg?branch=master)](https://travis-ci.org/horosgrisa/fieldset-cli)
 
 > Create boxes in the terminal
 
 ![](screenshot.png)
 
+#### This is temporary fork of [boxen](https://github.com/sindresorhus/boxen) with posibility to set title of box
+
+#### Example
+
+![Title](./title-of-box.png)
 
 ## Install
 
 ```
-$ npm install boxen
+$ npm install fieldset-cli
 ```
 
 
 ## Usage
 
 ```js
-const boxen = require('boxen');
+const fieldset = require('fieldset-cli');
 
-console.log(boxen('unicorn', {padding: 1}));
+console.log(fieldset('unicorn', {padding: 1}));
 /*
 ┌─────────────┐
 │             │
@@ -26,7 +31,7 @@ console.log(boxen('unicorn', {padding: 1}));
 └─────────────┘
 */
 
-console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
+console.log(fieldset('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 /*
 
    ╔═════════════╗
@@ -41,7 +46,7 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 
 ## API
 
-### boxen(text, options?)
+### fieldset(text, options?)
 
 #### text
 
@@ -52,6 +57,25 @@ Text inside the box.
 #### options
 
 Type: `object`
+
+##### title
+
+Type: `string`<br>
+Title of box
+
+##### titleColor
+
+Type: `string`<br>
+Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
+
+Color of the box title.
+
+##### titleDim
+
+Type: `boolean`<br>
+Default: `false`
+
+Reduce opacity of the box title.
 
 ##### borderColor
 
@@ -172,21 +196,4 @@ Values: `'left'` `'center'` `'right'`
 Align the text in the box based on the widest line.
 
 
-## Related
 
-- [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
-- [cli-boxes](https://github.com/sindresorhus/cli-boxes) - Boxes for use in the terminal
-- [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink that uses this package
-
-
----
-
-<div align="center">
-	<b>
-		<a href="https://tidelift.com/subscription/pkg/npm-boxen?utm_source=npm-boxen&utm_medium=referral&utm_campaign=readme">Get professional support for this package with a Tidelift subscription</a>
-	</b>
-	<br>
-	<sub>
-		Tidelift helps make open source sustainable for maintainers while giving companies<br>assurances about security, maintenance, and licensing for their dependencies.
-	</sub>
-</div>
