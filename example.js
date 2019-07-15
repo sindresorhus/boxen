@@ -23,7 +23,9 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	margin: 1,
 	borderColor: '#eebbaa',
 	borderStyle: 'double',
-	title: 'Hello'
+	title: 'Hello',
+	titleColor:'red',
+	dimTitle:true
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
@@ -31,7 +33,10 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	margin: 1,
 	borderColor: '#ffc0cb',
 	backgroundColor: '#00ffff',
-	borderStyle: 'double'
+	borderStyle: 'double',
+	title: 'Hello',
+	titleColor: 'red'
+
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
@@ -39,6 +44,7 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	margin: 1,
 	borderColor: 'yellow',
 	backgroundColor: 'magenta',
+	title: 'Hello',
 	borderStyle: {
 		topLeft: '+',
 		topRight: '+',
