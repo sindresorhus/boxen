@@ -38,7 +38,7 @@
 		"cli-boxes": "^2.2.0",
 		"string-width": "^4.1.0",
 		"term-size": "^2.1.0",
-		"type-fest": "^0.5.2",
+		"type-fest": "^0.6.0",
 		"widest-line": "^3.1.0"
 	},
 	"devDependencies": {
