@@ -6,7 +6,7 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: 'yellow',
-	title:'Hello'
+	title: 'Hello'
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
@@ -24,8 +24,8 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	borderColor: '#eebbaa',
 	borderStyle: 'double',
 	title: 'Hello',
-	titleColor:'red',
-	dimTitle:true
+	titleColor: 'red',
+	dimTitle: true
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
@@ -36,7 +36,6 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	borderStyle: 'double',
 	title: 'Hello',
 	titleColor: 'red'
-
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
