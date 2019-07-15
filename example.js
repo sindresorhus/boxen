@@ -5,21 +5,25 @@ const boxen = require('.');
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
-	borderColor: 'yellow'
+	borderColor: 'yellow',
+	title:'Hello'
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: 'yellow',
-	borderStyle: 'double'
+	borderStyle: 'double',
+	title: 'Hello'
+
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: '#eebbaa',
-	borderStyle: 'double'
+	borderStyle: 'double',
+	title: 'Hello'
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
