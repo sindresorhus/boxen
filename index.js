@@ -73,7 +73,6 @@ module.exports = (text, options) => {
 		dimBorder: false,
 		align: 'left',
 		float: 'left',
-		title: '',
 		...options
 	};
 
@@ -116,7 +115,7 @@ module.exports = (text, options) => {
 		lines = lines.concat(new Array(padding.bottom).fill(''));
 	}
 
-	const contentWidth = widestLine(options.title + '      \n' + text) + padding.left + padding.right;
+	const contentWidth = widestLine((options.title||'') + '      \n' + text) + padding.left + padding.right;
 	const paddingLeft = PAD.repeat(padding.left);
 	const {columns} = termSize();
 	let marginLeft = PAD.repeat(margin.left);
@@ -130,7 +129,7 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const horizontalTop = options.title === '' ? horizontal : chars.horizontal + ' ' + colorizeTitle(options.title) + ' ' + chars.horizontal.repeat(contentWidth - 3 - stringWidth(options.title));
+	const horizontalTop = !options.title  ? horizontal : chars.horizontal + ' ' + colorizeTitle(options.title) + ' ' + chars.horizontal.repeat(contentWidth - 3 - stringWidth(options.title));
 	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + horizontalTop + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);

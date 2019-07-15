@@ -43,7 +43,6 @@ console.log('\n\n' + boxen(chalk.blue.bold('unicorn'), {
 	margin: 1,
 	borderColor: 'yellow',
 	backgroundColor: 'magenta',
-	title: 'Hello',
 	borderStyle: {
 		topLeft: '+',
 		topRight: '+',
