@@ -35,9 +35,40 @@ declare namespace boxen {
 
 	interface Options {
 		/**
+		Title of the box.
+		*/
+		readonly title?: string;
+
+
+		/**
 		Color of the box border.
 		*/
 		readonly borderColor?: LiteralUnion<
+			| 'black'
+			| 'red'
+			| 'green'
+			| 'yellow'
+			| 'blue'
+			| 'magenta'
+			| 'cyan'
+			| 'white'
+			| 'gray'
+			| 'grey'
+			| 'blackBright'
+			| 'redBright'
+			| 'greenBright'
+			| 'yellowBright'
+			| 'blueBright'
+			| 'magentaBright'
+			| 'cyanBright'
+			| 'whiteBright',
+			string
+		>;
+
+		/**
+		Color of the box title.
+		*/
+		readonly titleColor?: LiteralUnion<
 			| 'black'
 			| 'red'
 			| 'green'
@@ -72,6 +103,13 @@ declare namespace boxen {
 		@default false
 		*/
 		readonly dimBorder?: boolean;
+
+		/**
+		Reduce opacity of the box title.
+
+		@default false
+		*/
+		readonly dimTitle?: boolean;
 
 		/**
 		Space between the text and box border.
