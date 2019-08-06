@@ -94,9 +94,9 @@ module.exports = (text, options) => {
 	};
 
 	const colorizeTitle = title => {
-	  const newTitle = options.titleColor ? getColorFn(options.titleColor)(title) : title;
-	  return options.dimTitle ? chalk.dim(newTitle) : newTitle;
-  };
+		const newTitle = options.titleColor ? getColorFn(options.titleColor)(title) : title;
+		return options.dimTitle ? chalk.dim(newTitle) : newTitle;
+	};
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
 
@@ -115,9 +115,9 @@ module.exports = (text, options) => {
 		lines = lines.concat(new Array(padding.bottom).fill(''));
 	}
 
-	const contentWidth = options.title
-	  ? widestLine(options.title + '\n' + text) + padding.left + padding.right
-	  : widestLine(text) + padding.left + padding.right;
+	const contentWidth = options.title ?
+		widestLine(options.title + '\n' + text) + padding.left + padding.right :
+		widestLine(text) + padding.left + padding.right;
 
 	const paddingLeft = PAD.repeat(padding.left);
 	const {columns} = termSize();
@@ -131,10 +131,10 @@ module.exports = (text, options) => {
 		marginLeft = PAD.repeat(padWidth);
 	}
 
-	const horizontalTitle = options.title
-	  ? chars.horizontal + ' ' + colorizeTitle(options.title) + ' ' + 
-	    chars.horizontal.repeat(contentWidth - 3 - stringWidth(options.title))
-	  : chars.horizontal.repeat(contentWidth);
+	const horizontalTitle = options.title ?
+		chars.horizontal + ' ' + colorizeTitle(options.title) + ' ' +
+		chars.horizontal.repeat(contentWidth - 3 - stringWidth(options.title)) :
+		chars.horizontal.repeat(contentWidth);
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
 	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + horizontalTitle + chars.topRight);
