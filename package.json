@@ -4,6 +4,7 @@
 	"description": "Create boxes in the terminal",
 	"license": "MIT",
 	"repository": "sindresorhus/boxen",
+	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
@@ -34,17 +35,17 @@
 	"dependencies": {
 		"ansi-align": "^3.0.0",
 		"camelcase": "^5.3.1",
-		"chalk": "^2.4.2",
+		"chalk": "^3.0.0",
 		"cli-boxes": "^2.2.0",
 		"string-width": "^4.1.0",
 		"term-size": "^2.1.0",
-		"type-fest": "^0.5.2",
+		"type-fest": "^0.8.1",
 		"widest-line": "^3.1.0"
 	},
 	"devDependencies": {
 		"ava": "^2.1.0",
 		"nyc": "^14.1.1",
-		"tsd": "^0.7.3",
-		"xo": "^0.24.0"
+		"tsd": "^0.11.0",
+		"xo": "^0.25.3"
 	}
 }

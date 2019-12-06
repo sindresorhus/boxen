@@ -2,7 +2,6 @@ import test from 'ava';
 import chalk from 'chalk';
 import boxen from '.';
 
-chalk.enabled = true;
 chalk.level = 3;
 
 const compare = (t, actual, expected) => {

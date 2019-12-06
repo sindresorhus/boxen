@@ -4,13 +4,11 @@
 
 ![](screenshot.png)
 
-
 ## Install
 
 ```
 $ npm install boxen
 ```
-
 
 ## Usage
 
@@ -38,7 +36,6 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 */
 ```
 
-
 ## API
 
 ### boxen(text, options?)
@@ -55,15 +52,15 @@ Type: `object`
 
 ##### borderColor
 
-Type: `string`<br>
+Type: `string`\
 Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
 
 Color of the box border.
 
 ##### borderStyle
 
-Type: `string | object`<br>
-Default: `'single'`<br>
+Type: `string | object`\
+Default: `'single'`\
 Values:
 - `'single'`
 ```
@@ -125,14 +122,14 @@ Can be any of the above predefined styles or an object with the following keys:
 
 ##### dimBorder
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Reduce opacity of the border.
 
 ##### padding
 
-Type: `number | object`<br>
+Type: `number | object`\
 Default: `0`
 
 Space between the text and box border.
@@ -141,7 +138,7 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 
 ##### margin
 
-Type: `number | object`<br>
+Type: `number | object`\
 Default: `0`
 
 Space around the box.
@@ -150,34 +147,32 @@ Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` p
 
 ##### float
 
-Type: `string`<br>
-Default: `'left'`
-Values: `'right'` `'center'` `'left'`<br>
+Type: `string`\
+Default: `'left'`\
+Values: `'right'` `'center'` `'left'`
 
 Float the box on the available terminal screen space.
 
 ##### backgroundColor
 
-Type: `string`
+Type: `string`\
 Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
 
 Color of the background.
 
 ##### align
 
-Type: `string`<br>
-Default: `'left'`<br>
+Type: `string`\
+Default: `'left'`\
 Values: `'left'` `'center'` `'right'`
 
 Align the text in the box based on the widest line.
-
 
 ## Related
 
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
 - [cli-boxes](https://github.com/sindresorhus/cli-boxes) - Boxes for use in the terminal
 - [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink that uses this package
-
 
 ---
 
