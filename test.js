@@ -4,7 +4,6 @@ import boxen from '.';
 
 chalk.level = 3;
 
-
 const compare = (t, actual, expected, message) => {
 	t.is(actual.trim(), expected.trim(), message);
 };
@@ -393,7 +392,8 @@ test('decrease margins when there is no space for them', t => {
 	const box = boxen(longContent, {margin: {left: 5, right: 5}});
 
 	const boxWidth = width - 3;
-	t.is(box.length, boxWidth * 3 + 2);
+	// Minus 2 NL
+	t.is(box.length - 2, 3 * boxWidth);
 
 	const lines = box.split('\n');
 	lines.forEach((line, index) => t.is(line.length, boxWidth, 'Length of line #' + index));
@@ -410,7 +410,8 @@ test('proportionally decrease margins when there is no space for them', t => {
 	const box = boxen(longContent, {margin: {left: 5, right: 13}});
 
 	const boxWidth = width - 6;
-	t.is(box.length, boxWidth * 3 + 2);
+	// Minus 2 NL
+	t.is(box.length - 2, boxWidth * 3);
 
 	const lines = box.split('\n');
 	lines.forEach((line, index) => t.is(line.length, boxWidth, 'Length of line #' + index));
@@ -428,11 +429,13 @@ test('text is centered after wrapping', t => {
 
 	const lines = [];
 	for (let index = 0; index < 4; ++index) {
-		const line = box.substr(index * width, width);
+		const line = box.slice(index * width, (index + 1) * width);
 		t.is(line.length, width, 'Length of line #' + index);
 		t.is(line, line.trim(), 'No margin of line #' + index);
-		if (index != 2)
+		if (index !== 2) {
 			t.is(line.indexOf(' '), -1, 'No spaces in line #' + index);
+		}
+
 		lines.push(line);
 	}
 
@@ -451,11 +454,13 @@ test('text is left-aligned after wrapping', t => {
 
 	const lines = [];
 	for (let index = 0; index < 4; ++index) {
-		const line = box.substr(index * width, width);
+		const line = box.slice(index * width, (index + 1) * width);
 		t.is(line.length, width, 'Length of line #' + index);
 		t.is(line, line.trim(), 'No margin of line #' + index);
-		if (index != 2)
+		if (index !== 2) {
 			t.is(line.indexOf(' '), -1, 'No spaces in line #' + index);
+		}
+
 		lines.push(line);
 	}
 
@@ -473,11 +478,13 @@ test('text is right-aligned after wrapping', t => {
 
 	const lines = [];
 	for (let index = 0; index < 4; ++index) {
-		const line = box.substr(index * width, width);
+		const line = box.slice(index * width, (index + 1) * width);
 		t.is(line.length, width, 'Length of line #' + index);
 		t.is(line, line.trim(), 'No margin of line #' + index);
-		if (index != 2)
+		if (index !== 2) {
 			t.is(line.indexOf(' '), -1, 'No spaces in line #' + index);
+		}
+
 		lines.push(line);
 	}
 
