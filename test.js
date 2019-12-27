@@ -386,6 +386,39 @@ test('ignore margins when content = columns - 2 and no padding', t => {
 	t.is(box.indexOf(' '), -1);
 });
 
+test('decrease margins when there is no space for them', t => {
+	const width = process.stdout.columns;
+	const longContent = 'x'.repeat(width - 8);
+	// This gives only 3 spaces of margin on each side, but 5 were requested
+	const box = boxen(longContent, {margin: {left: 5, right: 5}});
+
+	const boxWidth = width - 3;
+	t.is(box.length, boxWidth * 3 + 2);
+
+	const lines = box.split('\n');
+	lines.forEach((line, index) => t.is(line.length, boxWidth, 'Length of line #' + index));
+
+	const expected = '   │' + 'x'.repeat(width - 8) + '│';
+	t.is(lines[1], expected);
+});
+
+test('proportionally decrease margins when there is no space for them', t => {
+	const width = process.stdout.columns;
+	const longContent = 'x'.repeat(width - 10);
+	// This gives only 4 spaces of margin on each side, but 5/13 were requested
+	// Boxen should print 2 spaces on the left and leave 5 spaces on the right
+	const box = boxen(longContent, {margin: {left: 5, right: 13}});
+
+	const boxWidth = width - 6;
+	t.is(box.length, boxWidth * 3 + 2);
+
+	const lines = box.split('\n');
+	lines.forEach((line, index) => t.is(line.length, boxWidth, 'Length of line #' + index));
+
+	const expected = '  │' + 'x'.repeat(width - 10) + '│';
+	t.is(lines[1], expected);
+});
+
 test('text is centered after wrapping', t => {
 	const width = process.stdout.columns;
 	const longContent = 'x'.repeat(width - 1);

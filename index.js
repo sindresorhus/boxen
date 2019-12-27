@@ -96,24 +96,15 @@ module.exports = (text, options) => {
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
 
-	text = ansiAlign(text, {align: options.align});
-
 	const NL = '\n';
 	const PAD = ' ';
+	const {columns} = termSize();
+
+	text = ansiAlign(text, {align: options.align});
 
 	let lines = text.split(NL);
 
-	if (padding.top > 0) {
-		lines = new Array(padding.top).fill('').concat(lines);
-	}
-
-	if (padding.bottom > 0) {
-		lines = lines.concat(new Array(padding.bottom).fill(''));
-	}
-
 	let contentWidth = widestLine(text) + padding.left + padding.right;
-	const paddingLeft = PAD.repeat(padding.left);
-	const {columns} = termSize();
 
 	// Add 2 for border
 	if (contentWidth + 2 > columns) {
@@ -121,8 +112,10 @@ module.exports = (text, options) => {
 		const max = contentWidth - padding.left - padding.right;
 		const newLines = [];
 		for (const line of lines) {
+			const createdLines = wrapAnsi(line, max, {hard: true});
+			const alignedLines = ansiAlign(createdLines, {align: options.align});
 			newLines.push(
-				...wrapAnsi(line, max, {hard: true}).split('\n')
+				...alignedLines.split('\n')
 			);
 		}
 
@@ -141,6 +134,15 @@ module.exports = (text, options) => {
 		// Right: 6 * 0.5 = 3
 	}
 
+	if (padding.top > 0) {
+		lines = new Array(padding.top).fill('').concat(lines);
+	}
+
+	if (padding.bottom > 0) {
+		lines = lines.concat(new Array(padding.bottom).fill(''));
+	}
+
+	const paddingLeft = PAD.repeat(padding.left);
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (options.float === 'center') {
@@ -156,7 +158,7 @@ module.exports = (text, options) => {
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
-	const LINE_SEP = (contentWidth + 2 + margin.left + margin.right >= columns) ? '' : NL;
+	const LINE_SEP = (contentWidth + 2 + margin.left >= columns) ? '' : NL;
 
 	const middle = lines.map(line => {
 		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
