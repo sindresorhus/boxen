@@ -106,9 +106,9 @@ module.exports = (text, options) => {
 
 	let contentWidth = widestLine(text) + padding.left + padding.right;
 
-	// Add 2 for border
-	if (contentWidth + 2 > columns) {
-		contentWidth = columns - 2;
+	const BORDERS_WIDTH = 2;
+	if (contentWidth + BORDERS_WIDTH > columns) {
+		contentWidth = columns - BORDERS_WIDTH;
 		const max = contentWidth - padding.left - padding.right;
 		const newLines = [];
 		for (const line of lines) {
@@ -122,9 +122,9 @@ module.exports = (text, options) => {
 		lines = newLines;
 	}
 
-	if (contentWidth + 2 + margin.left + margin.right > columns) {
+	if (contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
 		// Let's assume we have margins: left = 3, right = 5, in total = 8
-		const spaceForMargins = columns - contentWidth - 2;
+		const spaceForMargins = columns - contentWidth - BORDERS_WIDTH;
 		// Let's assume we have space = 4
 		const multiplier = spaceForMargins / (margin.left + margin.right);
 		// Here: multiplier = 4/8 = 0.5
@@ -146,10 +146,10 @@ module.exports = (text, options) => {
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (options.float === 'center') {
-		const padWidth = Math.max((columns - contentWidth - 2) / 2, 0);
+		const padWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
 		marginLeft = PAD.repeat(padWidth);
 	} else if (options.float === 'right') {
-		const padWidth = Math.max(columns - contentWidth - margin.right - 2, 0);
+		const padWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
 		marginLeft = PAD.repeat(padWidth);
 	}
 
@@ -158,14 +158,14 @@ module.exports = (text, options) => {
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
-	const LINE_SEP = (contentWidth + 2 + margin.left >= columns) ? '' : NL;
+	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NL;
 
 	const middle = lines.map(line => {
 		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
 		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
-	}).join(LINE_SEP);
+	}).join(LINE_SEPARATOR);
 
-	return top + LINE_SEP + middle + LINE_SEP + bottom;
+	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
 };
 
 module.exports._borderStyles = cliBoxes;

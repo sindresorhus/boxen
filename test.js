@@ -332,13 +332,13 @@ test('no wrapping when content = columns - 2 and no padding and no margin', t =>
 	const box = boxen(longContent);
 
 	// No endlines
-	t.is(box.indexOf('\n'), -1);
+	t.false(box.includes('\n'));
 
 	// Every line has full length
 	t.is(box.length, width * 3);
 
 	// There are no spaces around (and in this case - within)
-	t.is(box.indexOf(' '), -1);
+	t.false(box.includes(' '));
 });
 
 test('wrapping when content = columns - 1 and no padding and no margin', t => {
@@ -347,7 +347,7 @@ test('wrapping when content = columns - 1 and no padding and no margin', t => {
 	const box = boxen(longContent);
 
 	// No endlines
-	t.is(box.indexOf('\n'), -1);
+	t.false(box.includes('\n'));
 
 	// Every line has full length
 	t.is(box.length, width * 4);
@@ -362,7 +362,7 @@ test('wrapping when content = columns - 2 and padding = 1 and no margin', t => {
 	const box = boxen(longContent, {padding: 1});
 
 	// No endlines
-	t.is(box.indexOf('\n'), -1);
+	t.false(box.includes('\n'));
 
 	// Every line has full length: 3 normal lines + 1 wrapped + 2 padding = 6 lines
 	t.is(box.length, width * 6);
@@ -377,12 +377,12 @@ test('ignore margins when content = columns - 2 and no padding', t => {
 	const box = boxen(longContent, {margin: {left: 5, right: 5}});
 
 	// No endlines
-	t.is(box.indexOf('\n'), -1);
+	t.false(box.includes('\n'));
 
 	t.is(box.length, width * 3);
 
 	// There are no spaces around (and in this case - within)
-	t.is(box.indexOf(' '), -1);
+	t.false(box.includes(' '));
 });
 
 test('decrease margins when there is no space for them', t => {
@@ -396,7 +396,9 @@ test('decrease margins when there is no space for them', t => {
 	t.is(box.length - 2, 3 * boxWidth);
 
 	const lines = box.split('\n');
-	lines.forEach((line, index) => t.is(line.length, boxWidth, 'Length of line #' + index));
+	for (const [index, line] of lines.entries()) {
+		t.is(line.length, boxWidth, 'Length of line #' + index);
+	}
 
 	const expected = '   │' + 'x'.repeat(width - 8) + '│';
 	t.is(lines[1], expected);
@@ -414,7 +416,9 @@ test('proportionally decrease margins when there is no space for them', t => {
 	t.is(box.length - 2, boxWidth * 3);
 
 	const lines = box.split('\n');
-	lines.forEach((line, index) => t.is(line.length, boxWidth, 'Length of line #' + index));
+	for (const [index, line] of lines.entries()) {
+		t.is(line.length, boxWidth, 'Length of line #' + index);
+	}
 
 	const expected = '  │' + 'x'.repeat(width - 10) + '│';
 	t.is(lines[1], expected);
@@ -433,7 +437,7 @@ test('text is centered after wrapping', t => {
 		t.is(line.length, width, 'Length of line #' + index);
 		t.is(line, line.trim(), 'No margin of line #' + index);
 		if (index !== 2) {
-			t.is(line.indexOf(' '), -1, 'No spaces in line #' + index);
+			t.false(line.includes(' '), 'No spaces in line #' + index);
 		}
 
 		lines.push(line);
@@ -458,7 +462,7 @@ test('text is left-aligned after wrapping', t => {
 		t.is(line.length, width, 'Length of line #' + index);
 		t.is(line, line.trim(), 'No margin of line #' + index);
 		if (index !== 2) {
-			t.is(line.indexOf(' '), -1, 'No spaces in line #' + index);
+			t.false(line.includes(' '), 'No spaces in line #' + index);
 		}
 
 		lines.push(line);
@@ -482,7 +486,7 @@ test('text is right-aligned after wrapping', t => {
 		t.is(line.length, width, 'Length of line #' + index);
 		t.is(line, line.trim(), 'No margin of line #' + index);
 		if (index !== 2) {
-			t.is(line.indexOf(' '), -1, 'No spaces in line #' + index);
+			t.false(line.includes(' '), 'No spaces in line #' + index);
 		}
 
 		lines.push(line);
