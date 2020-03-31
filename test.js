@@ -496,3 +496,131 @@ test('text is right-aligned after wrapping', t => {
 	const expected = '│' + ' '.repeat(padding) + 'x│';
 	t.is(lines[2], expected);
 });
+
+test('text is centered after wrapping when using words', t => {
+	const width = process.stdout.columns || 120;
+	const sentence = 'x'.repeat(width / 3) + ' ';
+	const longContent = sentence.repeat(3).trim();
+	const box = boxen(longContent, {align: 'center'});
+
+	t.is(box.length, width * 4);
+
+	const lines = [];
+	for (let index = 0; index < 4; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		t.is(line.length, width, 'Length of line #' + index);
+		t.is(line, line.trim(), 'No margin of line #' + index);
+
+		lines.push(line);
+	}
+
+	const checkAlign = index => {
+		const line = lines[index];
+		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
+		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
+
+		t.true(paddingLeft > 0, 'Padding left in line #' + index);
+		t.true(paddingRight > 0, 'Padding right in line #' + index);
+		t.true(Math.abs(paddingLeft - paddingRight) <= 1, 'Left and right padding are not (almost) equal in line #' + index);
+	};
+
+	checkAlign(1);
+	checkAlign(2);
+});
+
+test('text is left-aligned after wrapping when using words', t => {
+	const width = process.stdout.columns || 120;
+	const sentence = 'x'.repeat(width / 3) + ' ';
+	const longContent = sentence.repeat(3).trim();
+	const box = boxen(longContent, {align: 'left'});
+
+	t.is(box.length, width * 4);
+
+	const lines = [];
+	for (let index = 0; index < 4; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		t.is(line.length, width, 'Length of line #' + index);
+		t.is(line, line.trim(), 'No margin of line #' + index);
+
+		lines.push(line);
+	}
+
+	const checkAlign = index => {
+		const line = lines[index];
+		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
+		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
+
+		t.is(paddingLeft, 0, 'Padding left in line #' + index);
+		t.true(paddingRight > 0, 'Padding right in line #' + index);
+	};
+
+	checkAlign(1);
+	checkAlign(2);
+});
+
+test('text is right-aligned after wrapping when using words', t => {
+	const width = process.stdout.columns || 120;
+	const sentence = 'x'.repeat(width / 3) + ' ';
+	const longContent = sentence.repeat(3).trim();
+	const box = boxen(longContent, {align: 'right'});
+
+	t.is(box.length, width * 4);
+
+	const lines = [];
+	for (let index = 0; index < 4; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		t.is(line.length, width, 'Length of line #' + index);
+		t.is(line, line.trim(), 'No margin of line #' + index);
+
+		lines.push(line);
+	}
+
+	const checkAlign = index => {
+		const line = lines[index];
+		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
+		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
+
+		t.true(paddingLeft > 0, 'Padding left in line #' + index);
+		t.is(paddingRight, 0, 'Padding right in line #' + index);
+	};
+
+	checkAlign(1);
+	checkAlign(2);
+});
+
+test('text is right-aligned after wrapping when using words, with padding', t => {
+	const width = process.stdout.columns || 120;
+	const sentence = 'x'.repeat(width / 3) + ' ';
+	const longContent = sentence.repeat(3).trim();
+	const box = boxen(longContent, {
+		align: 'right',
+		padding: {left: 1, right: 1, top: 0, bottom: 0}
+	});
+
+	t.is(box.length, width * 4);
+
+	const lines = [];
+	for (let index = 0; index < 4; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		t.is(line.length, width, 'Length of line #' + index);
+		t.is(line, line.trim(), 'No margin of line #' + index);
+
+		lines.push(line);
+	}
+
+	const checkAlign = index => {
+		const line = lines[index];
+		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
+		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
+
+		t.true(paddingLeft > 0, 'Padding left in line #' + index);
+		t.is(paddingRight, 1, 'Padding right in line #' + index);
+	};
+
+	checkAlign(1);
+	checkAlign(2);
+});

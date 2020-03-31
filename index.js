@@ -114,9 +114,25 @@ module.exports = (text, options) => {
 		for (const line of lines) {
 			const createdLines = wrapAnsi(line, max, {hard: true});
 			const alignedLines = ansiAlign(createdLines, {align: options.align});
-			newLines.push(
-				...alignedLines.split('\n')
-			);
+			const alignedLinesArr = alignedLines.split('\n');
+			const longestLength = Math.max(...alignedLinesArr.map(s => s.length));
+
+			for (const alignedLine of alignedLinesArr) {
+				let paddedLine;
+				switch (options.align) {
+					case 'center':
+						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
+						break;
+					case 'right':
+						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
+						break;
+					default:
+						paddedLine = alignedLine;
+						break;
+				}
+
+				newLines.push(paddedLine);
+			}
 		}
 
 		lines = newLines;
