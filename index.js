@@ -62,7 +62,7 @@ const getBorderChars = borderStyle => {
 	return chararacters;
 };
 
-const isHex = color => color.match(/^#[0-f]{3}(?:[0-f]{3})?$/i);
+const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
@@ -114,10 +114,10 @@ module.exports = (text, options) => {
 		for (const line of lines) {
 			const createdLines = wrapAnsi(line, max, {hard: true});
 			const alignedLines = ansiAlign(createdLines, {align: options.align});
-			const alignedLinesArr = alignedLines.split('\n');
-			const longestLength = Math.max(...alignedLinesArr.map(s => s.length));
+			const alignedLinesArray = alignedLines.split('\n');
+			const longestLength = Math.max(...alignedLinesArray.map(s => s.length));
 
-			for (const alignedLine of alignedLinesArr) {
+			for (const alignedLine of alignedLinesArray) {
 				let paddedLine;
 				switch (options.align) {
 					case 'center':

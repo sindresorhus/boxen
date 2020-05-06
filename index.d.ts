@@ -1,5 +1,5 @@
 import {LiteralUnion} from 'type-fest';
-import cliBoxes, {BoxStyle} from 'cli-boxes';
+import {BoxStyle} from 'cli-boxes';
 
 declare namespace boxen {
 	/**
@@ -38,25 +38,25 @@ declare namespace boxen {
 		Color of the box border.
 		*/
 		readonly borderColor?: LiteralUnion<
-			| 'black'
-			| 'red'
-			| 'green'
-			| 'yellow'
-			| 'blue'
-			| 'magenta'
-			| 'cyan'
-			| 'white'
-			| 'gray'
-			| 'grey'
-			| 'blackBright'
-			| 'redBright'
-			| 'greenBright'
-			| 'yellowBright'
-			| 'blueBright'
-			| 'magentaBright'
-			| 'cyanBright'
-			| 'whiteBright',
-			string
+		| 'black'
+		| 'red'
+		| 'green'
+		| 'yellow'
+		| 'blue'
+		| 'magenta'
+		| 'cyan'
+		| 'white'
+		| 'gray'
+		| 'grey'
+		| 'blackBright'
+		| 'redBright'
+		| 'greenBright'
+		| 'yellowBright'
+		| 'blueBright'
+		| 'magentaBright'
+		| 'cyanBright'
+		| 'whiteBright',
+		string
 		>;
 
 		/**
@@ -98,23 +98,23 @@ declare namespace boxen {
 		Color of the background.
 		*/
 		readonly backgroundColor?: LiteralUnion<
-			| 'black'
-			| 'red'
-			| 'green'
-			| 'yellow'
-			| 'blue'
-			| 'magenta'
-			| 'cyan'
-			| 'white'
-			| 'blackBright'
-			| 'redBright'
-			| 'greenBright'
-			| 'yellowBright'
-			| 'blueBright'
-			| 'magentaBright'
-			| 'cyanBright'
-			| 'whiteBright',
-			string
+		| 'black'
+		| 'red'
+		| 'green'
+		| 'yellow'
+		| 'blue'
+		| 'magenta'
+		| 'cyan'
+		| 'white'
+		| 'blackBright'
+		| 'redBright'
+		| 'greenBright'
+		| 'yellowBright'
+		| 'blueBright'
+		| 'magentaBright'
+		| 'cyanBright'
+		| 'whiteBright',
+		string
 		>;
 
 		/**
@@ -137,6 +137,11 @@ declare const enum BorderStyle {
 }
 
 declare const boxen: {
+	/**
+	Border styles from [`cli-boxes`](https://github.com/sindresorhus/cli-boxes).
+	*/
+	BorderStyle: typeof BorderStyle;
+
 	/**
 	Creates a box in the terminal.
 
@@ -165,11 +170,6 @@ declare const boxen: {
 	```
 	*/
 	(text: string, options?: boxen.Options): string;
-
-	/**
-	Border styles from [`cli-boxes`](https://github.com/sindresorhus/cli-boxes).
-	*/
-	BorderStyle: typeof BorderStyle;
 };
 
 export = boxen;

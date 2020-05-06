@@ -516,7 +516,7 @@ test('text is centered after wrapping when using words', t => {
 
 	const checkAlign = index => {
 		const line = lines[index];
-		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const lineWithoutBorders = line.slice(1, -1);
 		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
 		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
 
@@ -548,7 +548,7 @@ test('text is left-aligned after wrapping when using words', t => {
 
 	const checkAlign = index => {
 		const line = lines[index];
-		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const lineWithoutBorders = line.slice(1, -1);
 		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
 		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
 
@@ -579,7 +579,7 @@ test('text is right-aligned after wrapping when using words', t => {
 
 	const checkAlign = index => {
 		const line = lines[index];
-		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const lineWithoutBorders = line.slice(1, -1);
 		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
 		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
 
@@ -613,7 +613,7 @@ test('text is right-aligned after wrapping when using words, with padding', t =>
 
 	const checkAlign = index => {
 		const line = lines[index];
-		const lineWithoutBorders = line.slice(1, line.length - 1);
+		const lineWithoutBorders = line.slice(1, -1);
 		const paddingLeft = lineWithoutBorders.length - lineWithoutBorders.trimStart().length;
 		const paddingRight = lineWithoutBorders.length - lineWithoutBorders.trimEnd().length;
 

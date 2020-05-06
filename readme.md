@@ -1,4 +1,4 @@
-# boxen [![Build Status](https://travis-ci.org/sindresorhus/boxen.svg?branch=master)](https://travis-ci.org/sindresorhus/boxen)
+# boxen [![Build Status](https://travis-ci.com/sindresorhus/boxen.svg?branch=master)](https://travis-ci.com/sindresorhus/boxen)
 
 > Create boxes in the terminal
 

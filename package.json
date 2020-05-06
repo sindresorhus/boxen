@@ -8,10 +8,10 @@
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=10"
 	},
 	"scripts": {
 		"test": "xo && nyc ava && tsd"
@@ -34,19 +34,19 @@
 	],
 	"dependencies": {
 		"ansi-align": "^3.0.0",
-		"camelcase": "^5.3.1",
-		"chalk": "^3.0.0",
+		"camelcase": "^6.0.0",
+		"chalk": "^4.0.0",
 		"cli-boxes": "^2.2.0",
 		"string-width": "^4.1.0",
 		"term-size": "^2.1.0",
-		"type-fest": "^0.8.1",
+		"type-fest": "^0.13.1",
 		"widest-line": "^3.1.0",
-		"wrap-ansi": "^6.2.0"
+		"wrap-ansi": "^7.0.0"
 	},
 	"devDependencies": {
 		"ava": "^2.1.0",
-		"nyc": "^14.1.1",
+		"nyc": "^15.0.1",
 		"tsd": "^0.11.0",
-		"xo": "^0.25.3"
+		"xo": "^0.30.0"
 	}
 }
