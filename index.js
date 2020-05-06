@@ -6,6 +6,7 @@ const cliBoxes = require('cli-boxes');
 const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const termSize = require('term-size');
+const wrapAnsi = require('wrap-ansi');
 
 const getObject = detail => {
 	let object;
@@ -95,12 +96,59 @@ module.exports = (text, options) => {
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
 
-	text = ansiAlign(text, {align: options.align});
-
 	const NL = '\n';
 	const PAD = ' ';
+	const {columns} = termSize();
+
+	text = ansiAlign(text, {align: options.align});
 
 	let lines = text.split(NL);
+
+	let contentWidth = widestLine(text) + padding.left + padding.right;
+
+	const BORDERS_WIDTH = 2;
+	if (contentWidth + BORDERS_WIDTH > columns) {
+		contentWidth = columns - BORDERS_WIDTH;
+		const max = contentWidth - padding.left - padding.right;
+		const newLines = [];
+		for (const line of lines) {
+			const createdLines = wrapAnsi(line, max, {hard: true});
+			const alignedLines = ansiAlign(createdLines, {align: options.align});
+			const alignedLinesArr = alignedLines.split('\n');
+			const longestLength = Math.max(...alignedLinesArr.map(s => s.length));
+
+			for (const alignedLine of alignedLinesArr) {
+				let paddedLine;
+				switch (options.align) {
+					case 'center':
+						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
+						break;
+					case 'right':
+						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
+						break;
+					default:
+						paddedLine = alignedLine;
+						break;
+				}
+
+				newLines.push(paddedLine);
+			}
+		}
+
+		lines = newLines;
+	}
+
+	if (contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
+		// Let's assume we have margins: left = 3, right = 5, in total = 8
+		const spaceForMargins = columns - contentWidth - BORDERS_WIDTH;
+		// Let's assume we have space = 4
+		const multiplier = spaceForMargins / (margin.left + margin.right);
+		// Here: multiplier = 4/8 = 0.5
+		margin.left = Math.floor(margin.left * multiplier);
+		margin.right = Math.floor(margin.right * multiplier);
+		// Left: 3 * 0.5 = 1.5 -> 1
+		// Right: 6 * 0.5 = 3
+	}
 
 	if (padding.top > 0) {
 		lines = new Array(padding.top).fill('').concat(lines);
@@ -110,16 +158,14 @@ module.exports = (text, options) => {
 		lines = lines.concat(new Array(padding.bottom).fill(''));
 	}
 
-	const contentWidth = widestLine(text) + padding.left + padding.right;
 	const paddingLeft = PAD.repeat(padding.left);
-	const {columns} = termSize();
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (options.float === 'center') {
-		const padWidth = Math.max((columns - contentWidth) / 2, 0);
+		const padWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
 		marginLeft = PAD.repeat(padWidth);
 	} else if (options.float === 'right') {
-		const padWidth = Math.max(columns - contentWidth - margin.right - 2, 0);
+		const padWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
 		marginLeft = PAD.repeat(padWidth);
 	}
 
@@ -128,12 +174,14 @@ module.exports = (text, options) => {
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
+	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NL;
+
 	const middle = lines.map(line => {
 		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
 		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
-	}).join(NL);
+	}).join(LINE_SEPARATOR);
 
-	return top + NL + middle + NL + bottom;
+	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
 };
 
 module.exports._borderStyles = cliBoxes;
