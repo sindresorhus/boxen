@@ -126,7 +126,7 @@ declare namespace boxen {
 	}
 }
 
-declare const enum BorderStyle {
+declare enum BorderStyle {
 	Single = 'single',
 	Double = 'double',
 	Round = 'round',
