@@ -1,5 +1,5 @@
 import {LiteralUnion} from 'type-fest';
-import {BoxStyle} from 'cli-boxes';
+import {BoxStyle, Boxes} from 'cli-boxes';
 
 declare namespace boxen {
 	/**
@@ -62,9 +62,9 @@ declare namespace boxen {
 		/**
 		Style of the box border.
 
-		@default BorderStyle.Single
+		@default 'single'
 		*/
-		readonly borderStyle?: BorderStyle | CustomBorderStyle;
+		readonly borderStyle?: keyof Boxes | CustomBorderStyle;
 
 		/**
 		Reduce opacity of the border.
@@ -126,50 +126,33 @@ declare namespace boxen {
 	}
 }
 
-declare enum BorderStyle {
-	Single = 'single',
-	Double = 'double',
-	Round = 'round',
-	Bold = 'bold',
-	SingleDouble = 'singleDouble',
-	DoubleSingle = 'doubleSingle',
-	Classic = 'classic'
-}
+/**
+Creates a box in the terminal.
 
-declare const boxen: {
-	/**
-	Border styles from [`cli-boxes`](https://github.com/sindresorhus/cli-boxes).
-	*/
-	BorderStyle: typeof BorderStyle;
+@param text - The text inside the box.
+@returns The box.
 
-	/**
-	Creates a box in the terminal.
+@example
+```
+import boxen = require('boxen');
 
-	@param text - The text inside the box.
-	@returns The box.
+console.log(boxen('unicorn', {padding: 1}));
+// ┌─────────────┐
+// │             │
+// │   unicorn   │
+// │             │
+// └─────────────┘
 
-	@example
-	```
-	import boxen = require('boxen');
-
-	console.log(boxen('unicorn', {padding: 1}));
-	// ┌─────────────┐
-	// │             │
-	// │   unicorn   │
-	// │             │
-	// └─────────────┘
-
-	console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
-	//
-	// ╔═════════════╗
-	// ║             ║
-	// ║   unicorn   ║
-	// ║             ║
-	// ╚═════════════╝
-	//
-	```
-	*/
-	(text: string, options?: boxen.Options): string;
-};
+console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
+//
+// ╔═════════════╗
+// ║             ║
+// ║   unicorn   ║
+// ║             ║
+// ╚═════════════╝
+//
+```
+*/
+declare const boxen: (text: string, options?: boxen.Options) => string;
 
 export = boxen;

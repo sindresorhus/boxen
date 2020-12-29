@@ -1,6 +1,6 @@
 import {expectType} from 'tsd';
 import boxen = require('.');
-import {Spacing, BorderStyle, CustomBorderStyle} from '.';
+import {Spacing, CustomBorderStyle} from '.';
 
 const border: CustomBorderStyle = {
 	topLeft: ' ',
@@ -21,7 +21,7 @@ const spacing: Spacing = {
 expectType<string>(boxen('unicorns'));
 expectType<string>(boxen('unicorns', {borderColor: 'green'}));
 expectType<string>(boxen('unicorns', {borderColor: '#ff0000'}));
-expectType<string>(boxen('unicorns', {borderStyle: BorderStyle.Double}));
+expectType<string>(boxen('unicorns', {borderStyle: 'double'}));
 expectType<string>(boxen('unicorns', {borderStyle: border}));
 expectType<string>(boxen('unicorns', {dimBorder: true}));
 expectType<string>(boxen('unicorns', {padding: 3}));
