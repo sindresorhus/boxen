@@ -9,26 +9,18 @@ const termSize = require('term-size');
 const wrapAnsi = require('wrap-ansi');
 
 const getObject = detail => {
-	let object;
-
-	if (typeof detail === 'number') {
-		object = {
-			top: detail,
-			right: detail * 3,
-			bottom: detail,
-			left: detail * 3
-		};
-	} else {
-		object = {
-			top: 0,
-			right: 0,
-			bottom: 0,
-			left: 0,
-			...detail
-		};
-	}
-
-	return object;
+	return typeof detail === 'number' ? {
+		top: detail,
+		right: detail * 3,
+		bottom: detail,
+		left: detail * 3
+	} : {
+		top: 0,
+		right: 0,
+		bottom: 0,
+		left: 0,
+		...detail
+	};
 };
 
 const getBorderChars = borderStyle => {
