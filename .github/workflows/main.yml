@@ -19,4 +19,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm test
+      - shell: 'script -q -e -c "bash {0}"' # Workaround for https://github.com/actions/runner/issues/241
+        run: npm test
