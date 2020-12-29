@@ -327,7 +327,7 @@ ${dimBottomBorder}
 });
 
 test('no wrapping when content = columns - 2 and no padding and no margin', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 2);
 	const box = boxen(longContent);
 
@@ -342,7 +342,7 @@ test('no wrapping when content = columns - 2 and no padding and no margin', t =>
 });
 
 test('wrapping when content = columns - 1 and no padding and no margin', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
 	const box = boxen(longContent);
 
@@ -357,7 +357,7 @@ test('wrapping when content = columns - 1 and no padding and no margin', t => {
 });
 
 test('wrapping when content = columns - 2 and padding = 1 and no margin', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 2);
 	const box = boxen(longContent, {padding: 1});
 
@@ -372,7 +372,7 @@ test('wrapping when content = columns - 2 and padding = 1 and no margin', t => {
 });
 
 test('ignore margins when content = columns - 2 and no padding', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 2);
 	const box = boxen(longContent, {margin: {left: 5, right: 5}});
 
@@ -386,7 +386,7 @@ test('ignore margins when content = columns - 2 and no padding', t => {
 });
 
 test('decrease margins when there is no space for them', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 8);
 	// This gives only 3 spaces of margin on each side, but 5 were requested
 	const box = boxen(longContent, {margin: {left: 5, right: 5}});
@@ -405,7 +405,7 @@ test('decrease margins when there is no space for them', t => {
 });
 
 test('proportionally decrease margins when there is no space for them', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 10);
 	// This gives only 4 spaces of margin on each side, but 5/13 were requested
 	// Boxen should print 2 spaces on the left and leave 5 spaces on the right
@@ -425,7 +425,7 @@ test('proportionally decrease margins when there is no space for them', t => {
 });
 
 test('text is centered after wrapping', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
 	const box = boxen(longContent, {align: 'center'});
 
@@ -450,7 +450,7 @@ test('text is centered after wrapping', t => {
 });
 
 test('text is left-aligned after wrapping', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
 	const box = boxen(longContent, {align: 'left'});
 
@@ -474,7 +474,7 @@ test('text is left-aligned after wrapping', t => {
 });
 
 test('text is right-aligned after wrapping', t => {
-	const width = process.stdout.columns;
+	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
 	const box = boxen(longContent, {align: 'right'});
 

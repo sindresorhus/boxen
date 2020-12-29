@@ -38,7 +38,6 @@
 		"chalk": "^4.1.0",
 		"cli-boxes": "^2.2.1",
 		"string-width": "^4.2.0",
-		"term-size": "^2.2.1",
 		"type-fest": "^0.20.2",
 		"widest-line": "^3.1.0",
 		"wrap-ansi": "^7.0.0"

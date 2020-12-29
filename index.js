@@ -5,8 +5,25 @@ const widestLine = require('widest-line');
 const cliBoxes = require('cli-boxes');
 const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
-const termSize = require('term-size');
 const wrapAnsi = require('wrap-ansi');
+
+const terminalColumns = () => {
+	const {env, stdout, stderr} = process;
+
+	if (stdout && stdout.columns) {
+		return stdout.columns;
+	}
+
+	if (stderr && stderr.columns) {
+		return stderr.columns;
+	}
+
+	if (env.COLUMNS) {
+		return Number.parseInt(env.COLUMNS, 10);
+	}
+
+	return 80;
+};
 
 const getObject = detail => {
 	return typeof detail === 'number' ? {
@@ -90,7 +107,7 @@ module.exports = (text, options) => {
 
 	const NL = '\n';
 	const PAD = ' ';
-	const {columns} = termSize();
+	const columns = terminalColumns();
 
 	text = ansiAlign(text, {align: options.align});
 
