@@ -315,6 +315,34 @@ test('align option `left`', t => {
 	`);
 });
 
+test('align option (left) does not throw when colorized content > columns', t => {
+	console.log('process.stdout.columns', process.stdout.columns);
+	const longContent = chalk.green('ab').repeat(process.stdout.columns);
+	t.notThrows(() => {
+		boxen(longContent, {
+			align: 'left'
+		});
+	});
+});
+
+test('align option (center) does not throw when colorized content > columns', t => {
+	const longContent = chalk.green('ab').repeat(process.stdout.columns);
+	t.notThrows(() => {
+		boxen(longContent, {
+			align: 'center'
+		});
+	});
+});
+
+test('align option (right) does not throw when colorized content > columns', t => {
+	const longContent = chalk.green('ab').repeat(process.stdout.columns);
+	t.notThrows(() => {
+		boxen(longContent, {
+			align: 'right'
+		});
+	});
+});
+
 test('dimBorder option', t => {
 	const dimTopBorder = chalk.dim('┌───┐');
 	const dimSide = chalk.dim('│');

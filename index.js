@@ -124,7 +124,7 @@ module.exports = (text, options) => {
 			const createdLines = wrapAnsi(line, max, {hard: true});
 			const alignedLines = ansiAlign(createdLines, {align: options.align});
 			const alignedLinesArray = alignedLines.split('\n');
-			const longestLength = Math.max(...alignedLinesArray.map(s => s.length));
+			const longestLength = Math.max(...alignedLinesArray.map(s => stringWidth(s)));
 
 			for (const alignedLine of alignedLinesArray) {
 				let paddedLine;
