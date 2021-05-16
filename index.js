@@ -4,8 +4,10 @@ const chalk = require('chalk');
 const widestLine = require('widest-line');
 const cliBoxes = require('cli-boxes');
 const camelCase = require('camelcase');
-const ansiAlign = require('ansi-align');
 const wrapAnsi = require('wrap-ansi');
+
+const NL = '\n';
+const PAD = ' ';
 
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
@@ -71,6 +73,20 @@ const getBorderChars = borderStyle => {
 	return chararacters;
 };
 
+const wrapLines = (max, lines) => {
+	const newLines = [];
+	for (const line of lines) {
+		const createdLines = wrapAnsi(line, max, {hard: true});
+		const alignedLinesArray = createdLines.split(NL);
+
+		for (const alignedLine of alignedLinesArray) {
+			newLines.push(alignedLine);
+		}
+	}
+
+	return newLines;
+};
+
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
@@ -105,46 +121,24 @@ module.exports = (text, options) => {
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
 
-	const NL = '\n';
-	const PAD = ' ';
 	const columns = terminalColumns();
-
-	text = ansiAlign(text, {align: options.align});
 
 	let lines = text.split(NL);
 
 	let contentWidth = widestLine(text) + padding.left + padding.right;
 
 	const BORDERS_WIDTH = 2;
-	if (contentWidth + BORDERS_WIDTH > columns) {
+
+	if (options.width && contentWidth > options.width) {
+		contentWidth = options.width - BORDERS_WIDTH;
+		const max = contentWidth - padding.left - padding.right;
+
+		lines = wrapLines(max, lines);
+	} else if (contentWidth + BORDERS_WIDTH > columns) {
 		contentWidth = columns - BORDERS_WIDTH;
 		const max = contentWidth - padding.left - padding.right;
-		const newLines = [];
-		for (const line of lines) {
-			const createdLines = wrapAnsi(line, max, {hard: true});
-			const alignedLines = ansiAlign(createdLines, {align: options.align});
-			const alignedLinesArray = alignedLines.split('\n');
-			const longestLength = Math.max(...alignedLinesArray.map(s => stringWidth(s)));
 
-			for (const alignedLine of alignedLinesArray) {
-				let paddedLine;
-				switch (options.align) {
-					case 'center':
-						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
-						break;
-					case 'right':
-						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
-						break;
-					default:
-						paddedLine = alignedLine;
-						break;
-				}
-
-				newLines.push(paddedLine);
-			}
-		}
-
-		lines = newLines;
+		lines = wrapLines(max, lines);
 	}
 
 	if (contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
@@ -168,6 +162,7 @@ module.exports = (text, options) => {
 	}
 
 	const paddingLeft = PAD.repeat(padding.left);
+	const paddingRight = PAD.repeat(padding.right);
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (options.float === 'center') {
@@ -178,7 +173,9 @@ module.exports = (text, options) => {
 		marginLeft = PAD.repeat(padWidth);
 	}
 
-	const horizontal = chars.horizontal.repeat(contentWidth);
+	const totalWidth = options.width ? (options.width + BORDERS_WIDTH + padding.left + padding.right > columns ? columns - BORDERS_WIDTH : options.width) : contentWidth;
+
+	const horizontal = chars.horizontal.repeat(totalWidth);
 	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + horizontal + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
@@ -186,8 +183,25 @@ module.exports = (text, options) => {
 	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NL;
 
 	const middle = lines.map(line => {
-		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
-		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
+		const alignmentPadding = totalWidth - stringWidth(line) - padding.left - padding.right;
+		let rightAlignmentPadding = '';
+		let leftAlignmentPadding = '';
+		switch (options.align) {
+			case 'center':
+				rightAlignmentPadding = PAD.repeat(Math.ceil(alignmentPadding / 2));
+				leftAlignmentPadding = PAD.repeat(alignmentPadding / 2);
+				break;
+			case 'right':
+				leftAlignmentPadding = PAD.repeat(alignmentPadding);
+				break;
+			default:
+				rightAlignmentPadding = PAD.repeat(alignmentPadding);
+				break;
+		}
+
+		return marginLeft + side + colorizeContent(
+			paddingLeft + leftAlignmentPadding + line + rightAlignmentPadding + paddingRight
+		) + side;
 	}).join(LINE_SEPARATOR);
 
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;

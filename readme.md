@@ -136,6 +136,14 @@ Space between the text and box border.
 
 Accepts a number or an object with any of the `top`, `right`, `bottom`, `left` properties. When a number is specified, the left/right padding is 3 times the top/bottom to make it look nice.
 
+##### width
+
+Type: `number`\
+Default: `undefined`
+
+Determine the width of the area the text will render in
+
+
 ##### margin
 
 Type: `number | object`\

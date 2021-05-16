@@ -81,6 +81,13 @@ declare namespace boxen {
 		readonly padding?: number | Spacing;
 
 		/**
+		Width of the text content
+
+		@default undefined
+		*/
+		readonly width?: number;
+
+		/**
 		Space around the box.
 
 		@default 0

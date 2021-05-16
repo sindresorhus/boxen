@@ -54,3 +54,12 @@ console.log('\n\n' + boxen(sentences, {align: 'right', padding: {left: 1, right:
 
 const longWord = 'x'.repeat(process.stdout.columns + 20);
 console.log('\n\n' + boxen(longWord, {align: 'center'}) + '\n');
+
+// Normal width
+console.log('\n\n' + boxen(sentences, {align: 'center', width: 100}) + '\n');
+// Higher than max terminal width
+console.log('\n\n' + boxen(sentences, {align: 'center', width: 999}) + '\n');
+// Normal width with small text
+console.log('\n\n' + boxen('small word', {align: 'center', width: 100}) + '\n');
+// Width smaller than text
+console.log('\n\n' + boxen('small word', {align: 'center', width: 9}) + '\n');
