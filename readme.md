@@ -168,6 +168,20 @@ Values: `'left'` `'center'` `'right'`
 
 Align the text in the box based on the widest line.
 
+##### title
+
+Type: `string`\
+
+Display a title on the top of the box.
+
+##### alignTitle
+
+Type: `string`\
+Default: `'left'`\
+Values: `'left'` `'center'` `'right'`
+
+Align the title on the top bar.
+
 ## Related
 
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module

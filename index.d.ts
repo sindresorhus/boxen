@@ -123,6 +123,18 @@ declare namespace boxen {
 		@default 'left'
 		*/
 		readonly align?: 'left' | 'right' | 'center';
+
+		/**
+		Display a title on the top of the box.
+		 */
+		readonly title?: string;
+
+		/**
+		Align the title on the top bar.
+
+		@default 'left'
+		 */
+		readonly alignTitle?: 'left' | 'right' | 'center';
 	}
 }
 

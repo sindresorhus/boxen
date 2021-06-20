@@ -71,6 +71,35 @@ const getBorderChars = borderStyle => {
 	return chararacters;
 };
 
+const makeTitle = (text, horizontal, alignement) => {
+	let title = '';
+
+	const textWidth = stringWidth(text);
+
+	switch (alignement) {
+		case 'left':
+			title = text + horizontal.slice(textWidth);
+			break;
+		case 'right':
+			title = horizontal.slice(textWidth) + text;
+			break;
+		default:
+			horizontal = horizontal.slice(textWidth);
+
+			if (horizontal.length % 2 > 0) { // This is needed in case the length is odd
+				horizontal = horizontal.slice(Math.floor(horizontal.length / 2));
+				title = horizontal.slice(1) + text + horizontal; // We reduce the left part of one character to avoid the bar to go beyond its limit
+			} else {
+				horizontal = horizontal.slice(horizontal.length / 2);
+				title = horizontal + text + horizontal;
+			}
+
+			break;
+	}
+
+	return title;
+};
+
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
@@ -83,6 +112,7 @@ module.exports = (text, options) => {
 		dimBorder: false,
 		align: 'left',
 		float: 'left',
+		alignTitle: 'left',
 		...options
 	};
 
@@ -114,6 +144,12 @@ module.exports = (text, options) => {
 	let lines = text.split(NL);
 
 	let contentWidth = widestLine(text) + padding.left + padding.right;
+
+	const title = options.title?.slice(0, columns - 2); // This prevents the title bar to exceed the console's width
+
+	if (stringWidth(title) > contentWidth) { // Make the box larger to fit a larger title
+		contentWidth = stringWidth(title);
+	}
 
 	const BORDERS_WIDTH = 2;
 	if (contentWidth + BORDERS_WIDTH > columns) {
@@ -179,7 +215,7 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + horizontal + chars.topRight);
+	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.alignTitle) : horizontal) + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
