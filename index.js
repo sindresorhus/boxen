@@ -145,12 +145,12 @@ module.exports = (text, options) => {
 
 	let contentWidth = widestLine(text) + padding.left + padding.right;
 
-	const title = options.title && options.title.slice(0, columns - 2); // This prevents the title bar to exceed the console's width
+	let title = options.title && options.title.slice(0, columns - 2); // This prevents the title bar to exceed the console's width
 
-	if (stringWidth(title) > contentWidth && options.align !== 'left') { // Make the box larger to fit a larger title
+	if (stringWidth(title) > contentWidth && options.align === 'left') { // Make the box larger to fit a larger title
 		contentWidth = stringWidth(title);
-	} else {
-		title.slice(stringWidth(title) - contentWidth)
+	} else if (stringWidth(title) > contentWidth) {
+		title = title.slice(0, -(stringWidth(title) - contentWidth));
 	}
 
 	const BORDERS_WIDTH = 2;

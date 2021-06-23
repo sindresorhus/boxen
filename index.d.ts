@@ -137,7 +137,6 @@ declare namespace boxen {
 		*/
 		readonly title?: string;
 
-
 		/**
 		Align the title on the top bar.
 

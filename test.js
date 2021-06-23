@@ -32,6 +32,15 @@ test('title align option', t => {
 	`);
 });
 
+test('temporary fix: title + text align options', t => {
+	compare(t, boxen('abc def\nghi jkl mno', {title: 'very long title', align: 'right'}), `
+┌very long t┐
+│    abc def│
+│ghi jkl mno│
+└───────────┘
+	`);
+});
+
 test('padding option', t => {
 	compare(t, boxen('foo', {padding: 2}), `
 ┌───────────────┐
