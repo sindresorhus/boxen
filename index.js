@@ -72,6 +72,7 @@ const getBorderChars = borderStyle => {
 };
 
 const makeTitle = (text, horizontal, alignement) => {
+	text = ` ${text} `;
 	let title = '';
 
 	const textWidth = stringWidth(text);
@@ -148,9 +149,9 @@ module.exports = (text, options) => {
 	let title = options.title && options.title.slice(0, columns - 2); // This prevents the title bar to exceed the console's width
 
 	if (stringWidth(title) > contentWidth && options.align === 'left') { // Make the box larger to fit a larger title
-		contentWidth = stringWidth(title);
+		contentWidth = stringWidth(title) + 2;
 	} else if (stringWidth(title) > contentWidth) {
-		title = title.slice(0, -(stringWidth(title) - contentWidth));
+		title = title.slice(0, -(stringWidth(title) - contentWidth + 2));
 	}
 
 	const BORDERS_WIDTH = 2;

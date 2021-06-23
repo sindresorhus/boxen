@@ -18,15 +18,15 @@ test('creates a box', t => {
 
 test('title option', t => {
 	compare(t, boxen('foo', {title: 'title'}), `
-┌title┐
-│foo  │
-└─────┘
+┌ title ┐
+│foo    │
+└───────┘
 	`);
 });
 
 test('title align option', t => {
 	compare(t, boxen('foo bar foo bar', {title: 'title', alignTitle: 'center'}), `
-┌─────title─────┐
+┌──── title ────┐
 │foo bar foo bar│
 └───────────────┘
 	`);
@@ -34,7 +34,7 @@ test('title align option', t => {
 
 test('temporary fix: title + text align options', t => {
 	compare(t, boxen('abc def\nghi jkl mno', {title: 'very long title', align: 'right'}), `
-┌very long t┐
+┌ very long ┐
 │    abc def│
 │ghi jkl mno│
 └───────────┘
