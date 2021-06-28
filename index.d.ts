@@ -130,7 +130,7 @@ declare namespace boxen {
 		@example
 		```
 		console.log(boxen('foo bar foo bar', {title: 'title'}));
-		// ┌title──────────┐
+		// ┌ title ────────┐
 		// │foo bar foo bar│
 		// └───────────────┘
 		```
@@ -145,7 +145,7 @@ declare namespace boxen {
 		@example
 		```
 		console.log(boxen('foo bar foo bar', {title: 'title', alignTitle: 'right'}));
-		// ┌────────title┐
+		// ┌────── title ┐
 		// │foo bar foo  │
 		// └─────────────┘
 		```
