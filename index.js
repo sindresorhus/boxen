@@ -7,6 +7,10 @@ const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const wrapAnsi = require('wrap-ansi');
 
+const NL = '\n';
+const PAD = ' ';
+const BORDERS_WIDTH = 2;
+
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
 
@@ -71,6 +75,79 @@ const getBorderChars = borderStyle => {
 	return chararacters;
 };
 
+const makeContentText = (text, padding, columns, align) => {
+	text = ansiAlign(text, {align});
+	let lines = text.split(NL);
+	const textWidth = widestLine(text);
+
+	const max = columns - padding.left - padding.right;
+
+	if (textWidth > max) {
+		const newLines = [];
+		for (const line of lines) {
+			const createdLines = wrapAnsi(line, max, {hard: true});
+			const alignedLines = ansiAlign(createdLines, {align});
+			const alignedLinesArray = alignedLines.split('\n');
+			const longestLength = Math.max(...alignedLinesArray.map(s => stringWidth(s)));
+
+			for (const alignedLine of alignedLinesArray) {
+				let paddedLine;
+				switch (align) {
+					case 'center':
+						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
+						break;
+					case 'right':
+						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
+						break;
+					default:
+						paddedLine = alignedLine;
+						break;
+				}
+
+				newLines.push(paddedLine);
+			}
+		}
+
+		lines = newLines;
+	}
+
+	if (align === 'center' && textWidth < max) {
+		lines = lines.map(line => PAD.repeat((max - textWidth) / 2) + line);
+	} else if (align === 'right' && textWidth < max) {
+		lines = lines.map(line => PAD.repeat(max - textWidth) + line);
+	}
+
+	const paddingLeft = PAD.repeat(padding.left);
+	const paddingRight = PAD.repeat(padding.right);
+
+	lines = lines.map(line => paddingLeft + line + paddingRight);
+
+	lines = lines.map(line => {
+		if (columns - stringWidth(line) > 0) {
+			switch (align) {
+				case 'center':
+					return line + PAD.repeat(columns - stringWidth(line));
+				case 'right':
+					return line + PAD.repeat(columns - stringWidth(line));
+				default:
+					return line + PAD.repeat(columns - stringWidth(line));
+			}
+		}
+
+		return line;
+	});
+
+	if (padding.top > 0) {
+		lines = new Array(padding.top).fill(PAD.repeat(columns)).concat(lines);
+	}
+
+	if (padding.bottom > 0) {
+		lines = lines.concat(new Array(padding.bottom).fill(PAD.repeat(columns)));
+	}
+
+	return lines.join(NL);
+};
+
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
@@ -105,47 +182,26 @@ module.exports = (text, options) => {
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
 
-	const NL = '\n';
-	const PAD = ' ';
 	const columns = terminalColumns();
-
-	text = ansiAlign(text, {align: options.align});
-
-	let lines = text.split(NL);
 
 	let contentWidth = widestLine(text) + padding.left + padding.right;
 
-	const BORDERS_WIDTH = 2;
-	if (contentWidth + BORDERS_WIDTH > columns) {
-		contentWidth = columns - BORDERS_WIDTH;
-		const max = contentWidth - padding.left - padding.right;
-		const newLines = [];
-		for (const line of lines) {
-			const createdLines = wrapAnsi(line, max, {hard: true});
-			const alignedLines = ansiAlign(createdLines, {align: options.align});
-			const alignedLinesArray = alignedLines.split('\n');
-			const longestLength = Math.max(...alignedLinesArray.map(s => stringWidth(s)));
-
-			for (const alignedLine of alignedLinesArray) {
-				let paddedLine;
-				switch (options.align) {
-					case 'center':
-						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
-						break;
-					case 'right':
-						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
-						break;
-					default:
-						paddedLine = alignedLine;
-						break;
-				}
-
-				newLines.push(paddedLine);
-			}
-		}
-
-		lines = newLines;
+	if ((margin.left && margin.right) && contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
+		// Let's assume we have margins: left = 3, right = 5, in total = 8
+		const spaceForMargins = columns - contentWidth - BORDERS_WIDTH;
+		// Let's assume we have space = 4
+		const multiplier = spaceForMargins / (margin.left + margin.right);
+		// Here: multiplier = 4/8 = 0.5
+		margin.left = Math.floor(margin.left * multiplier);
+		margin.right = Math.floor(margin.right * multiplier);
+		// Left: 3 * 0.5 = 1.5 -> 1
+		// Right: 6 * 0.5 = 3
 	}
+
+	// Prevent content from exceeding the console's width
+	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - margin.left - margin.right);
+
+	text = makeContentText(text, padding, contentWidth, options.align);
 
 	if (contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
 		// Let's assume we have margins: left = 3, right = 5, in total = 8
@@ -159,23 +215,14 @@ module.exports = (text, options) => {
 		// Right: 6 * 0.5 = 3
 	}
 
-	if (padding.top > 0) {
-		lines = new Array(padding.top).fill('').concat(lines);
-	}
-
-	if (padding.bottom > 0) {
-		lines = lines.concat(new Array(padding.bottom).fill(''));
-	}
-
-	const paddingLeft = PAD.repeat(padding.left);
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (options.float === 'center') {
-		const padWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
-		marginLeft = PAD.repeat(padWidth);
+		const marWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
+		marginLeft = PAD.repeat(marWidth);
 	} else if (options.float === 'right') {
-		const padWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
-		marginLeft = PAD.repeat(padWidth);
+		const marWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
+		marginLeft = PAD.repeat(marWidth);
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
@@ -185,9 +232,10 @@ module.exports = (text, options) => {
 
 	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NL;
 
+	const lines = text.split(NL);
+
 	const middle = lines.map(line => {
-		const paddingRight = PAD.repeat(contentWidth - stringWidth(line) - padding.left);
-		return marginLeft + side + colorizeContent(paddingLeft + line + paddingRight) + side;
+		return marginLeft + side + colorizeContent(line) + side;
 	}).join(LINE_SEPARATOR);
 
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
