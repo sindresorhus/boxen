@@ -184,7 +184,7 @@ module.exports = (text, options) => {
 
 	const columns = terminalColumns();
 
-	let contentWidth = widestLine(text) + padding.left + padding.right;
+	let contentWidth = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true})) + padding.left + padding.right;
 
 	if ((margin.left && margin.right) && contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
 		// Let's assume we have margins: left = 3, right = 5, in total = 8
@@ -202,18 +202,6 @@ module.exports = (text, options) => {
 	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - margin.left - margin.right);
 
 	text = makeContentText(text, padding, contentWidth, options.align);
-
-	if (contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
-		// Let's assume we have margins: left = 3, right = 5, in total = 8
-		const spaceForMargins = columns - contentWidth - BORDERS_WIDTH;
-		// Let's assume we have space = 4
-		const multiplier = spaceForMargins / (margin.left + margin.right);
-		// Here: multiplier = 4/8 = 0.5
-		margin.left = Math.floor(margin.left * multiplier);
-		margin.right = Math.floor(margin.right * multiplier);
-		// Left: 3 * 0.5 = 1.5 -> 1
-		// Right: 6 * 0.5 = 3
-	}
 
 	let marginLeft = PAD.repeat(margin.left);
 
