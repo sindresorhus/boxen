@@ -7,10 +7,6 @@ const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const wrapAnsi = require('wrap-ansi');
 
-const NL = '\n';
-const PAD = ' ';
-const BORDERS_WIDTH = 2;
-
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
 
@@ -105,6 +101,9 @@ const makeTitle = (text, horizontal, alignement) => {
 };
 
 const makeContentText = (text, padding, columns, align) => {
+	const NL = '\n';
+	const PAD = ' ';
+
 	text = ansiAlign(text, {align});
 	let lines = text.split(NL);
 	const textWidth = widestLine(text);
@@ -192,6 +191,10 @@ module.exports = (text, options) => {
 		titleAlign: 'left',
 		...options
 	};
+
+	const BORDERS_WIDTH = 2;
+	const NL = '\n';
+	const PAD = ' ';
 
 	if (options.borderColor && !isColorValid(options.borderColor)) {
 		throw new Error(`${options.borderColor} is not a valid borderColor`);
