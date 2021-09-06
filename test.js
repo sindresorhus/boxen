@@ -524,3 +524,72 @@ test('text is right-aligned after wrapping', t => {
 	const expected = '│' + ' '.repeat(padding) + 'x│';
 	t.is(lines[2], expected);
 });
+
+test('box not overflowing terminal', t => {
+	const width = process.stdout.columns || 120;
+	const longContent = 'x'.repeat(width * 4);
+	const box = boxen(longContent);
+
+	const lines = [];
+	for (let index = 1; index < 6; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		lines.push(line);
+	}
+
+	lines.forEach(line => {
+		t.is(line[0], '│', 'First character of line isn\'t box border');
+		t.is(line[width - 1], '│', 'Last character of line isn\'t box border');
+	});
+});
+
+test('box not overflowing terminal with padding', t => {
+	const width = process.stdout.columns || 120;
+	const longContent = 'x'.repeat(width * 4);
+	const box = boxen(longContent, {padding: 2});
+
+	const lines = [];
+	for (let index = 1; index < 10; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		lines.push(line);
+	}
+
+	lines.forEach(line => {
+		t.is(line[0], '│', 'First character of line isn\'t box border');
+		t.is(line[width - 1], '│', 'Last character of line isn\'t box border');
+	});
+});
+
+test('box not overflowing terminal with padding and margin', t => {
+	const width = process.stdout.columns || 120;
+	const longContent = 'x'.repeat(width * 4);
+	const box = boxen(longContent, {padding: 2, margin: {left: 2, right: 2}});
+
+	const lines = [];
+	for (let index = 1; index < 10; ++index) {
+		const line = box.slice(index * width, (index + 1) * width);
+		lines.push(line);
+	}
+
+	lines.forEach(line => {
+		t.is(line[0], '│', 'First character of line isn\'t box border');
+		t.is(line[width - 1], '│', 'Last character of line isn\'t box border');
+	});
+});
+
+test('box not overflowing terminal with words and margin', t => {
+	const width = process.stdout.columns || 120;
+	const word = 'x'.repeat(width / 2) + ' ';
+	const longContent = word.repeat(5);
+	const box = boxen(longContent, {margin: {left: 2, right: 2}});
+
+	const lines = [];
+	for (let index = 1; index < 6; ++index) {
+		const line = box.slice(index * (word.length + 4), (index + 1) * (word.length + 4));
+		lines.push(line);
+	}
+
+	lines.forEach(line => {
+		t.is(line.trim()[0], '│', 'First character of line isn\'t box border');
+		t.is(line.trim()[word.length], '│', 'Last character of line isn\'t box border');
+	});
+});
