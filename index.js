@@ -192,8 +192,8 @@ module.exports = (text, options) => {
 		// Let's assume we have space = 4
 		const multiplier = spaceForMargins / (margin.left + margin.right);
 		// Here: multiplier = 4/8 = 0.5
-		margin.left = Math.floor(margin.left * multiplier);
-		margin.right = Math.floor(margin.right * multiplier);
+		margin.left = Math.max(0, Math.floor(margin.left * multiplier));
+		margin.right = Math.max(0, Math.floor(margin.right * multiplier));
 		// Left: 3 * 0.5 = 1.5 -> 1
 		// Right: 6 * 0.5 = 3
 	}
