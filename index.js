@@ -207,10 +207,10 @@ module.exports = (text, options) => {
 
 	if (options.float === 'center') {
 		const marginWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
-		marginLeft = PAD.repeat(marWidth);
+		marginLeft = PAD.repeat(marginWidth);
 	} else if (options.float === 'right') {
-		const marWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
-		marginLeft = PAD.repeat(marWidth);
+		const marginWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
+		marginLeft = PAD.repeat(marginWidth);
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
