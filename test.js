@@ -16,6 +16,101 @@ test('creates a box', t => {
 	`);
 });
 
+test('title option', t => {
+	compare(t, boxen('foo', {title: 'title'}), `
+┌ title ┐
+│foo    │
+└───────┘
+	`);
+});
+
+test('title align center option', t => {
+	compare(t, boxen('foo bar foo bar', {
+		title: 'title',
+		titleAlign: 'center'
+	}), `
+┌──── title ────┐
+│foo bar foo bar│
+└───────────────┘
+	`);
+});
+
+test('title align right option', t => {
+	compare(t, boxen('foo bar foo bar', {
+		title: 'title',
+		titleAlign: 'right'
+	}), `
+┌──────── title ┐
+│foo bar foo bar│
+└───────────────┘
+	`);
+});
+
+test('title and text align', t => {
+	compare(t, boxen('Hello !\nThis text is on the right\nAmazing!', {
+		title: 'title',
+		align: 'right'
+	}), `
+┌ title ──────────────────┐
+│                  Hello !│
+│This text is on the right│
+│                 Amazing!│
+└─────────────────────────┘
+	`);
+});
+
+test('box size adapts to title length', t => {
+	compare(t, 	boxen('Hello !\nThis text is on the center\nAmazing!\nIt stretched to the title length.', {
+		title: 'This is a very large title with many words in it',
+		align: 'center'
+	}), `
+┌ This is a very large title with many words in it ┐
+│                     Hello !                      │
+│           This text is on the center             │
+│                    Amazing!                      │
+│        It stretched to the title length.         │
+└──────────────────────────────────────────────────┘
+	`);
+});
+
+test('title with align and text padding', t => {
+	compare(t, 	boxen('Hello !\nAll the text here is on the right\nEven the title.\nAmazing padding too ;)', {
+		title: 'This is a title',
+		titleAlign: 'right',
+		align: 'right',
+		padding: 2
+	}), `
+┌──────────────────────────── This is a title ┐
+│                                             │
+│                                             │
+│                                Hello !      │
+│      All the text here is on the right      │
+│                        Even the title.      │
+│                 Amazing padding too ;)      │
+│                                             │
+│                                             │
+└─────────────────────────────────────────────┘
+	`);
+});
+
+test('title with align, padding and margin', t => {
+	compare(t, 	boxen('Hello !\nThis text has padding and margin.\nCentered too !', {
+		title: 'This is a title',
+		titleAlign: 'center',
+		align: 'center',
+		margin: 1,
+		padding: 1
+	}), `
+   ┌─────────── This is a title ───────────┐
+   │                                       │
+   │                Hello !                │
+   │   This text has padding and margin.   │
+   │            Centered too !             │
+   │                                       │
+   └───────────────────────────────────────┘
+	`);
+});
+
 test('padding option', t => {
 	compare(t, boxen('foo', {padding: 2}), `
 ┌───────────────┐

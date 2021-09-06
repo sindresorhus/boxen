@@ -54,3 +54,8 @@ console.log('\n\n' + boxen(sentences, {align: 'right', padding: {left: 1, right:
 
 const longWord = 'x'.repeat(process.stdout.columns + 20);
 console.log('\n\n' + boxen(longWord, {align: 'center'}) + '\n');
+
+const title = 'Beautiful title';
+console.log('\n\n' + boxen('This box has a nice title', {title}) + '\n');
+
+console.log('\n\n' + boxen('This box has a centered title', {title, titleAlign: 'center'}) + '\n');

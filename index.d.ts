@@ -123,6 +123,34 @@ declare namespace boxen {
 		@default 'left'
 		*/
 		readonly align?: 'left' | 'right' | 'center';
+
+		/**
+		Display a title on the top of the box.
+
+		@example
+		```
+		console.log(boxen('foo bar foo bar', {title: 'title'}));
+		// ┌title──────────┐
+		// │foo bar foo bar│
+		// └───────────────┘
+		```
+		*/
+		readonly title?: string;
+
+		/**
+		Align the title on the top bar.
+
+		@default 'left'
+
+		@example
+		```
+		console.log(boxen('foo bar foo bar', {title: 'title', alignTitle: 'right'}));
+		// ┌────────title┐
+		// │foo bar foo  │
+		// └─────────────┘
+		```
+		*/
+		readonly titleAlign?: 'left' | 'right' | 'center';
 	}
 }
 
