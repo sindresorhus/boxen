@@ -206,7 +206,7 @@ module.exports = (text, options) => {
 	let marginLeft = PAD.repeat(margin.left);
 
 	if (options.float === 'center') {
-		const marWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
+		const marginWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
 		marginLeft = PAD.repeat(marWidth);
 	} else if (options.float === 'right') {
 		const marWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
