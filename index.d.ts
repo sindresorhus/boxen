@@ -126,6 +126,7 @@ declare namespace boxen {
 
 		/**
 		Display a title on the top of the box.
+		If needed the box will enlarge to fit the title.
 
 		@example
 		```
