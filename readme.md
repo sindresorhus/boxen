@@ -34,6 +34,13 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
    ╚═════════════╝
 
 */
+
+console.log(boxen('unicorns love rainbows', {title: 'rainbow', titleAlign: 'center'}));
+/*
+┌────── rainbow ───────┐
+│unicorns love rainbows│
+└──────────────────────┘
+*/
 ```
 
 ## API
@@ -126,6 +133,55 @@ Type: `boolean`\
 Default: `false`
 
 Reduce opacity of the border.
+
+##### title
+
+Type: `string`
+
+Add a title to the box. If needed the box wil enlarge to fit the title.
+
+Example:
+```js
+console.log(boxen('foo bar', {title: 'example'}));
+/*
+┌ example ┐
+│foo bar  │
+└─────────┘
+*/
+```
+
+##### titleAlign
+
+Type: `string`\
+Default: `left`
+
+Align the title in the top bar.
+
+Values:
+- `'left'`
+```js
+/*
+┌ example ──────┐
+│foo bar foo bar│
+└───────────────┘
+*/
+```
+- `'center'`
+```js
+/*
+┌─── example ───┐
+│foo bar foo bar│
+└───────────────┘
+*/
+```
+- `'right'`
+```js
+/*
+┌────── example ┐
+│foo bar foo bar│
+└───────────────┘
+*/
+```
 
 ##### padding
 
