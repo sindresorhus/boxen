@@ -27,7 +27,7 @@ test('title option', t => {
 test('title align center option', t => {
 	compare(t, boxen('foo bar foo bar', {
 		title: 'title',
-		titleAlign: 'center'
+		titleAlignement: 'center'
 	}), `
 ┌──── title ────┐
 │foo bar foo bar│
@@ -38,7 +38,7 @@ test('title align center option', t => {
 test('title align right option', t => {
 	compare(t, boxen('foo bar foo bar', {
 		title: 'title',
-		titleAlign: 'right'
+		titleAlignement: 'right'
 	}), `
 ┌──────── title ┐
 │foo bar foo bar│
@@ -76,7 +76,7 @@ test('box size adapts to title length', t => {
 test('title with align and text padding', t => {
 	compare(t, 	boxen('Hello !\nAll the text here is on the right\nEven the title.\nAmazing padding too ;)', {
 		title: 'This is a title',
-		titleAlign: 'right',
+		titleAlignement: 'right',
 		align: 'right',
 		padding: 2
 	}), `
@@ -96,7 +96,7 @@ test('title with align and text padding', t => {
 test('title with align, padding and margin', t => {
 	compare(t, 	boxen('Hello !\nThis text has padding and margin.\nCentered too !', {
 		title: 'This is a title',
-		titleAlign: 'center',
+		titleAlignement: 'center',
 		align: 'center',
 		margin: 1,
 		padding: 1

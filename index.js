@@ -188,7 +188,7 @@ module.exports = (text, options) => {
 		dimBorder: false,
 		align: 'left',
 		float: 'left',
-		titleAlign: 'left',
+		titleAlignement: 'left',
 		...options
 	};
 
@@ -257,7 +257,7 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlign) : horizontal) + chars.topRight);
+	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignement) : horizontal) + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 

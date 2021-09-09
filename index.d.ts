@@ -156,7 +156,7 @@ declare namespace boxen {
 		// └───────────────┘
 		```
 		*/
-		readonly titleAlign?: 'left' | 'right' | 'center';
+		readonly titleAlignement?: 'left' | 'right' | 'center';
 	}
 }
 

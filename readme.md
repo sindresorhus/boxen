@@ -35,7 +35,7 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 
 */
 
-console.log(boxen('unicorns love rainbows', {title: 'magical', titleAlign: 'center'}));
+console.log(boxen('unicorns love rainbows', {title: 'magical', titleAlignement: 'center'}));
 /*
 ┌────── magical ───────┐
 │unicorns love rainbows│
@@ -150,7 +150,7 @@ console.log(boxen('foo bar', {title: 'example'}));
 */
 ```
 
-##### titleAlign
+##### titleAlignement
 
 Type: `string`\
 Default: `'left'`

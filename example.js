@@ -58,4 +58,4 @@ console.log('\n\n' + boxen(longWord, {align: 'center'}) + '\n');
 const title = 'Beautiful title';
 console.log('\n\n' + boxen('This box has a nice title', {title}) + '\n');
 
-console.log('\n\n' + boxen('This box has a centered title', {title, titleAlign: 'center'}) + '\n');
+console.log('\n\n' + boxen('This box has a centered title', {title, titleAlignement: 'center'}) + '\n');
