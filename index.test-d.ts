@@ -33,4 +33,4 @@ expectType<string>(boxen('unicorns', {margin: spacing}));
 expectType<string>(boxen('unicorns', {float: 'center'}));
 expectType<string>(boxen('unicorns', {backgroundColor: 'green'}));
 expectType<string>(boxen('unicorns', {backgroundColor: '#ff0000'}));
-expectType<string>(boxen('unicorns', {align: 'right'}));
+expectType<string>(boxen('unicorns', {textAlignement: 'right'}));

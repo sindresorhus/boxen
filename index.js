@@ -186,7 +186,7 @@ module.exports = (text, options) => {
 		padding: 0,
 		borderStyle: 'single',
 		dimBorder: false,
-		align: 'left',
+		textAlignement: 'left',
 		float: 'left',
 		titleAlignement: 'left',
 		...options
@@ -244,7 +244,7 @@ module.exports = (text, options) => {
 	// Prevent content from exceeding the console's width
 	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - margin.left - margin.right);
 
-	text = makeContentText(text, padding, contentWidth, options.align);
+	text = makeContentText(text, padding, contentWidth, options.textAlignement);
 
 	let marginLeft = PAD.repeat(margin.left);
 

@@ -216,7 +216,7 @@ Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'w
 
 Color of the background.
 
-##### align
+##### textAlignement
 
 Type: `string`\
 Default: `'left'`\

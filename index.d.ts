@@ -122,7 +122,7 @@ declare namespace boxen {
 
 		@default 'left'
 		*/
-		readonly align?: 'left' | 'right' | 'center';
+		readonly textAlignement?: 'left' | 'right' | 'center';
 
 		/**
 		Display a title on the top of the box.
@@ -145,12 +145,12 @@ declare namespace boxen {
 
 		@example
 		```
-		console.log(boxen('foo bar foo bar', {title: 'example', alignTitle: 'center'}));
+		console.log(boxen('foo bar foo bar', {title: 'example', textAlignementTitle: 'center'}));
 		// ┌─── example ───┐
 		// │foo bar foo bar│
 		// └───────────────┘
 
-		console.log(boxen('foo bar foo bar', {title: 'example', alignTitle: 'right'}));
+		console.log(boxen('foo bar foo bar', {title: 'example', textAlignementTitle: 'right'}));
 		// ┌────── example ┐
 		// │foo bar foo bar│
 		// └───────────────┘
