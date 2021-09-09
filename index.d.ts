@@ -126,12 +126,12 @@ declare namespace boxen {
 
 		/**
 		Display a title on the top of the box.
-		If needed the box will enlarge to fit the title.
+		If needed, the box will horizontally expand to fit the title.
 
 		@example
 		```
 		console.log(boxen('foo bar foo bar', {title: 'title'}));
-		// ┌title──────────┐
+		// ┌ title ────────┐
 		// │foo bar foo bar│
 		// └───────────────┘
 		```
@@ -139,16 +139,21 @@ declare namespace boxen {
 		readonly title?: string;
 
 		/**
-		The alignment of the box title.
+		Align the title in the top bar.
 
 		@default 'left'
 
 		@example
 		```
-		console.log(boxen('foo bar foo bar', {title: 'title', alignTitle: 'right'}));
-		// ┌────────title┐
-		// │foo bar foo  │
-		// └─────────────┘
+		console.log(boxen('foo bar foo bar', {title: 'example', alignTitle: 'center'}));
+		// ┌─── example ───┐
+		// │foo bar foo bar│
+		// └───────────────┘
+
+		console.log(boxen('foo bar foo bar', {title: 'example', alignTitle: 'right'}));
+		// ┌────── example ┐
+		// │foo bar foo bar│
+		// └───────────────┘
 		```
 		*/
 		readonly titleAlign?: 'left' | 'right' | 'center';
