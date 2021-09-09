@@ -121,6 +121,14 @@ declare namespace boxen {
 		Align the text in the box based on the widest line.
 
 		@default 'left'
+		@deprecated Use `textAlignement` instead.
+		*/
+		readonly align?: 'left' | 'right' | 'center';
+
+		/**
+		Align the text in the box based on the widest line.
+
+		@default 'left'
 		*/
 		readonly textAlignement?: 'left' | 'right' | 'center';
 

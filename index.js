@@ -192,6 +192,11 @@ module.exports = (text, options) => {
 		...options
 	};
 
+	// This option is deprecated
+	if (options.align) {
+		options.textAlignement = options.align;
+	}
+
 	const BORDERS_WIDTH = 2;
 
 	if (options.borderColor && !isColorValid(options.borderColor)) {
