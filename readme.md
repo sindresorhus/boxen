@@ -34,6 +34,13 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
    ╚═════════════╝
 
 */
+
+console.log(boxen('unicorns love rainbows', {title: 'magical', titleAlignment: 'center'}));
+/*
+┌────── magical ───────┐
+│unicorns love rainbows│
+└──────────────────────┘
+*/
 ```
 
 ## API
@@ -127,6 +134,56 @@ Default: `false`
 
 Reduce opacity of the border.
 
+##### title
+
+Type: `string`
+
+Display a title at the top of the box.
+If needed, the box will horizontally expand to fit the title.
+
+Example:
+```js
+console.log(boxen('foo bar', {title: 'example'}));
+/*
+┌ example ┐
+│foo bar  │
+└─────────┘
+*/
+```
+
+##### titleAlignment
+
+Type: `string`\
+Default: `'left'`
+
+Align the title in the top bar.
+
+Values:
+- `'left'`
+```js
+/*
+┌ example ──────┐
+│foo bar foo bar│
+└───────────────┘
+*/
+```
+- `'center'`
+```js
+/*
+┌─── example ───┐
+│foo bar foo bar│
+└───────────────┘
+*/
+```
+- `'right'`
+```js
+/*
+┌────── example ┐
+│foo bar foo bar│
+└───────────────┘
+*/
+```
+
 ##### padding
 
 Type: `number | object`\
@@ -160,7 +217,7 @@ Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'w
 
 Color of the background.
 
-##### align
+##### textAlignment
 
 Type: `string`\
 Default: `'left'`\
