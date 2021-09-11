@@ -186,15 +186,15 @@ module.exports = (text, options) => {
 		padding: 0,
 		borderStyle: 'single',
 		dimBorder: false,
-		textAlignement: 'left',
+		textAlignment: 'left',
 		float: 'left',
-		titleAlignement: 'left',
+		titleAlignment: 'left',
 		...options
 	};
 
 	// This option is deprecated
 	if (options.align) {
-		options.textAlignement = options.align;
+		options.textAlignment = options.align;
 	}
 
 	const BORDERS_WIDTH = 2;
@@ -249,7 +249,7 @@ module.exports = (text, options) => {
 	// Prevent content from exceeding the console's width
 	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - margin.left - margin.right);
 
-	text = makeContentText(text, padding, contentWidth, options.textAlignement);
+	text = makeContentText(text, padding, contentWidth, options.textAlignment);
 
 	let marginLeft = PAD.repeat(margin.left);
 
@@ -262,7 +262,7 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignement) : horizontal) + chars.topRight);
+	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignment) : horizontal) + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
