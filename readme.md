@@ -138,7 +138,8 @@ Reduce opacity of the border.
 
 Type: `string`
 
-Add a title to the box. If needed, the box will horizontally expand to fit the title.
+Display a title at the top of the box.
+If needed, the box will horizontally expand to fit the title.
 
 Example:
 ```js

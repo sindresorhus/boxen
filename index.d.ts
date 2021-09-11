@@ -133,15 +133,15 @@ declare namespace boxen {
 		readonly textAlignment?: 'left' | 'right' | 'center';
 
 		/**
-		Display a title on the top of the box.
+		Display a title at the top of the box.
 		If needed, the box will horizontally expand to fit the title.
 
 		@example
 		```
-		console.log(boxen('foo bar foo bar', {title: 'title'}));
-		// ┌ title ────────┐
-		// │foo bar foo bar│
-		// └───────────────┘
+		console.log(boxen('foo bar', {title: 'example'}));
+		// ┌ example ┐
+		// │foo bar  │
+		// └─────────┘
 		```
 		*/
 		readonly title?: string;
