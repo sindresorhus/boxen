@@ -227,11 +227,11 @@ module.exports = (text, options) => {
 
 	if (title) {
 		title = ` ${title} `;
-	}
 
-	// Make the box larger to fit a larger title
-	if (stringWidth(title) > contentWidth) {
-		contentWidth = stringWidth(title);
+		// Make the box larger to fit a larger title
+		if (stringWidth(title) > contentWidth) {
+			contentWidth = stringWidth(title);
+		}
 	}
 
 	if ((margin.left && margin.right) && contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
