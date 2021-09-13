@@ -153,12 +153,12 @@ declare namespace boxen {
 
 		@example
 		```
-		console.log(boxen('foo bar foo bar', {title: 'example', textAlignmentTitle: 'center'}));
+		console.log(boxen('foo bar foo bar', {title: 'example', titleAlignment: 'center'}));
 		// ┌─── example ───┐
 		// │foo bar foo bar│
 		// └───────────────┘
 
-		console.log(boxen('foo bar foo bar', {title: 'example', textAlignmentTitle: 'right'}));
+		console.log(boxen('foo bar foo bar', {title: 'example', titleAlignment: 'right'}));
 		// ┌────── example ┐
 		// │foo bar foo bar│
 		// └───────────────┘
