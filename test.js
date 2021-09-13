@@ -16,6 +16,101 @@ test('creates a box', t => {
 	`);
 });
 
+test('title option', t => {
+	compare(t, boxen('foo', {title: 'title'}), `
+┌ title ┐
+│foo    │
+└───────┘
+	`);
+});
+
+test('titleAlignment center option', t => {
+	compare(t, boxen('foo bar foo bar', {
+		title: 'title',
+		titleAlignment: 'center'
+	}), `
+┌──── title ────┐
+│foo bar foo bar│
+└───────────────┘
+	`);
+});
+
+test('titleAlignment right option', t => {
+	compare(t, boxen('foo bar foo bar', {
+		title: 'title',
+		titleAlignment: 'right'
+	}), `
+┌──────── title ┐
+│foo bar foo bar│
+└───────────────┘
+	`);
+});
+
+test('title and textAlignment', t => {
+	compare(t, boxen('Hello !\nThis text is on the right\nAmazing!', {
+		title: 'title',
+		textAlignment: 'right'
+	}), `
+┌ title ──────────────────┐
+│                  Hello !│
+│This text is on the right│
+│                 Amazing!│
+└─────────────────────────┘
+	`);
+});
+
+test('box size adapts to title length', t => {
+	compare(t, 	boxen('Hello !\nThis text is on the center\nAmazing!\nIt stretched to the title length.', {
+		title: 'This is a very large title with many words in it',
+		textAlignment: 'center'
+	}), `
+┌ This is a very large title with many words in it ┐
+│                     Hello !                      │
+│           This text is on the center             │
+│                    Amazing!                      │
+│        It stretched to the title length.         │
+└──────────────────────────────────────────────────┘
+	`);
+});
+
+test('title with textAlignment and text padding', t => {
+	compare(t, 	boxen('Hello !\nAll the text here is on the right\nEven the title.\nAmazing padding too ;)', {
+		title: 'This is a title',
+		titleAlignment: 'right',
+		textAlignment: 'right',
+		padding: 2
+	}), `
+┌──────────────────────────── This is a title ┐
+│                                             │
+│                                             │
+│                                Hello !      │
+│      All the text here is on the right      │
+│                        Even the title.      │
+│                 Amazing padding too ;)      │
+│                                             │
+│                                             │
+└─────────────────────────────────────────────┘
+	`);
+});
+
+test('title with textAlignment, padding and margin', t => {
+	compare(t, 	boxen('Hello !\nThis text has padding and margin.\nCentered too !', {
+		title: 'This is a title',
+		titleAlignment: 'center',
+		textAlignment: 'center',
+		margin: 1,
+		padding: 1
+	}), `
+   ┌─────────── This is a title ───────────┐
+   │                                       │
+   │                Hello !                │
+   │   This text has padding and margin.   │
+   │            Centered too !             │
+   │                                       │
+   └───────────────────────────────────────┘
+	`);
+});
+
 test('padding option', t => {
 	compare(t, boxen('foo', {padding: 2}), `
 ┌───────────────┐
@@ -277,10 +372,10 @@ test('throws on unexpected backgroundColor', t => {
 	}, /backgroundColor/);
 });
 
-test('align option `center`', t => {
+test('textAlignment option `center`', t => {
 	const beautifulColor = chalk.magenta('B E A U T I F U L');
 	compare(t, boxen(`Boxes are\n${beautifulColor}\nand beneficial too!`, {
-		align: 'center',
+		textAlignment: 'center',
 		padding: 1
 	}), `
 ┌─────────────────────────┐
@@ -293,9 +388,9 @@ test('align option `center`', t => {
 	`);
 });
 
-test('align option `right`', t => {
+test('textAlignment option `right`', t => {
 	const beautifulColor = chalk.magenta('B E A U T I F U L');
-	compare(t, boxen(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'right'}), `
+	compare(t, boxen(`Boxes are\n${beautifulColor}\nand beneficial too!`, {textAlignment: 'right'}), `
 ┌───────────────────┐
 │          Boxes are│
 │  ${beautifulColor}│
@@ -304,9 +399,9 @@ test('align option `right`', t => {
 	`);
 });
 
-test('align option `left`', t => {
+test('textAlignment option `left`', t => {
 	const beautifulColor = chalk.magenta('B E A U T I F U L');
-	compare(t, boxen(`Boxes are\n${beautifulColor}\nand beneficial too!`, {align: 'left'}), `
+	compare(t, boxen(`Boxes are\n${beautifulColor}\nand beneficial too!`, {textAlignment: 'left'}), `
 ┌───────────────────┐
 │Boxes are          │
 │${beautifulColor}  │
@@ -315,30 +410,30 @@ test('align option `left`', t => {
 	`);
 });
 
-test('align option (left) does not throw when colorized content > columns', t => {
+test('textAlignment option (left) does not throw when colorized content > columns', t => {
 	console.log('process.stdout.columns', process.stdout.columns);
 	const longContent = chalk.green('ab').repeat(process.stdout.columns);
 	t.notThrows(() => {
 		boxen(longContent, {
-			align: 'left'
+			textAlignment: 'left'
 		});
 	});
 });
 
-test('align option (center) does not throw when colorized content > columns', t => {
+test('textAlignment option (center) does not throw when colorized content > columns', t => {
 	const longContent = chalk.green('ab').repeat(process.stdout.columns);
 	t.notThrows(() => {
 		boxen(longContent, {
-			align: 'center'
+			textAlignment: 'center'
 		});
 	});
 });
 
-test('align option (right) does not throw when colorized content > columns', t => {
+test('textAlignment option (right) does not throw when colorized content > columns', t => {
 	const longContent = chalk.green('ab').repeat(process.stdout.columns);
 	t.notThrows(() => {
 		boxen(longContent, {
-			align: 'right'
+			textAlignment: 'right'
 		});
 	});
 });
@@ -455,7 +550,7 @@ test('proportionally decrease margins when there is no space for them', t => {
 test('text is centered after wrapping', t => {
 	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
-	const box = boxen(longContent, {align: 'center'});
+	const box = boxen(longContent, {textAlignment: 'center'});
 
 	t.is(box.length, width * 4);
 
@@ -477,10 +572,10 @@ test('text is centered after wrapping', t => {
 	t.is(lines[2], expected);
 });
 
-test('text is left-aligned after wrapping', t => {
+test('text is left-textAlignmented after wrapping', t => {
 	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
-	const box = boxen(longContent, {align: 'left'});
+	const box = boxen(longContent, {textAlignment: 'left'});
 
 	t.is(box.length, width * 4);
 
@@ -504,7 +599,7 @@ test('text is left-aligned after wrapping', t => {
 test('text is right-aligned after wrapping', t => {
 	const width = process.stdout.columns || 120;
 	const longContent = 'x'.repeat(width - 1);
-	const box = boxen(longContent, {align: 'right'});
+	const box = boxen(longContent, {textAlignment: 'right'});
 
 	t.is(box.length, width * 4);
 
@@ -598,7 +693,7 @@ test('text is centered after wrapping when using words', t => {
 	const width = process.stdout.columns || 120;
 	const sentence = 'x'.repeat(width / 4) + ' ';
 	const longContent = sentence.repeat(4).trim();
-	const box = boxen(longContent, {align: 'center'});
+	const box = boxen(longContent, {textAlignment: 'center'});
 
 	const lines = box.split('\n');
 
@@ -642,7 +737,7 @@ test('text is right-aligned after wrapping when using words', t => {
 	const width = process.stdout.columns || 120;
 	const sentence = 'x'.repeat(width / 4) + ' ';
 	const longContent = sentence.repeat(4).trim();
-	const box = boxen(longContent, {align: 'right'});
+	const box = boxen(longContent, {textAlignment: 'right'});
 
 	const lines = box.split('\n');
 
@@ -665,7 +760,7 @@ test('text is right-aligned after wrapping when using words, with padding', t =>
 	const sentence = 'x'.repeat(width / 4) + ' ';
 	const longContent = sentence.repeat(4).trim();
 	const box = boxen(longContent, {
-		align: 'right',
+		textAlignment: 'right',
 		padding: {left: 1, right: 1, top: 0, bottom: 0}
 	});
 

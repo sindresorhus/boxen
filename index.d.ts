@@ -121,8 +121,50 @@ declare namespace boxen {
 		Align the text in the box based on the widest line.
 
 		@default 'left'
+		@deprecated Use `textAlignment` instead.
 		*/
 		readonly align?: 'left' | 'right' | 'center';
+
+		/**
+		Align the text in the box based on the widest line.
+
+		@default 'left'
+		*/
+		readonly textAlignment?: 'left' | 'right' | 'center';
+
+		/**
+		Display a title at the top of the box.
+		If needed, the box will horizontally expand to fit the title.
+
+		@example
+		```
+		console.log(boxen('foo bar', {title: 'example'}));
+		// ┌ example ┐
+		// │foo bar  │
+		// └─────────┘
+		```
+		*/
+		readonly title?: string;
+
+		/**
+		Align the title in the top bar.
+
+		@default 'left'
+
+		@example
+		```
+		console.log(boxen('foo bar foo bar', {title: 'example', textAlignmentTitle: 'center'}));
+		// ┌─── example ───┐
+		// │foo bar foo bar│
+		// └───────────────┘
+
+		console.log(boxen('foo bar foo bar', {title: 'example', textAlignmentTitle: 'right'}));
+		// ┌────── example ┐
+		// │foo bar foo bar│
+		// └───────────────┘
+		```
+		*/
+		readonly titleAlignment?: 'left' | 'right' | 'center';
 	}
 }
 
