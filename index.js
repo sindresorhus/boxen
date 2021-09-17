@@ -220,7 +220,7 @@ module.exports = (text, options) => {
 
 	const columns = terminalColumns();
 
-	let contentWidth = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true})) + padding.left + padding.right;
+	let contentWidth = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + padding.left + padding.right;
 
 	// This prevents the title bar to exceed the console's width
 	let title = options.title && options.title.slice(0, columns - 4 - margin.left - margin.right);
