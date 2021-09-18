@@ -47,5 +47,11 @@
 		"nyc": "^15.1.0",
 		"tsd": "^0.17.0",
 		"xo": "^0.36.1"
+	},
+	"ava": {
+		"snapshotDir": "tests/snapshots",
+		"environmentVariables": {
+			"COLUMNS": "60"
+		}
 	}
 }
