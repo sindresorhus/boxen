@@ -225,6 +225,11 @@ Values: `'left'` `'center'` `'right'`
 
 Align the text in the box based on the widest line.
 
+## Maintainer
+
+- [Sindre Sorhus](https://github.com/sindresorhus)
+- [Caesarovich](https://github.com/Caesarovich)
+
 ## Related
 
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
