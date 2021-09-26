@@ -267,7 +267,7 @@ module.exports = (text, options) => {
 
 	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NEWLINE;
 
-	const lines = text.split(NL);
+	const lines = text.split(NEWLINE);
 
 	const middle = lines.map(line => {
 		return marginLeft + side + colorizeContent(line) + side;
