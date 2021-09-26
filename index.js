@@ -179,7 +179,7 @@ const isColorValid = color => typeof color === 'string' && ((chalk[color]) || is
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
-const boxen = (text, options) => {
+export default function boxen(text, options) {
 	options = {
 		padding: 0,
 		borderStyle: 'single',
@@ -270,8 +270,6 @@ const boxen = (text, options) => {
 	const middle = lines.map(line => marginLeft + side + colorizeContent(line) + side).join(LINE_SEPARATOR);
 
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
-};
+}
 
 export const _borderStyles = cliBoxes;
-
-export default boxen;
