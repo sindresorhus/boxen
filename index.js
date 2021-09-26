@@ -7,7 +7,7 @@ const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const wrapAnsi = require('wrap-ansi');
 
-const NL = '\n';
+const NEWLINE = '\n';
 const PAD = ' ';
 
 const terminalColumns = () => {
@@ -53,12 +53,12 @@ const getBorderChars = borderStyle => {
 		'horizontal'
 	];
 
-	let chararacters;
+	let characters;
 
 	if (typeof borderStyle === 'string') {
-		chararacters = cliBoxes[borderStyle];
+		characters = cliBoxes[borderStyle];
 
-		if (!chararacters) {
+		if (!characters) {
 			throw new TypeError(`Invalid border style: ${borderStyle}`);
 		}
 	} else {
@@ -68,10 +68,10 @@ const getBorderChars = borderStyle => {
 			}
 		}
 
-		chararacters = borderStyle;
+		characters = borderStyle;
 	}
 
-	return chararacters;
+	return characters;
 };
 
 const makeTitle = (text, horizontal, alignement) => {
@@ -105,7 +105,7 @@ const makeTitle = (text, horizontal, alignement) => {
 
 const makeContentText = (text, padding, columns, align) => {
 	text = ansiAlign(text, {align});
-	let lines = text.split(NL);
+	let lines = text.split(NEWLINE);
 	const textWidth = widestLine(text);
 
 	const max = columns - padding.left - padding.right;
@@ -173,7 +173,7 @@ const makeContentText = (text, padding, columns, align) => {
 		lines = lines.concat(new Array(padding.bottom).fill(PAD.repeat(columns)));
 	}
 
-	return lines.join(NL);
+	return lines.join(NEWLINE);
 };
 
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
@@ -261,13 +261,13 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignment) : horizontal) + chars.topRight);
-	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
+	const top = colorizeBorder(NEWLINE.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignment) : horizontal) + chars.topRight);
+	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NEWLINE.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
-	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NL;
+	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NEWLINE;
 
-	const lines = text.split(NL);
+	const lines = text.split(NEWLINE);
 
 	const middle = lines.map(line => {
 		return marginLeft + side + colorizeContent(line) + side;
