@@ -53,12 +53,12 @@ const getBorderChars = borderStyle => {
 		'horizontal'
 	];
 
-	let chararacters;
+	let characters;
 
 	if (typeof borderStyle === 'string') {
-		chararacters = cliBoxes[borderStyle];
+		characters = cliBoxes[borderStyle];
 
-		if (!chararacters) {
+		if (!characters) {
 			throw new TypeError(`Invalid border style: ${borderStyle}`);
 		}
 	} else {
@@ -68,10 +68,10 @@ const getBorderChars = borderStyle => {
 			}
 		}
 
-		chararacters = borderStyle;
+		characters = borderStyle;
 	}
 
-	return chararacters;
+	return characters;
 };
 
 const makeTitle = (text, horizontal, alignement) => {
