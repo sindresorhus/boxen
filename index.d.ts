@@ -2,6 +2,27 @@ import {LiteralUnion} from 'type-fest';
 import {BoxStyle, Boxes} from 'cli-boxes';
 
 /**
+Characters used for custom border.
+
+@example
+```
+// affffb
+// e    e
+// dffffc
+
+const border: CustomBorderStyle = {
+	topLeft: 'a',
+	topRight: 'b',
+	bottomRight: 'c',
+	bottomLeft: 'd',
+	vertical: 'e',
+	horizontal: 'f'
+};
+```
+*/
+export interface CustomBorderStyle extends BoxStyle {}
+
+/**
 Spacing used for `padding` and `margin`.
 */
 export interface Spacing {
@@ -10,8 +31,6 @@ export interface Spacing {
 	readonly bottom: number;
 	readonly left: number;
 }
-
-export interface CustomBorderStyle extends BoxStyle {}
 
 export interface Options {
 	/**
@@ -145,29 +164,6 @@ export interface Options {
 	```
 	*/
 	readonly titleAlignment?: 'left' | 'right' | 'center';
-}
-
-declare namespace boxen {
-	/**
-	Characters used for custom border.
-
-	@example
-	```
-	// affffb
-	// e    e
-	// dffffc
-
-	const border: CustomBorderStyle = {
-		topLeft: 'a',
-		topRight: 'b',
-		bottomRight: 'c',
-		bottomLeft: 'd',
-		vertical: 'e',
-		horizontal: 'f'
-	};
-	```
-	*/
-
 }
 
 /**
