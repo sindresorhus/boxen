@@ -7,7 +7,7 @@ const camelCase = require('camelcase');
 const ansiAlign = require('ansi-align');
 const wrapAnsi = require('wrap-ansi');
 
-const NL = '\n';
+const LINE_BREAK = '\n';
 const PAD = ' ';
 
 const terminalColumns = () => {
@@ -105,7 +105,7 @@ const makeTitle = (text, horizontal, alignement) => {
 
 const makeContentText = (text, padding, columns, align) => {
 	text = ansiAlign(text, {align});
-	let lines = text.split(NL);
+	let lines = text.split(LINE_BREAK);
 	const textWidth = widestLine(text);
 
 	const max = columns - padding.left - padding.right;
@@ -173,7 +173,7 @@ const makeContentText = (text, padding, columns, align) => {
 		lines = lines.concat(new Array(padding.bottom).fill(PAD.repeat(columns)));
 	}
 
-	return lines.join(NL);
+	return lines.join(LINE_BREAK);
 };
 
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
@@ -261,11 +261,11 @@ module.exports = (text, options) => {
 	}
 
 	const horizontal = chars.horizontal.repeat(contentWidth);
-	const top = colorizeBorder(NL.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignment) : horizontal) + chars.topRight);
-	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NL.repeat(margin.bottom));
+	const top = colorizeBorder(LINE_BREAK.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignment) : horizontal) + chars.topRight);
+	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + LINE_BREAK.repeat(margin.bottom));
 	const side = colorizeBorder(chars.vertical);
 
-	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NL;
+	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : LINE_BREAK;
 
 	const lines = text.split(NL);
 
