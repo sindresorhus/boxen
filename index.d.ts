@@ -176,7 +176,7 @@ Creates a box in the terminal.
 
 @example
 ```
-import boxen = require('boxen');
+import boxen from 'boxen';
 
 console.log(boxen('unicorn', {padding: 1}));
 // ┌─────────────┐
@@ -195,6 +195,7 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 //
 ```
 */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 declare const boxen: (text: string, options?: boxen.Options) => string;
 
 export = boxen;

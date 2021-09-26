@@ -1,25 +1,25 @@
-'use strict';
-const chalk = require('chalk');
-const boxen = require('.');
+import process from 'node:process';
+import chalk from 'chalk';
+import boxen from './index.js';
 
 console.log('\n\n' + boxen(chalk.cyan('unicorn'), {
 	padding: 1,
 	margin: 1,
-	borderColor: 'yellow'
+	borderColor: 'yellow',
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.cyan('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: 'yellow',
-	borderStyle: 'double'
+	borderStyle: 'double',
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.cyan('unicorn'), {
 	padding: 1,
 	margin: 1,
 	borderColor: '#eebbaa',
-	borderStyle: 'double'
+	borderStyle: 'double',
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.black('unicorn'), {
@@ -27,7 +27,7 @@ console.log('\n\n' + boxen(chalk.black('unicorn'), {
 	margin: 1,
 	borderColor: '#ffc0cb',
 	backgroundColor: '#00ffff',
-	borderStyle: 'double'
+	borderStyle: 'double',
 }) + '\n');
 
 console.log('\n\n' + boxen(chalk.black('unicorn'), {
@@ -41,8 +41,8 @@ console.log('\n\n' + boxen(chalk.black('unicorn'), {
 		bottomLeft: '+',
 		bottomRight: '+',
 		horizontal: '-',
-		vertical: '|'
-	}
+		vertical: '|',
+	},
 }) + '\n');
 
 const sentences = 'Unbreakable_text_because_it_has_no_spaces '.repeat(5);

@@ -1,5 +1,5 @@
-const test = require('ava');
-const boxen = require('..');
+import test from 'ava';
+import boxen from '../index.js';
 
 test('backgroundColor option', t => {
 	const box = boxen('foo', {backgroundColor: 'red'});

@@ -1,11 +1,11 @@
-'use strict';
-const stringWidth = require('string-width');
-const chalk = require('chalk');
-const widestLine = require('widest-line');
-const cliBoxes = require('cli-boxes');
-const camelCase = require('camelcase');
-const ansiAlign = require('ansi-align');
-const wrapAnsi = require('wrap-ansi');
+import process from 'node:process';
+import stringWidth from 'string-width';
+import chalk from 'chalk';
+import widestLine from 'widest-line';
+import cliBoxes from 'cli-boxes';
+import camelCase from 'camelcase';
+import ansiAlign from 'ansi-align';
+import wrapAnsi from 'wrap-ansi';
 
 const NEWLINE = '\n';
 const PAD = ' ';
@@ -28,19 +28,17 @@ const terminalColumns = () => {
 	return 80;
 };
 
-const getObject = detail => {
-	return typeof detail === 'number' ? {
-		top: detail,
-		right: detail * 3,
-		bottom: detail,
-		left: detail * 3
-	} : {
-		top: 0,
-		right: 0,
-		bottom: 0,
-		left: 0,
-		...detail
-	};
+const getObject = detail => typeof detail === 'number' ? {
+	top: detail,
+	right: detail * 3,
+	bottom: detail,
+	left: detail * 3,
+} : {
+	top: 0,
+	right: 0,
+	bottom: 0,
+	left: 0,
+	...detail,
 };
 
 const getBorderChars = borderStyle => {
@@ -50,7 +48,7 @@ const getBorderChars = borderStyle => {
 		'bottomRight',
 		'bottomLeft',
 		'vertical',
-		'horizontal'
+		'horizontal',
 	];
 
 	let characters;
@@ -166,11 +164,11 @@ const makeContentText = (text, padding, columns, align) => {
 	});
 
 	if (padding.top > 0) {
-		lines = new Array(padding.top).fill(PAD.repeat(columns)).concat(lines);
+		lines = [...Array.from({length: padding.top}).fill(PAD.repeat(columns)), ...lines];
 	}
 
 	if (padding.bottom > 0) {
-		lines = lines.concat(new Array(padding.bottom).fill(PAD.repeat(columns)));
+		lines = [...lines, ...Array.from({length: padding.bottom}).fill(PAD.repeat(columns))];
 	}
 
 	return lines.join(NEWLINE);
@@ -181,7 +179,7 @@ const isColorValid = color => typeof color === 'string' && ((chalk[color]) || is
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
-module.exports = (text, options) => {
+const boxen = (text, options) => {
 	options = {
 		padding: 0,
 		borderStyle: 'single',
@@ -189,7 +187,7 @@ module.exports = (text, options) => {
 		textAlignment: 'left',
 		float: 'left',
 		titleAlignment: 'left',
-		...options
+		...options,
 	};
 
 	// This option is deprecated
@@ -269,11 +267,11 @@ module.exports = (text, options) => {
 
 	const lines = text.split(NEWLINE);
 
-	const middle = lines.map(line => {
-		return marginLeft + side + colorizeContent(line) + side;
-	}).join(LINE_SEPARATOR);
+	const middle = lines.map(line => marginLeft + side + colorizeContent(line) + side).join(LINE_SEPARATOR);
 
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
 };
 
-module.exports._borderStyles = cliBoxes;
+export const _borderStyles = cliBoxes;
+
+export default boxen;

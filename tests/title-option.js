@@ -1,9 +1,9 @@
-const test = require('ava');
-const boxen = require('..');
+import test from 'ava';
+import boxen from '../index.js';
 
 test('title option works', t => {
 	const box = boxen('foo', {
-		title: 'title'
+		title: 'title',
 	});
 
 	t.snapshot(box);
@@ -12,7 +12,7 @@ test('title option works', t => {
 test('title align left', t => {
 	const box = boxen('foo bar foo bar', {
 		title: 'title',
-		titleAlignment: 'left'
+		titleAlignment: 'left',
 	});
 
 	t.snapshot(box);
@@ -21,7 +21,7 @@ test('title align left', t => {
 test('title align center', t => {
 	const box = boxen('foo bar foo bar', {
 		title: 'title',
-		titleAlignment: 'center'
+		titleAlignment: 'center',
 	});
 
 	t.snapshot(box);
@@ -30,7 +30,7 @@ test('title align center', t => {
 test('title align right', t => {
 	const box = boxen('foo bar foo bar', {
 		title: 'title',
-		titleAlignment: 'right'
+		titleAlignment: 'right',
 	});
 
 	t.snapshot(box);
@@ -38,7 +38,7 @@ test('title align right', t => {
 
 test('long title expands box', t => {
 	const box = boxen('foo', {
-		title: 'very long title'
+		title: 'very long title',
 	});
 
 	t.snapshot(box);

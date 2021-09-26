@@ -1,6 +1,5 @@
 import {expectType} from 'tsd';
-import boxen = require('.');
-import {Spacing, CustomBorderStyle} from '.';
+import boxen, {Spacing, CustomBorderStyle} from './index.js';
 
 const border: CustomBorderStyle = {
 	topLeft: ' ',
@@ -8,14 +7,14 @@ const border: CustomBorderStyle = {
 	bottomLeft: ' ',
 	bottomRight: ' ',
 	horizontal: ' ',
-	vertical: ' '
+	vertical: ' ',
 };
 
 const spacing: Spacing = {
 	top: 1,
 	right: 0,
 	bottom: 1,
-	left: 0
+	left: 0,
 };
 
 expectType<string>(boxen('unicorns'));
