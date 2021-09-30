@@ -7,13 +7,13 @@
 ## Install
 
 ```
-$ npm install boxen
+npm install boxen
 ```
 
 ## Usage
 
 ```js
-const boxen = require('boxen');
+import boxen from 'boxen';
 
 console.log(boxen('unicorn', {padding: 1}));
 /*

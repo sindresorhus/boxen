@@ -1,6 +1,7 @@
-const test = require('ava');
-const chalk = require('chalk');
-const boxen = require('..');
+import process from 'node:process';
+import test from 'ava';
+import chalk from 'chalk';
+import boxen from '../index.js';
 
 const longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id erat arcu. Integer urna mauris, sodales vel egestas eu, consequat id turpis. Vivamus faucibus est mattis tincidunt lobortis. In aliquam placerat nunc eget viverra. Duis aliquet faucibus diam, blandit tincidunt magna congue eu. Sed vel ante vestibulum, maximus risus eget, iaculis velit. Quisque id dapibus purus, ut sodales lorem. Aenean laoreet iaculis tellus at malesuada. Donec imperdiet eu lacus vitae fringilla.';
 
@@ -34,7 +35,7 @@ test('box not overflowing terminal', t => {
 
 test('box not overflowing terminal with padding', t => {
 	const box = boxen('foo'.repeat(process.env.COLUMNS), {
-		padding: 3
+		padding: 3,
 	});
 
 	t.snapshot(box);
@@ -48,7 +49,7 @@ test('box not overflowing terminal with words', t => {
 
 test('box not overflowing terminal with words + padding', t => {
 	const box = boxen('foo '.repeat(process.env.COLUMNS), {
-		padding: 2
+		padding: 2,
 	});
 
 	t.snapshot(box);
@@ -57,7 +58,7 @@ test('box not overflowing terminal with words + padding', t => {
 test('box not overflowing terminal with words + padding + margin', t => {
 	const box = boxen('foo '.repeat(process.env.COLUMNS), {
 		padding: 2,
-		magin: 1
+		magin: 1,
 	});
 
 	t.snapshot(box);

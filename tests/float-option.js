@@ -1,9 +1,10 @@
-const test = require('ava');
-const boxen = require('..');
+import process from 'node:process';
+import test from 'ava';
+import boxen from '../index.js';
 
 test('float option (left)', t => {
 	const box = boxen('foo', {
-		float: 'left'
+		float: 'left',
 	});
 
 	t.snapshot(box);
@@ -11,7 +12,7 @@ test('float option (left)', t => {
 
 test('float option (center)', t => {
 	const box = boxen('foo', {
-		float: 'center'
+		float: 'center',
 	});
 
 	t.snapshot(box);
@@ -19,7 +20,7 @@ test('float option (center)', t => {
 
 test('float option (right)', t => {
 	const box = boxen('foo', {
-		float: 'right'
+		float: 'right',
 	});
 
 	t.snapshot(box);
@@ -30,8 +31,8 @@ test('float option (center) with margin', t => {
 		float: 'right',
 		margin: {
 			left: 3,
-			top: 4
-		}
+			top: 4,
+		},
 	});
 
 	t.snapshot(box);
@@ -42,8 +43,8 @@ test('float option (right) with margin', t => {
 		float: 'right',
 		margin: {
 			right: 2,
-			bottom: 5
-		}
+			bottom: 5,
+		},
 	});
 
 	t.snapshot(box);
@@ -54,12 +55,12 @@ test('float option (center) when content > columns', t => {
 
 	t.notThrows(() => {
 		boxen(longContent, {
-			float: 'center'
+			float: 'center',
 		});
 	});
 
 	const box = boxen(longContent, {
-		float: 'center'
+		float: 'center',
 	});
 
 	t.snapshot(box);
@@ -70,12 +71,12 @@ test('float option (right) when content > columns', t => {
 
 	t.notThrows(() => {
 		boxen(longContent, {
-			float: 'right'
+			float: 'right',
 		});
 	});
 
 	const box = boxen(longContent, {
-		float: 'right'
+		float: 'right',
 	});
 
 	t.snapshot(box);
