@@ -13,7 +13,7 @@
 	"type": "module",
 	"exports": "./index.js",
 	"engines": {
-		"node": ">=12.17"
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
 	},
 	"scripts": {
 		"test": "xo && nyc ava && tsd"
@@ -35,7 +35,7 @@
 		"text"
 	],
 	"dependencies": {
-		"ansi-align": "^3.0.0",
+		"ansi-align": "^3.0.1",
 		"camelcase": "^6.2.0",
 		"chalk": "^4.1.2",
 		"cli-boxes": "^2.2.1",

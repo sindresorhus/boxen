@@ -194,4 +194,3 @@ console.log(boxen('unicorn', {padding: 1, margin: 1, borderStyle: 'double'}));
 ```
 */
 export default function boxen(text: string, options?: Options): string;
-

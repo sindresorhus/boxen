@@ -6,7 +6,7 @@
 
 ## Install
 
-```
+```sh
 npm install boxen
 ```
 
