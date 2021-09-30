@@ -9,6 +9,7 @@ import wrapAnsi from 'wrap-ansi';
 
 const NEWLINE = '\n';
 const PAD = ' ';
+const BORDERS_WIDTH = 2;
 
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
@@ -47,8 +48,10 @@ const getBorderChars = borderStyle => {
 		'topRight',
 		'bottomRight',
 		'bottomLeft',
-		'vertical',
-		'horizontal',
+		'left',
+		'right',
+		'top',
+		'bottom',
 	];
 
 	let characters;
@@ -174,6 +177,38 @@ const makeContentText = (text, padding, columns, align) => {
 	return lines.join(NEWLINE);
 };
 
+const boxContent = (content, contentWidth, options) => {
+	const colorizeBorder = border => {
+		const newBorder = options.borderColor ? getColorFn(options.borderColor)(border) : border;
+		return options.dimBorder ? chalk.dim(newBorder) : newBorder;
+	};
+
+	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
+
+	const chars = getBorderChars(options.borderStyle);
+	const columns = terminalColumns();
+	let marginLeft = PAD.repeat(options.margin.left);
+
+	if (options.float === 'center') {
+		const marginWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
+		marginLeft = PAD.repeat(marginWidth);
+	} else if (options.float === 'right') {
+		const marginWidth = Math.max(columns - contentWidth - options.margin.right - BORDERS_WIDTH, 0);
+		marginLeft = PAD.repeat(marginWidth);
+	}
+
+	const top = colorizeBorder(NEWLINE.repeat(options.margin.top) + marginLeft + chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight);
+	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight + NEWLINE.repeat(options.margin.bottom));
+
+	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + options.margin.left >= columns) ? '' : NEWLINE;
+
+	const lines = content.split(NEWLINE);
+
+	const middle = lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(LINE_SEPARATOR);
+
+	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
+};
+
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
@@ -195,8 +230,6 @@ export default function boxen(text, options) {
 		options.textAlignment = options.align;
 	}
 
-	const BORDERS_WIDTH = 2;
-
 	if (options.borderColor && !isColorValid(options.borderColor)) {
 		throw new Error(`${options.borderColor} is not a valid borderColor`);
 	}
@@ -205,71 +238,42 @@ export default function boxen(text, options) {
 		throw new Error(`${options.backgroundColor} is not a valid backgroundColor`);
 	}
 
-	const chars = getBorderChars(options.borderStyle);
-	const padding = getObject(options.padding);
-	const margin = getObject(options.margin);
-
-	const colorizeBorder = border => {
-		const newBorder = options.borderColor ? getColorFn(options.borderColor)(border) : border;
-		return options.dimBorder ? chalk.dim(newBorder) : newBorder;
-	};
-
-	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
+	options.padding = getObject(options.padding);
+	options.margin = getObject(options.margin);
 
 	const columns = terminalColumns();
 
-	let contentWidth = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + padding.left + padding.right;
+	let contentWidth = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
 	// This prevents the title bar to exceed the console's width
-	let title = options.title && options.title.slice(0, columns - 4 - margin.left - margin.right);
+	options.title = options.title && options.title.slice(0, columns - 4 - options.margin.left - options.margin.right);
 
-	if (title) {
-		title = ` ${title} `;
+	if (options.title) {
+		options.title = ` ${options.title} `;
 		// Make the box larger to fit a larger title
-		if (stringWidth(title) > contentWidth) {
-			contentWidth = stringWidth(title);
+		if (stringWidth(options.title) > contentWidth) {
+			contentWidth = stringWidth(options.title);
 		}
 	}
 
-	if ((margin.left && margin.right) && contentWidth + BORDERS_WIDTH + margin.left + margin.right > columns) {
+	if ((options.margin.left && options.margin.right) && contentWidth + BORDERS_WIDTH + options.margin.left + options.margin.right > columns) {
 		// Let's assume we have margins: left = 3, right = 5, in total = 8
 		const spaceForMargins = columns - contentWidth - BORDERS_WIDTH;
 		// Let's assume we have space = 4
-		const multiplier = spaceForMargins / (margin.left + margin.right);
+		const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
 		// Here: multiplier = 4/8 = 0.5
-		margin.left = Math.max(0, Math.floor(margin.left * multiplier));
-		margin.right = Math.max(0, Math.floor(margin.right * multiplier));
+		options.margin.left = Math.max(0, Math.floor(options.margin.left * multiplier));
+		options.margin.right = Math.max(0, Math.floor(options.margin.right * multiplier));
 		// Left: 3 * 0.5 = 1.5 -> 1
 		// Right: 6 * 0.5 = 3
 	}
 
 	// Prevent content from exceeding the console's width
-	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - margin.left - margin.right);
+	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - options.margin.left - options.margin.right);
 
-	text = makeContentText(text, padding, contentWidth, options.textAlignment);
+	text = makeContentText(text, options.padding, contentWidth, options.textAlignment);
 
-	let marginLeft = PAD.repeat(margin.left);
-
-	if (options.float === 'center') {
-		const marginWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
-		marginLeft = PAD.repeat(marginWidth);
-	} else if (options.float === 'right') {
-		const marginWidth = Math.max(columns - contentWidth - margin.right - BORDERS_WIDTH, 0);
-		marginLeft = PAD.repeat(marginWidth);
-	}
-
-	const horizontal = chars.horizontal.repeat(contentWidth);
-	const top = colorizeBorder(NEWLINE.repeat(margin.top) + marginLeft + chars.topLeft + (title ? makeTitle(title, horizontal, options.titleAlignment) : horizontal) + chars.topRight);
-	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + horizontal + chars.bottomRight + NEWLINE.repeat(margin.bottom));
-	const side = colorizeBorder(chars.vertical);
-
-	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + margin.left >= columns) ? '' : NEWLINE;
-
-	const lines = text.split(NEWLINE);
-
-	const middle = lines.map(line => marginLeft + side + colorizeContent(line) + side).join(LINE_SEPARATOR);
-
-	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
+	return boxContent(text, contentWidth, options);
 }
 
 export const _borderStyles = cliBoxes;
