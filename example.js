@@ -43,7 +43,7 @@ console.log('\n\n' + boxen(chalk.black('unicorn'), {
 		top: '-',
 		bottom: '-',
 		left: '|',
-		right: '|'
+		right: '|',
 	},
 }) + '\n');
 
