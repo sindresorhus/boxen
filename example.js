@@ -40,8 +40,10 @@ console.log('\n\n' + boxen(chalk.black('unicorn'), {
 		topRight: '+',
 		bottomLeft: '+',
 		bottomRight: '+',
-		horizontal: '-',
-		vertical: '|',
+		top: '-',
+		bottom: '-',
+		left: '|',
+		right: '|'
 	},
 }) + '\n');
 
