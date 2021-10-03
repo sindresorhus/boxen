@@ -69,12 +69,6 @@ Color of the box border.
 Type: `string | object`\
 Default: `'single'`\
 Values:
-- `'arrow'`
-```
-↘↓↓↓↙
-→foo←
-↗↑↑↑↖
-```
 - `'single'`
 ```
 ┌───┐
@@ -116,6 +110,12 @@ Values:
 +---+
 |foo|
 +---+
+```
+- `'arrow'`
+```
+↘↓↓↓↙
+→foo←
+↗↑↑↑↖
 ```
 
 Style of the box border.
