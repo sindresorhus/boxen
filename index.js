@@ -63,6 +63,18 @@ const getBorderChars = borderStyle => {
 			throw new TypeError(`Invalid border style: ${borderStyle}`);
 		}
 	} else {
+		// Ensure retro-compatibility
+		if (borderStyle.vertical && typeof borderStyle.vertical === 'string') {
+			borderStyle.left = borderStyle.vertical;
+			borderStyle.right = borderStyle.vertical;
+		}
+
+		// Ensure retro-compatibility
+		if (borderStyle.horizontal && typeof borderStyle.horizontal === 'string') {
+			borderStyle.top = borderStyle.horizontal;
+			borderStyle.bottom = borderStyle.horizontal;
+		}
+
 		for (const side of sides) {
 			if (!borderStyle[side] || typeof borderStyle[side] !== 'string') {
 				throw new TypeError(`Invalid border style: ${side}`);
