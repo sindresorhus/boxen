@@ -24,12 +24,13 @@ const border: CustomBorderStyle = {
 */
 export interface CustomBorderStyle extends BoxStyle {
 	/**
-	 * @deprecated Use `top` and `bottom` instead
-	 */
+	@deprecated Use `top` and `bottom` instead.
+	*/
 	horizontal?: string;
+
 	/**
-	 * @deprecated Use `left` and `right` instead
-	 */
+	@deprecated Use `left` and `right` instead.
+	*/
 	vertical?: string;
 }
 
