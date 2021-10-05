@@ -111,6 +111,12 @@ Values:
 |foo|
 +---+
 ```
+- `'arrow'`
+```
+↘↓↓↓↙
+→foo←
+↗↑↑↑↖
+```
 
 Style of the box border.
 
@@ -122,8 +128,10 @@ Can be any of the above predefined styles or an object with the following keys:
 	topRight: '+',
 	bottomLeft: '+',
 	bottomRight: '+',
-	horizontal: '-',
-	vertical: '|'
+	top: '-',
+	bottom: '-',
+	left: '|',
+	right: '|'
 }
 ```
 

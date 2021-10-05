@@ -112,8 +112,10 @@ test('border style (custom ascii style)', t => {
 			topRight: '2',
 			bottomLeft: '3',
 			bottomRight: '4',
-			horizontal: '-',
-			vertical: '|',
+			left: '|',
+			right: '!',
+			top: '-',
+			bottom: '_',
 		},
 	});
 

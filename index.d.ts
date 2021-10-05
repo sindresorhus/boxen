@@ -6,21 +6,33 @@ Characters used for custom border.
 
 @example
 ```
-// affffb
-// e    e
-// dffffc
+// attttb
+// l    r
+// dbbbbc
 
 const border: CustomBorderStyle = {
 	topLeft: 'a',
 	topRight: 'b',
 	bottomRight: 'c',
 	bottomLeft: 'd',
-	vertical: 'e',
-	horizontal: 'f'
+	left: 'l',
+	right: 'r',
+	top: 't',
+	bottom: 'b',
 };
 ```
 */
-export interface CustomBorderStyle extends BoxStyle {}
+export interface CustomBorderStyle extends BoxStyle {
+	/**
+	@deprecated Use `top` and `bottom` instead.
+	*/
+	horizontal?: string;
+
+	/**
+	@deprecated Use `left` and `right` instead.
+	*/
+	vertical?: string;
+}
 
 /**
 Spacing used for `padding` and `margin`.

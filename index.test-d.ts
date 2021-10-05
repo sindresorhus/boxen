@@ -6,8 +6,10 @@ const border: CustomBorderStyle = {
 	topRight: ' ',
 	bottomLeft: ' ',
 	bottomRight: ' ',
-	horizontal: ' ',
-	vertical: ' ',
+	top: ' ',
+	bottom: ' ',
+	left: ' ',
+	right: ' ',
 };
 
 const spacing: Spacing = {
