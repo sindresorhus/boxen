@@ -176,6 +176,19 @@ export interface Options {
 	```
 	*/
 	readonly titleAlignment?: 'left' | 'right' | 'center';
+
+	/**
+	Set a fix width for the box. (This disables terminal overflow safeties !)
+
+	@example
+	```
+	console.log(boxen('foo bar', {width: 15}));
+	// ┌─────────────┐
+	// │foo bar      │
+	// └─────────────┘
+
+	*/
+	readonly width?: number;
 }
 
 /**

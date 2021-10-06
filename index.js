@@ -221,6 +221,59 @@ const boxContent = (content, contentWidth, options) => {
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
 };
 
+// Optimizes and alters the passed options
+const determineDimensions = (text, options) => {
+	const widthOverride = options.width !== undefined;
+	const columns = terminalColumns();
+	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
+
+	if (options.width) {
+		options.width = Math.max(1, options.width - 2);
+	}
+
+	const widest = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+
+	if (options.title && widthOverride) {
+		options.title = options.title.slice(0, Math.max(0, options.width - 2));
+		if (options.title) {
+			options.title = ` ${options.title} `;
+		}
+	} else if (options.title) {
+		options.title = options.title.slice(0, Math.max(0, maxWidth - 2));
+		if (options.title) {
+			options.title = ` ${options.title} `;
+			if (stringWidth(options.title) > widest) {
+				options.width = stringWidth(options.title);
+			}
+		}
+	}
+
+	options.width = options.width ?? widest;
+
+	if (!widthOverride) {
+		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {
+			// Let's assume we have margins: left = 3, right = 5, in total = 8
+			const spaceForMargins = columns - options.width - BORDERS_WIDTH;
+			// Let's assume we have space = 4
+			const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
+			// Here: multiplier = 4/8 = 0.5
+			options.margin.left = Math.max(0, Math.floor(options.margin.left * multiplier));
+			options.margin.right = Math.max(0, Math.floor(options.margin.right * multiplier));
+			// Left: 3 * 0.5 = 1.5 -> 1
+			// Right: 6 * 0.5 = 3
+		}
+
+		options.width = Math.min(options.width, columns - BORDERS_WIDTH - options.margin.left - options.margin.right);
+	}
+
+	if (options.width - (options.padding.left + options.padding.right) <= 0) {
+		options.padding.left = 0;
+		options.padding.right = 0;
+	}
+
+	return options;
+};
+
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
@@ -253,39 +306,11 @@ export default function boxen(text, options) {
 	options.padding = getObject(options.padding);
 	options.margin = getObject(options.margin);
 
-	const columns = terminalColumns();
+	options = determineDimensions(text, options);
 
-	let contentWidth = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+	text = makeContentText(text, options.padding, options.width, options.textAlignment);
 
-	// This prevents the title bar to exceed the console's width
-	options.title = options.title && options.title.slice(0, columns - 4 - options.margin.left - options.margin.right);
-
-	if (options.title) {
-		options.title = ` ${options.title} `;
-		// Make the box larger to fit a larger title
-		if (stringWidth(options.title) > contentWidth) {
-			contentWidth = stringWidth(options.title);
-		}
-	}
-
-	if ((options.margin.left && options.margin.right) && contentWidth + BORDERS_WIDTH + options.margin.left + options.margin.right > columns) {
-		// Let's assume we have margins: left = 3, right = 5, in total = 8
-		const spaceForMargins = columns - contentWidth - BORDERS_WIDTH;
-		// Let's assume we have space = 4
-		const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
-		// Here: multiplier = 4/8 = 0.5
-		options.margin.left = Math.max(0, Math.floor(options.margin.left * multiplier));
-		options.margin.right = Math.max(0, Math.floor(options.margin.right * multiplier));
-		// Left: 3 * 0.5 = 1.5 -> 1
-		// Right: 6 * 0.5 = 3
-	}
-
-	// Prevent content from exceeding the console's width
-	contentWidth = Math.min(contentWidth, columns - BORDERS_WIDTH - options.margin.left - options.margin.right);
-
-	text = makeContentText(text, options.padding, contentWidth, options.textAlignment);
-
-	return boxContent(text, contentWidth, options);
+	return boxContent(text, options.width, options);
 }
 
 export const _borderStyles = cliBoxes;
