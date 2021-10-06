@@ -196,7 +196,9 @@ Values:
 
 Type: `number`
 
-Set a fixed width for the box. (This disables terminal overflow safeties !)
+Set a fixed width for the box.
+
+*Note:* This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
 ##### padding
 
