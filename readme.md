@@ -192,6 +192,12 @@ Values:
 */
 ```
 
+##### width
+
+Type: `number`
+
+Set a fixed width for the box. (This disables terminal overflow safeties !)
+
 ##### padding
 
 Type: `number | object`\
