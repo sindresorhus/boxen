@@ -248,7 +248,7 @@ const determineDimensions = (text, options) => {
 		}
 	}
 
-	options.width = options.width ?? widest;
+	options.width = (options.width) ? options.width : widest;
 
 	if (!widthOverride) {
 		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {
