@@ -43,3 +43,28 @@ test('long title expands box', t => {
 
 	t.snapshot(box);
 });
+
+test('title + width option', t => {
+	// Not enough space, no title
+	t.snapshot(
+		boxen('foo', {
+			title: 'very long title',
+			width: 3,
+		}),
+	);
+
+	// Space for only one character
+	t.snapshot(
+		boxen('foo', {
+			title: 'very long title',
+			width: 5,
+		}),
+	);
+
+	t.snapshot(
+		boxen('foo', {
+			title: 'very long title',
+			width: 20,
+		}),
+	);
+});

@@ -61,3 +61,7 @@ const title = 'Beautiful title';
 console.log('\n\n' + boxen('This box has a nice title', {title}) + '\n');
 
 console.log('\n\n' + boxen('This box has a centered title', {title, titleAlignment: 'center'}) + '\n');
+
+console.log('\n\n' + boxen('This box has fixed width of 20', {width: 20}) + '\n');
+
+console.log('\n\n' + boxen('This box has fixed width of 50', {width: 50}) + '\n');
