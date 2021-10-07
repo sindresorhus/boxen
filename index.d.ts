@@ -184,6 +184,7 @@ export interface Options {
 
 	@example
 	```
+	import boxen from 'boxen';
   import boxen from 'boxen';
 
 	console.log(boxen('foo bar', {width: 15}));
