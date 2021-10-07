@@ -6,14 +6,14 @@ test('width option works', t => {
 	t.snapshot(
 		boxen('foo', {
 			width: 20,
-		})
+		}),
 	);
 
 	// Creates a small box for a lot of text
 	t.snapshot(
 		boxen('foo bar foo bar', {
 			width: 10,
-		})
+		}),
 	);
 });
 
