@@ -221,20 +221,19 @@ const boxContent = (content, contentWidth, options) => {
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
 };
 
-// Optimizes and alters the passed options
 const determineDimensions = (text, options) => {
 	const widthOverride = options.width !== undefined;
 	const columns = terminalColumns();
 	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
 
-	// If width is provided make sure it's not under 1
+	// If width is provided, make sure it's not below 1
 	if (options.width) {
 		options.width = Math.max(1, options.width - BORDERS_WIDTH);
 	}
 
 	const widest = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
-	// If title and width are provided, title complies to fixed width
+	// If title and width are provided, title adheres to fixed width
 	if (options.title && widthOverride) {
 		options.title = options.title.slice(0, Math.max(0, options.width - 2));
 		if (options.title) {
@@ -246,15 +245,15 @@ const determineDimensions = (text, options) => {
 		// Recheck if title isn't empty now
 		if (options.title) {
 			options.title = ` ${options.title} `;
-			// If the title is larger than content, box complies to title width
+			// If the title is larger than content, box adheres to title width
 			if (stringWidth(options.title) > widest) {
 				options.width = stringWidth(options.title);
 			}
 		}
 	}
 
-	// If fixed width is provided use it, or use content width as reference
-	options.width = (options.width) ? options.width : widest;
+	// If fixed width is provided, use it or content width as reference
+	options.width = options.width ? options.width : widest;
 
 	if (!widthOverride) {
 		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {
