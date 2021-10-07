@@ -50,7 +50,7 @@ test('title + width option', t => {
 		boxen('foo', {
 			title: 'very long title',
 			width: 3,
-		})
+		}),
 	);
 
 	// Space for only one character
@@ -58,13 +58,13 @@ test('title + width option', t => {
 		boxen('foo', {
 			title: 'very long title',
 			width: 5,
-		})
+		}),
 	);
 
 	t.snapshot(
 		boxen('foo', {
 			title: 'very long title',
 			width: 20,
-		})
+		}),
 	);
 });
