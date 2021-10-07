@@ -3,18 +3,18 @@ import boxen from '../index.js';
 
 test('width option works', t => {
 	// Creates a wide box for little text
-	let box = boxen('foo', {
-		width: 20,
-	});
-
-	t.snapshot(box);
+	t.snapshot(
+		boxen('foo', {
+			width: 20,
+		})
+	);
 
 	// Creates a small box for a lot of text
-	box = boxen('foo bar foo bar', {
-		width: 10,
-	});
-
-	t.snapshot(box);
+	t.snapshot(
+		boxen('foo bar foo bar', {
+			width: 10,
+		})
+	);
 });
 
 test('width option with padding + margin', t => {
