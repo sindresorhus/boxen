@@ -128,10 +128,8 @@ Can be any of the above predefined styles or an object with the following keys:
 	topRight: '+',
 	bottomLeft: '+',
 	bottomRight: '+',
-	top: '-',
-	bottom: '-',
-	left: '|',
-	right: '|'
+	vertical: '-',
+	horizontal: '|'
 }
 ```
 
