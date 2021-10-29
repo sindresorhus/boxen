@@ -212,7 +212,7 @@ const boxContent = (content, contentWidth, options) => {
 	const top = colorizeBorder(NEWLINE.repeat(options.margin.top) + marginLeft + chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight);
 	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight + NEWLINE.repeat(options.margin.bottom));
 
-	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + options.margin.left >= columns) ? '' : NEWLINE;
+	const LINE_SEPARATOR = (contentWidth + BORDERS_WIDTH + options.margin.left > columns) ? '' : NEWLINE;
 
 	const lines = content.split(NEWLINE);
 
