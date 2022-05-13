@@ -232,6 +232,11 @@ const determineDimensions = (text, options) => {
 	const columns = terminalColumns();
 	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
 
+	if (options.fullscreen) {
+		options.height = process?.stdout?.rows;
+		options.width = process?.stdout?.columns;
+	}
+
 	// If width is provided, make sure it's not below 1
 	if (options.width) {
 		options.width = Math.max(1, options.width - BORDERS_WIDTH);

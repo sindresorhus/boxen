@@ -38,7 +38,6 @@ test('height option with width', t => {
 	t.snapshot(box);
 });
 
-
 test('height option with width + padding + margin', t => {
 	// Creates a wide box for little text
 	const box = boxen('foo', {

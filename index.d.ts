@@ -212,6 +212,14 @@ export interface Options {
 	```
 	*/
 	readonly height?: number;
+
+	/**
+	If possible, the box will fit all available space within the terminal.
+
+	**Note*: This option overrides the `width` and `height` options.
+
+	*/
+	readonly fullscreen?: boolean;
 }
 
 /**
