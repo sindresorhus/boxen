@@ -232,9 +232,9 @@ const determineDimensions = (text, options) => {
 	const columns = terminalColumns();
 	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
 
-	if (options.fullscreen) {
-		options.height = process?.stdout?.rows;
-		options.width = process?.stdout?.columns;
+	if (options.fullscreen && process && process.stdout) {
+		options.height = process.stdout.rows;
+		options.width = process.stdout.columns;
 	}
 
 	// If width is provided, make sure it's not below 1
