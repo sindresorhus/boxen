@@ -193,6 +193,25 @@ export interface Options {
 	```
 	*/
 	readonly width?: number;
+
+	/**
+	Set a fixed height for the box.
+
+	**Note*: This option will crop overflowing content.
+
+	@example
+	```
+	import boxen from 'boxen';
+
+	console.log(boxen('foo bar', {height: 5}));
+	// ┌───────┐
+	// │foo bar│
+	// │       │
+	// │       │
+	// └───────┘
+	```
+	*/
+	readonly height?: number;
 }
 
 /**

@@ -65,3 +65,9 @@ console.log('\n\n' + boxen('This box has a centered title', {title, titleAlignme
 console.log('\n\n' + boxen('This box has fixed width of 20', {width: 20}) + '\n');
 
 console.log('\n\n' + boxen('This box has fixed width of 50', {width: 50}) + '\n');
+
+console.log('\n\n' + boxen('This box has fixed height of 5', {height: 5}) + '\n');
+
+console.log('\n\n' + boxen('This box has fixed height of 5', {height: 5, padding: 2}) + '\n');
+
+console.log('\n\n' + boxen('This box has fixed height of 5 and width of 15', {height: 8, width: 15}) + '\n');

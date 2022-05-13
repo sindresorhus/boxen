@@ -116,24 +116,24 @@ const makeTitle = (text, horizontal, alignement) => {
 	return title;
 };
 
-const makeContentText = (text, padding, columns, align) => {
-	text = ansiAlign(text, {align});
+const makeContentText = (text, {padding, width, textAlignment, height}) => {
+	text = ansiAlign(text, {align: textAlignment});
 	let lines = text.split(NEWLINE);
 	const textWidth = widestLine(text);
 
-	const max = columns - padding.left - padding.right;
+	const max = width - padding.left - padding.right;
 
 	if (textWidth > max) {
 		const newLines = [];
 		for (const line of lines) {
 			const createdLines = wrapAnsi(line, max, {hard: true});
-			const alignedLines = ansiAlign(createdLines, {align});
+			const alignedLines = ansiAlign(createdLines, {align: textAlignment});
 			const alignedLinesArray = alignedLines.split('\n');
 			const longestLength = Math.max(...alignedLinesArray.map(s => stringWidth(s)));
 
 			for (const alignedLine of alignedLinesArray) {
 				let paddedLine;
-				switch (align) {
+				switch (textAlignment) {
 					case 'center':
 						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
 						break;
@@ -152,9 +152,9 @@ const makeContentText = (text, padding, columns, align) => {
 		lines = newLines;
 	}
 
-	if (align === 'center' && textWidth < max) {
+	if (textAlignment === 'center' && textWidth < max) {
 		lines = lines.map(line => PAD.repeat((max - textWidth) / 2) + line);
-	} else if (align === 'right' && textWidth < max) {
+	} else if (textAlignment === 'right' && textWidth < max) {
 		lines = lines.map(line => PAD.repeat(max - textWidth) + line);
 	}
 
@@ -164,14 +164,14 @@ const makeContentText = (text, padding, columns, align) => {
 	lines = lines.map(line => paddingLeft + line + paddingRight);
 
 	lines = lines.map(line => {
-		if (columns - stringWidth(line) > 0) {
-			switch (align) {
+		if (width - stringWidth(line) > 0) {
+			switch (textAlignment) {
 				case 'center':
-					return line + PAD.repeat(columns - stringWidth(line));
+					return line + PAD.repeat(width - stringWidth(line));
 				case 'right':
-					return line + PAD.repeat(columns - stringWidth(line));
+					return line + PAD.repeat(width - stringWidth(line));
 				default:
-					return line + PAD.repeat(columns - stringWidth(line));
+					return line + PAD.repeat(width - stringWidth(line));
 			}
 		}
 
@@ -179,11 +179,17 @@ const makeContentText = (text, padding, columns, align) => {
 	});
 
 	if (padding.top > 0) {
-		lines = [...Array.from({length: padding.top}).fill(PAD.repeat(columns)), ...lines];
+		lines = [...Array.from({length: padding.top}).fill(PAD.repeat(width)), ...lines];
 	}
 
 	if (padding.bottom > 0) {
-		lines = [...lines, ...Array.from({length: padding.bottom}).fill(PAD.repeat(columns))];
+		lines = [...lines, ...Array.from({length: padding.bottom}).fill(PAD.repeat(width))];
+	}
+
+	if (height && lines.length > height) {
+		lines = lines.slice(0, height);
+	} else if (height && lines.length < height) {
+		lines = [...lines, ...Array.from({length: height - lines.length}).fill(PAD.repeat(width))];
 	}
 
 	return lines.join(NEWLINE);
@@ -229,6 +235,11 @@ const determineDimensions = (text, options) => {
 	// If width is provided, make sure it's not below 1
 	if (options.width) {
 		options.width = Math.max(1, options.width - BORDERS_WIDTH);
+	}
+
+	// If height is provided, make sure it's not below 1
+	if (options.height) {
+		options.height = Math.max(1, options.height - BORDERS_WIDTH);
 	}
 
 	const widest = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
@@ -278,6 +289,11 @@ const determineDimensions = (text, options) => {
 		options.padding.right = 0;
 	}
 
+	if (options.height && options.height - (options.padding.top + options.padding.bottom) <= 0) {
+		options.padding.top = 0;
+		options.padding.bottom = 0;
+	}
+
 	return options;
 };
 
@@ -315,7 +331,7 @@ export default function boxen(text, options) {
 
 	options = determineDimensions(text, options);
 
-	text = makeContentText(text, options.padding, options.width, options.textAlignment);
+	text = makeContentText(text, options);
 
 	return boxContent(text, options.width, options);
 }
