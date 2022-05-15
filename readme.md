@@ -200,6 +200,42 @@ Set a fixed width for the box.
 
 *Note:* This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
+Example:
+```js
+import boxen from 'boxen';
+
+console.log(boxen('foo bar', {width: 15}));
+// ┌─────────────┐
+// │foo bar      │
+// └─────────────┘
+```
+
+##### height
+
+Type: `number`
+
+Set a fixed height for the box.
+
+*Note:* This option will crop overflowing content.
+
+```js
+import boxen from 'boxen';
+
+console.log(boxen('foo bar', {height: 5}));
+// ┌───────┐
+// │foo bar│
+// │       │
+// │       │
+// └───────┘
+```
+
+##### fullscreen
+
+Type: `boolean`
+
+If possible, the box will fit all available space within the terminal.
+
+
 ##### padding
 
 Type: `number | object`\
