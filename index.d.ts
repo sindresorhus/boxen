@@ -180,7 +180,7 @@ export interface Options {
 	/**
 	Set a fixed width for the box.
 
-	**Note*: This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
+	__Note__: This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
 	@example
 	```
@@ -197,7 +197,7 @@ export interface Options {
 	/**
 	Set a fixed height for the box.
 
-	**Note*: This option will crop overflowing content.
+	__Note__: This option will crop overflowing content.
 
 	@example
 	```
@@ -215,8 +215,6 @@ export interface Options {
 
 	/**
 	If possible, the box will fit all available space within the terminal.
-
-	**Note*: This option overrides the `width` and `height` options.
 
 	*/
 	readonly fullscreen?: boolean;

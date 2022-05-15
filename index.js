@@ -227,14 +227,11 @@ const boxContent = (content, contentWidth, options) => {
 	return top + LINE_SEPARATOR + middle + LINE_SEPARATOR + bottom;
 };
 
-const determineDimensions = (text, options) => {
-	const widthOverride = options.width !== undefined;
-	const columns = terminalColumns();
-	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
-
+const sanitizeOptions = options => {
+	// If fullscreen is enabled, max-out unspecified width/height
 	if (options.fullscreen && process && process.stdout) {
-		options.height = process.stdout.rows;
-		options.width = process.stdout.columns;
+		options.height ??= process.stdout.rows;
+		options.width ??= process.stdout.columns;
 	}
 
 	// If width is provided, make sure it's not below 1
@@ -246,6 +243,15 @@ const determineDimensions = (text, options) => {
 	if (options.height) {
 		options.height = Math.max(1, options.height - BORDERS_WIDTH);
 	}
+
+	return options;
+};
+
+const determineDimensions = (text, options) => {
+	options = sanitizeOptions(options);
+	const widthOverride = options.width !== undefined;
+	const columns = terminalColumns();
+	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
 
 	const widest = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
