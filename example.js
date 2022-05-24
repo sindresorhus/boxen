@@ -73,3 +73,7 @@ console.log('\n\n' + boxen('This box has fixed height of 5', {height: 5, padding
 console.log('\n\n' + boxen('This box has fixed height of 5 and width of 15', {height: 8, width: 15}) + '\n');
 
 console.log('\n\n' + boxen('This box is in fullscreen !', {fullscreen: true}) + '\n');
+
+console.log('\n\n' + boxen('This box is in full-width and half-height !', {fullscreen: (w, h) => [w, h / 2]}) + '\n');
+
+console.log('\n\n' + boxen('And this one is in half-width and full-height !', {fullscreen: (w, h) => [w / 2, h]}) + '\n');

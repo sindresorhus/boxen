@@ -233,8 +233,18 @@ console.log(boxen('foo bar', {height: 5}));
 
 Type: `boolean`
 
-If possible, the box will fit all available space within the terminal.
+The box will fit all available space within the terminal.
 
+Type: ` (width: number, height: number) => [width: number, height: number]`
+Pass a callback function to control box dimensions.
+
+```js
+import boxen from 'boxen';
+
+console.log(boxen('foo bar', {
+	fullscreen: (w, h) => [w, h - 1];
+}));
+```
 
 ##### padding
 

@@ -214,10 +214,21 @@ export interface Options {
 	readonly height?: number;
 
 	/**
-	If possible, the box will fit all available space within the terminal.
+	__boolean__: Wether or not to fit all available space within the terminal.
 
+	__function__: Pass a callback function to control box dimensions.
+
+	@example
+	```
+	import boxen from 'boxen';
+
+	console.log(boxen('foo bar', {
+		fullscreen: (w, h) => [w, h - 1];
+	}));
+
+	```
 	*/
-	readonly fullscreen?: boolean;
+	readonly fullscreen?: boolean | ((width: number, height: number) => [width: number, height: number]);
 }
 
 /**
