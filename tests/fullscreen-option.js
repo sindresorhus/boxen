@@ -26,3 +26,11 @@ test('fullscreen option + height', t => {
 
 	t.snapshot(box);
 });
+
+test('fullscreen option with callback', t => {
+	const box = boxen('foo', {
+		fullscreen: (w, h) => [w - 2, h - 2],
+	});
+
+	t.snapshot(box);
+});
