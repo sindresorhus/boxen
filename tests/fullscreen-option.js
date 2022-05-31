@@ -29,7 +29,7 @@ test('fullscreen option + height', t => {
 
 test('fullscreen option with callback', t => {
 	const box = boxen('foo', {
-		fullscreen: (w, h) => [w - 2, h - 2],
+		fullscreen: (width, height) => [width - 2, height - 2],
 	});
 
 	t.snapshot(box);
