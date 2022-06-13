@@ -225,7 +225,6 @@ export interface Options {
 	console.log(boxen('foo bar', {
 		fullscreen: (width, height) => [width, height - 1];
 	}));
-
 	```
 	*/
 	readonly fullscreen?: boolean | ((width: number, height: number) => [width: number, height: number]);
