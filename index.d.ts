@@ -180,7 +180,7 @@ export interface Options {
 	/**
 	Set a fixed width for the box.
 
-	**Note*: This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
+	__Note__: This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
 	@example
 	```
@@ -193,6 +193,41 @@ export interface Options {
 	```
 	*/
 	readonly width?: number;
+
+	/**
+	Set a fixed height for the box.
+
+	__Note__: This option will crop overflowing content.
+
+	@example
+	```
+	import boxen from 'boxen';
+
+	console.log(boxen('foo bar', {height: 5}));
+	// ┌───────┐
+	// │foo bar│
+	// │       │
+	// │       │
+	// └───────┘
+	```
+	*/
+	readonly height?: number;
+
+	/**
+	__boolean__: Wether or not to fit all available space within the terminal.
+
+	__function__: Pass a callback function to control box dimensions.
+
+	@example
+	```
+	import boxen from 'boxen';
+
+	console.log(boxen('foo bar', {
+		fullscreen: (width, height) => [width, height - 1];
+	}));
+	```
+	*/
+	readonly fullscreen?: boolean | ((width: number, height: number) => [width: number, height: number]);
 }
 
 /**
