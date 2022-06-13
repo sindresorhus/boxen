@@ -14,11 +14,11 @@ const BORDERS_WIDTH = 2;
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
 
-	if (stdout && stdout.columns) {
+	if (stdout?.columns) {
 		return stdout.columns;
 	}
 
-	if (stderr && stderr.columns) {
+	if (stderr?.columns) {
 		return stderr.columns;
 	}
 
@@ -64,13 +64,13 @@ const getBorderChars = borderStyle => {
 		}
 	} else {
 		// Ensure retro-compatibility
-		if (borderStyle.vertical && typeof borderStyle.vertical === 'string') {
+		if (typeof borderStyle?.vertical === 'string') {
 			borderStyle.left = borderStyle.vertical;
 			borderStyle.right = borderStyle.vertical;
 		}
 
 		// Ensure retro-compatibility
-		if (borderStyle.horizontal && typeof borderStyle.horizontal === 'string') {
+		if (typeof borderStyle?.horizontal === 'string') {
 			borderStyle.top = borderStyle.horizontal;
 			borderStyle.bottom = borderStyle.horizontal;
 		}
@@ -229,7 +229,7 @@ const boxContent = (content, contentWidth, options) => {
 
 const sanitizeOptions = options => {
 	// If fullscreen is enabled, max-out unspecified width/height
-	if (options.fullscreen && process && process.stdout) {
+	if (options.fullscreen && process?.stdout) {
 		let newDimensions = [process.stdout.columns, process.stdout.rows];
 
 		if (typeof options.fullscreen === 'function') {
@@ -320,7 +320,7 @@ const determineDimensions = (text, options) => {
 };
 
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
-const isColorValid = color => typeof color === 'string' && ((chalk[color]) || isHex(color));
+const isColorValid = color => typeof color === 'string' && (chalk[color] ?? isHex(color));
 const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
@@ -358,4 +358,4 @@ export default function boxen(text, options) {
 	return boxContent(text, options.width, options);
 }
 
-export const _borderStyles = cliBoxes;
+export {default as _borderStyles} from 'cli-boxes';
