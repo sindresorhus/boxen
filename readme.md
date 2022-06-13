@@ -200,7 +200,6 @@ Set a fixed width for the box.
 
 *Note:* This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
-Example:
 ```js
 import boxen from 'boxen';
 
@@ -231,18 +230,17 @@ console.log(boxen('foo bar', {height: 5}));
 
 ##### fullscreen
 
-Type: `boolean`
+Type: `boolean | (width: number, height: number) => [width: number, height: number]`
 
 Wether or not to fit all available space within the terminal.
 
-Type: `(width: number, height: number) => [width: number, height: number]`
-Pass a callback function to control box dimensions.
+Pass a callback function to control box dimensions:
 
 ```js
 import boxen from 'boxen';
 
 console.log(boxen('foo bar', {
-	fullscreen: (w, h) => [w, h - 1];
+	fullscreen: (width, height) => [width, height - 1];
 }));
 ```
 
