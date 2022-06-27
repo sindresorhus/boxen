@@ -214,7 +214,7 @@ export interface Options {
 	readonly height?: number;
 
 	/**
-	__boolean__: Wether or not to fit all available space within the terminal.
+	__boolean__: Whether or not to fit all available space within the terminal.
 
 	__function__: Pass a callback function to control box dimensions.
 

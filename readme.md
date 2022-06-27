@@ -232,7 +232,7 @@ console.log(boxen('foo bar', {height: 5}));
 
 Type: `boolean | (width: number, height: number) => [width: number, height: number]`
 
-Wether or not to fit all available space within the terminal.
+Whether or not to fit all available space within the terminal.
 
 Pass a callback function to control box dimensions:
 
