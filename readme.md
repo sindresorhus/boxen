@@ -240,7 +240,7 @@ Pass a callback function to control box dimensions:
 import boxen from 'boxen';
 
 console.log(boxen('foo bar', {
-	fullscreen: (width, height) => [width, height - 1];
+	fullscreen: (width, height) => [width, height - 1],
 }));
 ```
 
