@@ -76,7 +76,7 @@ const getBorderChars = borderStyle => {
 		}
 
 		for (const side of sides) {
-			if (borderStyle[side] == null || typeof borderStyle[side] !== 'string') {
+			if (borderStyle[side] === null || typeof borderStyle[side] !== 'string') {
 				throw new TypeError(`Invalid border style: ${side}`);
 			}
 		}
