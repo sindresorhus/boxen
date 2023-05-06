@@ -56,6 +56,14 @@ const getBorderChars = borderStyle => {
 
 	let characters;
 
+	// Create empty border style
+	if (borderStyle === 'none') {
+		borderStyle = {};
+		for (const side of sides) {
+			borderStyle[side] = '';
+		}
+	}
+
 	if (typeof borderStyle === 'string') {
 		characters = cliBoxes[borderStyle];
 
@@ -76,7 +84,7 @@ const getBorderChars = borderStyle => {
 		}
 
 		for (const side of sides) {
-			if (!borderStyle[side] || typeof borderStyle[side] !== 'string') {
+			if (borderStyle[side] === null || typeof borderStyle[side] !== 'string') {
 				throw new TypeError(`Invalid border style: ${side}`);
 			}
 		}

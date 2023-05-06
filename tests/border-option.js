@@ -105,6 +105,14 @@ test('border style (round)', t => {
 	t.snapshot(box);
 });
 
+test('border style (none)', t => {
+	const box = boxen('foo', {
+		borderStyle: 'none',
+	});
+
+	t.snapshot(box);
+});
+
 test('border style (custom ascii style)', t => {
 	const box = boxen('foo', {
 		borderStyle: {

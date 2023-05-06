@@ -117,6 +117,12 @@ Values:
 →foo←
 ↗↑↑↑↖
 ```
+- `'none'`
+```
+
+foo
+
+```
 
 Style of the box border.
 
