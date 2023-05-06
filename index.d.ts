@@ -44,10 +44,10 @@ export interface CustomBorderStyle extends BoxStyle {
 Spacing used for `padding` and `margin`.
 */
 export interface Spacing {
-	readonly top: number;
-	readonly right: number;
-	readonly bottom: number;
-	readonly left: number;
+	readonly top?: number;
+	readonly right?: number;
+	readonly bottom?: number;
+	readonly left?: number;
 }
 
 export interface Options {
