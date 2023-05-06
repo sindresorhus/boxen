@@ -2,11 +2,12 @@ import {LiteralUnion} from 'type-fest';
 import {BoxStyle, Boxes as CLIBoxes} from 'cli-boxes';
 
 /**
-	All box styles.
- */
+All box styles.
+*/
 interface Boxes extends CLIBoxes {
 	readonly none: BoxStyle;
 }
+
 /**
 Characters used for custom border.
 
