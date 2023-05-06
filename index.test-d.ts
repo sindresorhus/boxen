@@ -1,5 +1,5 @@
 import {expectType} from 'tsd';
-import boxen, {Spacing, CustomBorderStyle} from './index.js';
+import boxen, {type Spacing, type CustomBorderStyle} from './index.js';
 
 const border: CustomBorderStyle = {
 	topLeft: ' ',

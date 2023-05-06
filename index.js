@@ -101,13 +101,17 @@ const makeTitle = (text, horizontal, alignement) => {
 	const textWidth = stringWidth(text);
 
 	switch (alignement) {
-		case 'left':
+		case 'left': {
 			title = text + horizontal.slice(textWidth);
 			break;
-		case 'right':
+		}
+
+		case 'right': {
 			title = horizontal.slice(textWidth) + text;
 			break;
-		default:
+		}
+
+		default: {
 			horizontal = horizontal.slice(textWidth);
 
 			if (horizontal.length % 2 === 1) { // This is needed in case the length is odd
@@ -119,6 +123,7 @@ const makeTitle = (text, horizontal, alignement) => {
 			}
 
 			break;
+		}
 	}
 
 	return title;
@@ -142,15 +147,20 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 			for (const alignedLine of alignedLinesArray) {
 				let paddedLine;
 				switch (textAlignment) {
-					case 'center':
+					case 'center': {
 						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
 						break;
-					case 'right':
+					}
+
+					case 'right': {
 						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
 						break;
-					default:
+					}
+
+					default: {
 						paddedLine = alignedLine;
 						break;
+					}
 				}
 
 				newLines.push(paddedLine);
@@ -174,12 +184,17 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	lines = lines.map(line => {
 		if (width - stringWidth(line) > 0) {
 			switch (textAlignment) {
-				case 'center':
+				case 'center': {
 					return line + PAD.repeat(width - stringWidth(line));
-				case 'right':
+				}
+
+				case 'right': {
 					return line + PAD.repeat(width - stringWidth(line));
-				default:
+				}
+
+				default: {
 					return line + PAD.repeat(width - stringWidth(line));
+				}
 			}
 		}
 

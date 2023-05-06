@@ -1,12 +1,12 @@
-import {LiteralUnion} from 'type-fest';
-import {BoxStyle, Boxes as CLIBoxes} from 'cli-boxes';
+import {type LiteralUnion} from 'type-fest';
+import {type BoxStyle, type Boxes as CLIBoxes} from 'cli-boxes';
 
 /**
 All box styles.
 */
-interface Boxes extends CLIBoxes {
+type Boxes = {
 	readonly none: BoxStyle;
-}
+} & CLIBoxes;
 
 /**
 Characters used for custom border.
@@ -29,7 +29,7 @@ const border: CustomBorderStyle = {
 };
 ```
 */
-export interface CustomBorderStyle extends BoxStyle {
+export type CustomBorderStyle = {
 	/**
 	@deprecated Use `top` and `bottom` instead.
 	*/
@@ -39,19 +39,19 @@ export interface CustomBorderStyle extends BoxStyle {
 	@deprecated Use `left` and `right` instead.
 	*/
 	vertical?: string;
-}
+} & BoxStyle;
 
 /**
 Spacing used for `padding` and `margin`.
 */
-export interface Spacing {
+export type Spacing = {
 	readonly top?: number;
 	readonly right?: number;
 	readonly bottom?: number;
 	readonly left?: number;
-}
+};
 
-export interface Options {
+export type Options = {
 	/**
 	Color of the box border.
 	*/
@@ -235,7 +235,7 @@ export interface Options {
 	```
 	*/
 	readonly fullscreen?: boolean | ((width: number, height: number) => [width: number, height: number]);
-}
+};
 
 /**
 Creates a box in the terminal.
