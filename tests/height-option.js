@@ -49,3 +49,12 @@ test('height option with width + padding + margin', t => {
 
 	t.snapshot(box);
 });
+
+test('height option with border style (none)', t => {
+	const box = boxen('foo', {
+		height: 3,
+		borderStyle: 'none',
+	});
+
+	t.snapshot(box);
+});

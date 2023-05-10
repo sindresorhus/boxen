@@ -119,9 +119,7 @@ Values:
 ```
 - `'none'`
 ```
-
 foo
-
 ```
 
 Style of the box border.
