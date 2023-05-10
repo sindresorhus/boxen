@@ -37,3 +37,12 @@ test('width option with big padding', t => {
 
 	t.snapshot(box);
 });
+
+test('width option with border style (none)', t => {
+	const box = boxen('foo', {
+		width: 3,
+		borderStyle: 'none',
+	});
+
+	t.snapshot(box);
+});

@@ -9,7 +9,6 @@ import wrapAnsi from 'wrap-ansi';
 
 const NEWLINE = '\n';
 const PAD = ' ';
-const BORDERS_WIDTH = 2;
 
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
@@ -41,6 +40,8 @@ const getObject = detail => typeof detail === 'number' ? {
 	left: 0,
 	...detail,
 };
+
+const getBorderWidth = borderStyle => borderStyle === 'none' ? 0 : 2;
 
 const getBorderChars = borderStyle => {
 	const sides = [
@@ -231,10 +232,10 @@ const boxContent = (content, contentWidth, options) => {
 	let marginLeft = PAD.repeat(options.margin.left);
 
 	if (options.float === 'center') {
-		const marginWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
+		const marginWidth = Math.max((columns - contentWidth - getBorderWidth(options.borderStyle)) / 2, 0);
 		marginLeft = PAD.repeat(marginWidth);
 	} else if (options.float === 'right') {
-		const marginWidth = Math.max(columns - contentWidth - options.margin.right - BORDERS_WIDTH, 0);
+		const marginWidth = Math.max(columns - contentWidth - options.margin.right - getBorderWidth(options.borderStyle), 0);
 		marginLeft = PAD.repeat(marginWidth);
 	}
 
@@ -268,12 +269,12 @@ const sanitizeOptions = options => {
 
 	// If width is provided, make sure it's not below 1
 	if (options.width) {
-		options.width = Math.max(1, options.width - BORDERS_WIDTH);
+		options.width = Math.max(1, options.width - getBorderWidth(options.borderStyle));
 	}
 
 	// If height is provided, make sure it's not below 1
 	if (options.height) {
-		options.height = Math.max(1, options.height - BORDERS_WIDTH);
+		options.height = Math.max(1, options.height - getBorderWidth(options.borderStyle));
 	}
 
 	return options;
@@ -283,9 +284,10 @@ const determineDimensions = (text, options) => {
 	options = sanitizeOptions(options);
 	const widthOverride = options.width !== undefined;
 	const columns = terminalColumns();
-	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
+	const borderWidth = getBorderWidth(options.borderStyle);
+	const maxWidth = columns - options.margin.left - options.margin.right - borderWidth;
 
-	const widest = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+	const widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
 	// If title and width are provided, title adheres to fixed width
 	if (options.title && widthOverride) {
@@ -312,7 +314,7 @@ const determineDimensions = (text, options) => {
 	if (!widthOverride) {
 		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {
 			// Let's assume we have margins: left = 3, right = 5, in total = 8
-			const spaceForMargins = columns - options.width - BORDERS_WIDTH;
+			const spaceForMargins = columns - options.width - borderWidth;
 			// Let's assume we have space = 4
 			const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
 			// Here: multiplier = 4/8 = 0.5
@@ -323,7 +325,7 @@ const determineDimensions = (text, options) => {
 		}
 
 		// Re-cap width considering the margins after shrinking
-		options.width = Math.min(options.width, columns - BORDERS_WIDTH - options.margin.left - options.margin.right);
+		options.width = Math.min(options.width, columns - borderWidth - options.margin.left - options.margin.right);
 	}
 
 	// Prevent padding overflow
