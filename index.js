@@ -97,12 +97,12 @@ const getBorderChars = borderStyle => {
 	return characters;
 };
 
-const makeTitle = (text, horizontal, alignement) => {
+const makeTitle = (text, horizontal, alignment) => {
 	let title = '';
 
 	const textWidth = stringWidth(text);
 
-	switch (alignement) {
+	switch (alignment) {
 		case 'left': {
 			title = text + horizontal.slice(textWidth);
 			break;
