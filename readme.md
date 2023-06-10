@@ -300,4 +300,3 @@ Align the text in the box based on the widest line.
 
 - [boxen-cli](https://github.com/sindresorhus/boxen-cli) - CLI for this module
 - [cli-boxes](https://github.com/sindresorhus/cli-boxes) - Boxes for use in the terminal
-- [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink that uses this package
