@@ -68,3 +68,12 @@ test('title + width option', t => {
 		}),
 	);
 });
+
+test('title option with border style (none)', t => {
+	const box = boxen('foo', {
+		title: 'title',
+		borderStyle: 'none',
+	});
+
+	t.snapshot(box);
+});

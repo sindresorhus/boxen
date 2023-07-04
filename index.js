@@ -9,7 +9,7 @@ import wrapAnsi from 'wrap-ansi';
 
 const NEWLINE = '\n';
 const PAD = ' ';
-const BORDERS_WIDTH = 2;
+const NONE = 'none';
 
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
@@ -42,6 +42,8 @@ const getObject = detail => typeof detail === 'number' ? {
 	...detail,
 };
 
+const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
+
 const getBorderChars = borderStyle => {
 	const sides = [
 		'topLeft',
@@ -57,7 +59,7 @@ const getBorderChars = borderStyle => {
 	let characters;
 
 	// Create empty border style
-	if (borderStyle === 'none') {
+	if (borderStyle === NONE) {
 		borderStyle = {};
 		for (const side of sides) {
 			borderStyle[side] = '';
@@ -95,12 +97,12 @@ const getBorderChars = borderStyle => {
 	return characters;
 };
 
-const makeTitle = (text, horizontal, alignement) => {
+const makeTitle = (text, horizontal, alignment) => {
 	let title = '';
 
 	const textWidth = stringWidth(text);
 
-	switch (alignement) {
+	switch (alignment) {
 		case 'left': {
 			title = text + horizontal.slice(textWidth);
 			break;
@@ -231,21 +233,36 @@ const boxContent = (content, contentWidth, options) => {
 	let marginLeft = PAD.repeat(options.margin.left);
 
 	if (options.float === 'center') {
-		const marginWidth = Math.max((columns - contentWidth - BORDERS_WIDTH) / 2, 0);
+		const marginWidth = Math.max((columns - contentWidth - getBorderWidth(options.borderStyle)) / 2, 0);
 		marginLeft = PAD.repeat(marginWidth);
 	} else if (options.float === 'right') {
-		const marginWidth = Math.max(columns - contentWidth - options.margin.right - BORDERS_WIDTH, 0);
+		const marginWidth = Math.max(columns - contentWidth - options.margin.right - getBorderWidth(options.borderStyle), 0);
 		marginLeft = PAD.repeat(marginWidth);
 	}
 
-	const top = colorizeBorder(NEWLINE.repeat(options.margin.top) + marginLeft + chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight);
-	const bottom = colorizeBorder(marginLeft + chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight + NEWLINE.repeat(options.margin.bottom));
+	let result = '';
+
+	if (options.margin.top) {
+		result += NEWLINE.repeat(options.margin.top);
+	}
+
+	if (options.borderStyle !== NONE || options.title) {
+		result += colorizeBorder(marginLeft + chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight) + NEWLINE;
+	}
 
 	const lines = content.split(NEWLINE);
 
-	const middle = lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
+	result += lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
 
-	return top + NEWLINE + middle + NEWLINE + bottom;
+	if (options.borderStyle !== NONE) {
+		result += NEWLINE + colorizeBorder(marginLeft + chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight);
+	}
+
+	if (options.margin.bottom) {
+		result += NEWLINE.repeat(options.margin.bottom);
+	}
+
+	return result;
 };
 
 const sanitizeOptions = options => {
@@ -268,37 +285,40 @@ const sanitizeOptions = options => {
 
 	// If width is provided, make sure it's not below 1
 	if (options.width) {
-		options.width = Math.max(1, options.width - BORDERS_WIDTH);
+		options.width = Math.max(1, options.width - getBorderWidth(options.borderStyle));
 	}
 
 	// If height is provided, make sure it's not below 1
 	if (options.height) {
-		options.height = Math.max(1, options.height - BORDERS_WIDTH);
+		options.height = Math.max(1, options.height - getBorderWidth(options.borderStyle));
 	}
 
 	return options;
 };
 
+const formatTitle = (title, borderStyle) => borderStyle === NONE ? title : ` ${title} `;
+
 const determineDimensions = (text, options) => {
 	options = sanitizeOptions(options);
 	const widthOverride = options.width !== undefined;
 	const columns = terminalColumns();
-	const maxWidth = columns - options.margin.left - options.margin.right - BORDERS_WIDTH;
+	const borderWidth = getBorderWidth(options.borderStyle);
+	const maxWidth = columns - options.margin.left - options.margin.right - borderWidth;
 
-	const widest = widestLine(wrapAnsi(text, columns - BORDERS_WIDTH, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+	const widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
 	// If title and width are provided, title adheres to fixed width
 	if (options.title && widthOverride) {
 		options.title = options.title.slice(0, Math.max(0, options.width - 2));
 		if (options.title) {
-			options.title = ` ${options.title} `;
+			options.title = formatTitle(options.title, options.borderStyle);
 		}
 	} else if (options.title) {
 		options.title = options.title.slice(0, Math.max(0, maxWidth - 2));
 
 		// Recheck if title isn't empty now
 		if (options.title) {
-			options.title = ` ${options.title} `;
+			options.title = formatTitle(options.title, options.borderStyle);
 			// If the title is larger than content, box adheres to title width
 			if (stringWidth(options.title) > widest) {
 				options.width = stringWidth(options.title);
@@ -312,7 +332,7 @@ const determineDimensions = (text, options) => {
 	if (!widthOverride) {
 		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {
 			// Let's assume we have margins: left = 3, right = 5, in total = 8
-			const spaceForMargins = columns - options.width - BORDERS_WIDTH;
+			const spaceForMargins = columns - options.width - borderWidth;
 			// Let's assume we have space = 4
 			const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
 			// Here: multiplier = 4/8 = 0.5
@@ -323,7 +343,7 @@ const determineDimensions = (text, options) => {
 		}
 
 		// Re-cap width considering the margins after shrinking
-		options.width = Math.min(options.width, columns - BORDERS_WIDTH - options.margin.left - options.margin.right);
+		options.width = Math.min(options.width, columns - borderWidth - options.margin.left - options.margin.right);
 	}
 
 	// Prevent padding overflow

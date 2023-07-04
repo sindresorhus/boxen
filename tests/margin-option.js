@@ -54,3 +54,17 @@ test('margin proportionally decreases when content <= columns', t => {
 
 	t.snapshot(box);
 });
+
+test('margin option with border style (none)', t => {
+	const box = boxen('foo', {
+		margin: {
+			top: 1,
+			bottom: 1,
+			left: 1,
+			right: 1,
+		},
+		borderStyle: 'none',
+	});
+
+	t.snapshot(box);
+});

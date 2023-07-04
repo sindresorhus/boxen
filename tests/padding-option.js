@@ -21,3 +21,17 @@ test('padding option advanced', t => {
 
 	t.snapshot(box);
 });
+
+test('padding option with border style (none)', t => {
+	const box = boxen('foo', {
+		padding: {
+			top: 1,
+			bottom: 1,
+			left: 1,
+			right: 1,
+		},
+		borderStyle: 'none',
+	});
+
+	t.snapshot(box);
+});
