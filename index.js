@@ -181,26 +181,10 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	const paddingLeft = PAD.repeat(padding.left);
 	const paddingRight = PAD.repeat(padding.right);
 
-	lines = lines.map(line => paddingLeft + line + paddingRight);
-
 	lines = lines.map(line => {
-		if (width - stringWidth(line) > 0) {
-			switch (textAlignment) {
-				case 'center': {
-					return line + PAD.repeat(width - stringWidth(line));
-				}
+		const newLine = paddingLeft + line + paddingRight;
 
-				case 'right': {
-					return line + PAD.repeat(width - stringWidth(line));
-				}
-
-				default: {
-					return line + PAD.repeat(width - stringWidth(line));
-				}
-			}
-		}
-
-		return line;
+		return newLine + PAD.repeat(width - stringWidth(newLine));
 	});
 
 	if (padding.top > 0) {
