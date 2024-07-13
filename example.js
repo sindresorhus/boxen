@@ -53,8 +53,12 @@ console.log('\n\n' + boxen(sentences, {textAlignment: 'left'}) + '\n');
 console.log('\n\n' + boxen(sentences, {textAlignment: 'center'}) + '\n');
 
 console.log('\n\n' + boxen(sentences, {
-	textAlignment: 'right', padding: {
-		left: 1, right: 1, top: 0, bottom: 0,
+	textAlignment: 'right',
+	padding: {
+		left: 1,
+		right: 1,
+		top: 0,
+		bottom: 0,
 	},
 }) + '\n');
 
