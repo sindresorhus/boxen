@@ -206,11 +206,11 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 
 const boxContent = (content, contentWidth, options) => {
 	const colorizeBorder = border => {
-		const newBorder = options.borderColor ? getColorFn(options.borderColor)(border) : border;
+		const newBorder = options.borderColor ? getColorFunction(options.borderColor)(border) : border;
 		return options.dimBorder ? chalk.dim(newBorder) : newBorder;
 	};
 
-	const colorizeContent = content => options.backgroundColor ? getBGColorFn(options.backgroundColor)(content) : content;
+	const colorizeContent = content => options.backgroundColor ? getBGColorFunction(options.backgroundColor)(content) : content;
 
 	const chars = getBorderChars(options.borderStyle);
 	const columns = terminalColumns();
@@ -258,24 +258,16 @@ const sanitizeOptions = options => {
 			newDimensions = options.fullscreen(...newDimensions);
 		}
 
-		if (!options.width) {
-			options.width = newDimensions[0];
-		}
+		options.width ||= newDimensions[0];
 
-		if (!options.height) {
-			options.height = newDimensions[1];
-		}
+		options.height ||= newDimensions[1];
 	}
 
 	// If width is provided, make sure it's not below 1
-	if (options.width) {
-		options.width = Math.max(1, options.width - getBorderWidth(options.borderStyle));
-	}
+	options.width &&= Math.max(1, options.width - getBorderWidth(options.borderStyle));
 
 	// If height is provided, make sure it's not below 1
-	if (options.height) {
-		options.height = Math.max(1, options.height - getBorderWidth(options.borderStyle));
-	}
+	options.height &&= Math.max(1, options.height - getBorderWidth(options.borderStyle));
 
 	return options;
 };
@@ -294,9 +286,7 @@ const determineDimensions = (text, options) => {
 	// If title and width are provided, title adheres to fixed width
 	if (options.title && widthOverride) {
 		options.title = options.title.slice(0, Math.max(0, options.width - 2));
-		if (options.title) {
-			options.title = formatTitle(options.title, options.borderStyle);
-		}
+		options.title &&= formatTitle(options.title, options.borderStyle);
 	} else if (options.title) {
 		options.title = options.title.slice(0, Math.max(0, maxWidth - 2));
 
@@ -346,8 +336,8 @@ const determineDimensions = (text, options) => {
 
 const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
 const isColorValid = color => typeof color === 'string' && (chalk[color] ?? isHex(color));
-const getColorFn = color => isHex(color) ? chalk.hex(color) : chalk[color];
-const getBGColorFn = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
+const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color];
+const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
 export default function boxen(text, options) {
 	options = {
