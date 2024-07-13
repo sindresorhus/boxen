@@ -301,7 +301,7 @@ const determineDimensions = (text, options) => {
 	}
 
 	// If fixed width is provided, use it or content width as reference
-	options.width = options.width ? options.width : widest;
+	options.width ||= widest;
 
 	if (!widthOverride) {
 		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {

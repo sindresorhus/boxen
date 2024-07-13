@@ -11,7 +11,11 @@
 		"url": "https://sindresorhus.com"
 	},
 	"type": "module",
-	"exports": "./index.js",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"sideEffects": false,
 	"engines": {
 		"node": ">=18"
 	},
@@ -59,8 +63,6 @@
 	},
 	"xo": {
 		"rules": {
-			"@typescript-eslint/no-redundant-type-constituents": "off",
-			"unicorn/prefer-logical-operator-over-ternary": "off",
 			"@typescript-eslint/no-unsafe-assignment": "off"
 		}
 	}
