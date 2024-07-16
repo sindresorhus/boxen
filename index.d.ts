@@ -136,6 +136,29 @@ export type Options = {
 	>;
 
 	/**
+	Color of the background of the border.
+	*/
+	readonly borderBackgroundColor?: LiteralUnion<
+	| 'black'
+	| 'red'
+	| 'green'
+	| 'yellow'
+	| 'blue'
+	| 'magenta'
+	| 'cyan'
+	| 'white'
+	| 'blackBright'
+	| 'redBright'
+	| 'greenBright'
+	| 'yellowBright'
+	| 'blueBright'
+	| 'magentaBright'
+	| 'cyanBright'
+	| 'whiteBright',
+	string
+	>;
+
+	/**
 	Align the text in the box based on the widest line.
 
 	@default 'left'

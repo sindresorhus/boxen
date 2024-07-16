@@ -35,6 +35,7 @@ console.log('\n\n' + boxen(chalk.black('unicorn'), {
 	margin: 1,
 	borderColor: 'yellow',
 	backgroundColor: 'magenta',
+	borderBackgroundColor: 'magenta',
 	borderStyle: {
 		topLeft: '+',
 		topRight: '+',

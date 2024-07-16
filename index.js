@@ -206,8 +206,10 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 
 const boxContent = (content, contentWidth, options) => {
 	const colorizeBorder = border => {
-		const newBorder = options.borderColor ? getColorFunction(options.borderColor)(border) : border;
-		return options.dimBorder ? chalk.dim(newBorder) : newBorder;
+		const coloredBorder = options.borderColor ? getColorFunction(options.borderColor)(border) : border;
+		const bgColoredBorder = options.borderBackgroundColor ? getBGColorFunction(options.borderBackgroundColor)(coloredBorder) : coloredBorder;
+
+		return options.dimBorder ? chalk.dim(bgColoredBorder) : bgColoredBorder;
 	};
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFunction(options.backgroundColor)(content) : content;
@@ -231,7 +233,7 @@ const boxContent = (content, contentWidth, options) => {
 	}
 
 	if (options.borderStyle !== NONE || options.title) {
-		result += colorizeBorder(marginLeft + chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight) + NEWLINE;
+		result += marginLeft + colorizeBorder(chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight) + NEWLINE;
 	}
 
 	const lines = content.split(NEWLINE);
@@ -239,7 +241,7 @@ const boxContent = (content, contentWidth, options) => {
 	result += lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
 
 	if (options.borderStyle !== NONE) {
-		result += NEWLINE + colorizeBorder(marginLeft + chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight);
+		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight);
 	}
 
 	if (options.margin.bottom) {
@@ -361,6 +363,10 @@ export default function boxen(text, options) {
 
 	if (options.backgroundColor && !isColorValid(options.backgroundColor)) {
 		throw new Error(`${options.backgroundColor} is not a valid backgroundColor`);
+	}
+
+	if (options.borderBackgroundColor && !isColorValid(options.borderBackgroundColor)) {
+		throw new Error(`${options.borderBackgroundColor} is not a valid borderBackgroundColor`);
 	}
 
 	options.padding = getObject(options.padding);
