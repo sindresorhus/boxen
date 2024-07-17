@@ -26,7 +26,8 @@ export type Color = LiteralUnion<
 | 'blueBright'
 | 'magentaBright'
 | 'cyanBright'
-| 'whiteBright',
+| 'whiteBright'
+| 'none',
 string
 >;
 
@@ -121,6 +122,8 @@ export type Options = {
 
 	/**
 	Color of the background of the border.
+
+	Defaults to `backgroundColor`. Use `'none'` for no color.
 	*/
 	readonly borderBackgroundColor?: Color;
 

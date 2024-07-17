@@ -284,9 +284,11 @@ Color of the background.
 ##### borderBackgroundColor
 
 Type: `string`\
-Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
+Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` `'none'` or a hex value like `'#ff0000'`
 
 Color of the background of the border.
+
+Defaults to `options.backgroundColor`. Use `'none'` for no color.
 
 ##### textAlignment
 

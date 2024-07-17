@@ -365,6 +365,13 @@ export default function boxen(text, options) {
 		throw new Error(`${options.backgroundColor} is not a valid backgroundColor`);
 	}
 
+	// Option borderBackgroundColor defaults to backgroundColor if unspecified
+	options.borderBackgroundColor ??= options.backgroundColor;
+
+	if (options.borderBackgroundColor === 'none') {
+		options.borderBackgroundColor = null;
+	}
+
 	if (options.borderBackgroundColor && !isColorValid(options.borderBackgroundColor)) {
 		throw new Error(`${options.borderBackgroundColor} is not a valid borderBackgroundColor`);
 	}

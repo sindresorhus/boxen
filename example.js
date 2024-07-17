@@ -35,7 +35,25 @@ console.log('\n\n' + boxen(chalk.black('unicorn'), {
 	margin: 1,
 	borderColor: 'yellow',
 	backgroundColor: 'magenta',
-	borderBackgroundColor: 'magenta',
+	borderBackgroundColor: 'red',
+	borderStyle: {
+		topLeft: '+',
+		topRight: '+',
+		bottomLeft: '+',
+		bottomRight: '+',
+		top: '-',
+		bottom: '-',
+		left: '|',
+		right: '|',
+	},
+}) + '\n');
+
+console.log('\n\n' + boxen(chalk.black('unicorn'), {
+	padding: 1,
+	margin: 1,
+	borderColor: 'yellow',
+	backgroundColor: 'magenta',
+	borderBackgroundColor: 'none',
 	borderStyle: {
 		topLeft: '+',
 		topRight: '+',
