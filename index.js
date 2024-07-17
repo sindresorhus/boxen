@@ -368,7 +368,7 @@ export default function boxen(text, options) {
 	// Option borderBackgroundColor defaults to backgroundColor if unspecified
 	options.borderBackgroundColor ??= options.backgroundColor;
 
-	if (options.borderBackgroundColor === 'none') {
+	if (options.borderBackgroundColor === NONE) {
 		options.borderBackgroundColor = null;
 	}
 
