@@ -8,7 +8,7 @@ type Boxes = {
 	readonly none: BoxStyle;
 } & CLIBoxes;
 
-type Color = LiteralUnion<
+export type Color = LiteralUnion<
 | 'black'
 | 'red'
 | 'green'
@@ -29,6 +29,7 @@ type Color = LiteralUnion<
 | 'whiteBright',
 string
 >;
+
 /**
 Characters used for custom border.
 
