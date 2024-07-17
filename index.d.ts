@@ -8,6 +8,27 @@ type Boxes = {
 	readonly none: BoxStyle;
 } & CLIBoxes;
 
+type Color = LiteralUnion<
+| 'black'
+| 'red'
+| 'green'
+| 'yellow'
+| 'blue'
+| 'magenta'
+| 'cyan'
+| 'white'
+| 'gray'
+| 'grey'
+| 'blackBright'
+| 'redBright'
+| 'greenBright'
+| 'yellowBright'
+| 'blueBright'
+| 'magentaBright'
+| 'cyanBright'
+| 'whiteBright',
+string
+>;
 /**
 Characters used for custom border.
 
@@ -55,27 +76,7 @@ export type Options = {
 	/**
 	Color of the box border.
 	*/
-	readonly borderColor?: LiteralUnion<
-	| 'black'
-	| 'red'
-	| 'green'
-	| 'yellow'
-	| 'blue'
-	| 'magenta'
-	| 'cyan'
-	| 'white'
-	| 'gray'
-	| 'grey'
-	| 'blackBright'
-	| 'redBright'
-	| 'greenBright'
-	| 'yellowBright'
-	| 'blueBright'
-	| 'magentaBright'
-	| 'cyanBright'
-	| 'whiteBright',
-	string
-	>;
+	readonly borderColor?: Color;
 
 	/**
 	Style of the box border.
@@ -115,48 +116,12 @@ export type Options = {
 	/**
 	Color of the background.
 	*/
-	readonly backgroundColor?: LiteralUnion<
-	| 'black'
-	| 'red'
-	| 'green'
-	| 'yellow'
-	| 'blue'
-	| 'magenta'
-	| 'cyan'
-	| 'white'
-	| 'blackBright'
-	| 'redBright'
-	| 'greenBright'
-	| 'yellowBright'
-	| 'blueBright'
-	| 'magentaBright'
-	| 'cyanBright'
-	| 'whiteBright',
-	string
-	>;
+	readonly backgroundColor?: Color;
 
 	/**
 	Color of the background of the border.
 	*/
-	readonly borderBackgroundColor?: LiteralUnion<
-	| 'black'
-	| 'red'
-	| 'green'
-	| 'yellow'
-	| 'blue'
-	| 'magenta'
-	| 'cyan'
-	| 'white'
-	| 'blackBright'
-	| 'redBright'
-	| 'greenBright'
-	| 'yellowBright'
-	| 'blueBright'
-	| 'magentaBright'
-	| 'cyanBright'
-	| 'whiteBright',
-	string
-	>;
+	readonly borderBackgroundColor?: Color;
 
 	/**
 	Align the text in the box based on the widest line.
