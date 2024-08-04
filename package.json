@@ -17,7 +17,7 @@
 	},
 	"sideEffects": false,
 	"engines": {
-		"node": ">=18"
+		"node": ">=18.20 <19 || >=20.10"
 	},
 	"scripts": {
 		"test": "xo && nyc ava && tsd"
