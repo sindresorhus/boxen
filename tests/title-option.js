@@ -1,5 +1,8 @@
 import test from 'ava';
+import {Chalk} from 'chalk';
 import boxen from '../index.js';
+
+const level3Chalk = new Chalk({level: 3});
 
 test('title option works', t => {
 	const box = boxen('foo', {
@@ -65,6 +68,13 @@ test('title + width option', t => {
 		boxen('foo', {
 			title: 'very long title',
 			width: 20,
+		}),
+	);
+
+	t.snapshot(
+		boxen('foo', {
+			title: level3Chalk.red('colorful title'),
+			width: 18,
 		}),
 	);
 });
