@@ -196,6 +196,56 @@ Values:
 */
 ```
 
+##### subtitle
+
+Type: `string`
+
+Display a subtitle at the bottom of the box.
+If needed, the box will horizontally expand to fit the subtitle.
+
+Example:
+```js
+console.log(boxen('foo bar', {subtitle: 'example'}));
+/*
+┌─────────┐
+│foo bar  │
+└ example ┘
+*/
+```
+
+##### subtitleAlignment
+
+Type: `string`\
+Default: `'left'`
+
+Align the subtitle in the bottom bar.
+
+Values:
+- `'left'`
+```js
+/*
+┌───────────────┐
+│foo bar foo bar│
+└ example ──────┘
+*/
+```
+- `'center'`
+```js
+/*
+┌───────────────┐
+│foo bar foo bar│
+└─── example ───┘
+*/
+```
+- `'right'`
+```js
+/*
+┌───────────────┐
+│foo bar foo bar│
+└────── example ┘
+*/
+```
+
 ##### width
 
 Type: `number`
