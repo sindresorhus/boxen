@@ -1,35 +1,35 @@
 import test from 'ava';
 import boxen from '../index.js';
 
-test('longest of title, subtitle, or content expands box', t => {
+test('longest of title, footer, or content expands box', t => {
 	t.snapshot(
 		boxen('very, very, very long content', {
 			title: 'short title',
-			subtitle: 'short subtitle',
+			footer: 'short footer',
 		}),
 	);
 
 	t.snapshot(
 		boxen('short content', {
 			title: 'much, much, much longer title',
-			subtitle: 'short subtitle',
+			footer: 'short footer',
 		}),
 	);
 
 	t.snapshot(
 		boxen('short content', {
 			title: 'short title',
-			subtitle: 'much, much, much longer subtitle',
+			footer: 'much, much, much longer footer',
 		}),
 	);
 });
 
-test('title + subtitle + width option', t => {
+test('title + footer + width option', t => {
 	// Not enough space, no title
 	t.snapshot(
 		boxen('short content', {
 			title: 'very long title',
-			subtitle: 'very long subtitle',
+			footer: 'very long footer',
 			width: 3,
 		}),
 	);
@@ -38,7 +38,7 @@ test('title + subtitle + width option', t => {
 	t.snapshot(
 		boxen('short content', {
 			title: 'very long title',
-			subtitle: 'very long subtitle',
+			footer: 'very long footer',
 			width: 5,
 		}),
 	);
@@ -46,7 +46,7 @@ test('title + subtitle + width option', t => {
 	t.snapshot(
 		boxen('short content', {
 			title: 'very long title',
-			subtitle: 'very long subtitle',
+			footer: 'very long footer',
 			width: 30,
 		}),
 	);

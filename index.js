@@ -239,8 +239,8 @@ const boxContent = (content, contentWidth, options) => {
 
 	result += lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
 
-	if (options.borderStyle !== NONE || options.subtitle) {
-		result += NEWLINE + colorizeBorder(marginLeft + chars.bottomLeft + (options.subtitle ? makeTitle(options.subtitle, chars.bottom.repeat(contentWidth), options.subtitleAlignment) : chars.bottom.repeat(contentWidth)) + chars.bottomRight);
+	if (options.borderStyle !== NONE || options.footer) {
+		result += NEWLINE + colorizeBorder(marginLeft + chars.bottomLeft + (options.footer ? makeTitle(options.footer, chars.bottom.repeat(contentWidth), options.footerAlignment) : chars.bottom.repeat(contentWidth)) + chars.bottomRight);
 	}
 
 	if (options.margin.bottom) {
@@ -284,16 +284,15 @@ const determineDimensions = (text, options) => {
 
 	let widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
-	// If either title or subtitle are provided along with width, title and subtitle adhere to fixed width
-	if ((options.title || options.subtitle) && widthOverride) {
-		options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
+	// If either title or footer are provided along with width, title and footer adhere to fixed width
+	if ((options.title || options.footer) && widthOverride) {
+		options.title &&= options.title.slice(0, Math.max(0, options.width - 2));
 		options.title &&= formatTitle(options.title, options.borderStyle);
-		options.subtitle = sliceAnsi(options.subtitle, 0, Math.max(0, options.width - 2));
-		options.subtitle &&= formatTitle(options.subtitle, options.borderStyle);
-	} else if (options.title) {
-		options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
+		options.footer = sliceAnsi(options.footer, 0, Math.max(0, options.width - 2));
+		options.footer &&= formatTitle(options.footer, options.borderStyle);
+	} else {
 		if (options.title) {
-			options.title = options.title.slice(0, Math.max(0, maxWidth - 2));
+			options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
 
 			// Recheck if title isn't empty now
 			if (options.title) {
@@ -303,15 +302,14 @@ const determineDimensions = (text, options) => {
 			}
 		}
 
-		options.subtitle = sliceAnsi(options.subtitle, 0, Math.max(0, maxWidth - 2));
-		if (options.subtitle) {
-			options.subtitle = options.subtitle.slice(0, Math.max(0, maxWidth - 2));
+		if (options.footer) {
+			options.footer = sliceAnsi(options.footer, 0, Math.max(0, maxWidth - 2));
 
-			// Recheck if subtitle isn't empty now
-			if (options.subtitle) {
-				options.subtitle = formatTitle(options.subtitle, options.borderStyle);
-				// If the subtitle is larger than content, box adheres to subtitle width
-				widest = Math.max(widest, stringWidth(options.subtitle));
+			// Recheck if footer isn't empty now
+			if (options.footer) {
+				options.footer = formatTitle(options.footer, options.borderStyle);
+				// If the footer is larger than content, box adheres to footer width
+				widest = Math.max(widest, stringWidth(options.footer));
 			}
 		}
 	}
@@ -363,7 +361,7 @@ export default function boxen(text, options) {
 		textAlignment: 'left',
 		float: 'left',
 		titleAlignment: 'left',
-		subtitleAlignment: 'left',
+		footerAlignment: 'left',
 		...options,
 	};
 

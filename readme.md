@@ -196,16 +196,16 @@ Values:
 */
 ```
 
-##### subtitle
+##### footer
 
 Type: `string`
 
-Display a subtitle at the bottom of the box.
-If needed, the box will horizontally expand to fit the subtitle.
+Display a footer at the bottom of the box.
+If needed, the box will horizontally expand to fit the footer.
 
 Example:
 ```js
-console.log(boxen('foo bar', {subtitle: 'example'}));
+console.log(boxen('foo bar', {footer: 'example'}));
 /*
 ┌─────────┐
 │foo bar  │
@@ -213,12 +213,12 @@ console.log(boxen('foo bar', {subtitle: 'example'}));
 */
 ```
 
-##### subtitleAlignment
+##### footerAlignment
 
 Type: `string`\
 Default: `'left'`
 
-Align the subtitle in the bottom bar.
+Align the footer in the bottom bar.
 
 Values:
 - `'left'`
