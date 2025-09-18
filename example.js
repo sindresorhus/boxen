@@ -70,6 +70,11 @@ console.log('\n\n' + boxen('This box has a nice title', {title}) + '\n');
 
 console.log('\n\n' + boxen('This box has a centered title', {title, titleAlignment: 'center'}) + '\n');
 
+const footer = 'Interesting footer';
+console.log('\n\n' + boxen('This box has a nice footer', {footer}) + '\n');
+
+console.log('\n\n' + boxen('This box has a centered footer', {footer, footerAlignment: 'center'}) + '\n');
+
 console.log('\n\n' + boxen('This box has fixed width of 20', {width: 20}) + '\n');
 
 console.log('\n\n' + boxen('This box has fixed width of 50', {width: 50}) + '\n');

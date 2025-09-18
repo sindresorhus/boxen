@@ -196,6 +196,56 @@ Values:
 */
 ```
 
+##### footer
+
+Type: `string`
+
+Display a footer at the bottom of the box.
+If needed, the box will horizontally expand to fit the footer.
+
+Example:
+```js
+console.log(boxen('foo bar', {footer: 'example'}));
+/*
+┌─────────┐
+│foo bar  │
+└ example ┘
+*/
+```
+
+##### footerAlignment
+
+Type: `string`\
+Default: `'left'`
+
+Align the footer in the bottom bar.
+
+Values:
+- `'left'`
+```js
+/*
+┌───────────────┐
+│foo bar foo bar│
+└ example ──────┘
+*/
+```
+- `'center'`
+```js
+/*
+┌───────────────┐
+│foo bar foo bar│
+└─── example ───┘
+*/
+```
+- `'right'`
+```js
+/*
+┌───────────────┐
+│foo bar foo bar│
+└────── example ┘
+*/
+```
+
 ##### width
 
 Type: `number`
