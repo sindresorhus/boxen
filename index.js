@@ -6,6 +6,7 @@ import cliBoxes from 'cli-boxes';
 import camelCase from 'camelcase';
 import ansiAlign from 'ansi-align';
 import wrapAnsi from 'wrap-ansi';
+import sliceAnsi from 'slice-ansi';
 
 const NEWLINE = '\n';
 const PAD = ' ';
@@ -285,10 +286,10 @@ const determineDimensions = (text, options) => {
 
 	// If title and width are provided, title adheres to fixed width
 	if (options.title && widthOverride) {
-		options.title = options.title.slice(0, Math.max(0, options.width - 2));
+		options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
 		options.title &&= formatTitle(options.title, options.borderStyle);
 	} else if (options.title) {
-		options.title = options.title.slice(0, Math.max(0, maxWidth - 2));
+		options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
 
 		// Recheck if title isn't empty now
 		if (options.title) {
