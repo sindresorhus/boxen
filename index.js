@@ -239,8 +239,8 @@ const boxContent = (content, contentWidth, options) => {
 
 	result += lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
 
-	if (options.borderStyle !== NONE) {
-		result += NEWLINE + colorizeBorder(marginLeft + chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight);
+	if (options.borderStyle !== NONE || options.footer) {
+		result += NEWLINE + colorizeBorder(marginLeft + chars.bottomLeft + (options.footer ? makeTitle(options.footer, chars.bottom.repeat(contentWidth), options.footerAlignment) : chars.bottom.repeat(contentWidth)) + chars.bottomRight);
 	}
 
 	if (options.margin.bottom) {
@@ -282,21 +282,39 @@ const determineDimensions = (text, options) => {
 	const borderWidth = getBorderWidth(options.borderStyle);
 	const maxWidth = columns - options.margin.left - options.margin.right - borderWidth;
 
-	const widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+	let widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
-	// If title and width are provided, title adheres to fixed width
-	if (options.title && widthOverride) {
-		options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
-		options.title &&= formatTitle(options.title, options.borderStyle);
-	} else if (options.title) {
-		options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
-
-		// Recheck if title isn't empty now
+	// If either title or footer are provided along with width, title and footer adhere to fixed width
+	if (widthOverride) {
 		if (options.title) {
-			options.title = formatTitle(options.title, options.borderStyle);
-			// If the title is larger than content, box adheres to title width
-			if (stringWidth(options.title) > widest) {
-				options.width = stringWidth(options.title);
+			options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
+			options.title &&= formatTitle(options.title, options.borderStyle);
+		}
+
+		if (options.footer) {
+			options.footer = sliceAnsi(options.footer, 0, Math.max(0, options.width - 2));
+			options.footer &&= formatTitle(options.footer, options.borderStyle);
+		}
+	} else {
+		if (options.title) {
+			options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
+
+			// Recheck if title isn't empty now
+			if (options.title) {
+				options.title = formatTitle(options.title, options.borderStyle);
+				// If the title is larger than content, box adheres to title width
+				widest = Math.max(widest, stringWidth(options.title));
+			}
+		}
+
+		if (options.footer) {
+			options.footer = sliceAnsi(options.footer, 0, Math.max(0, maxWidth - 2));
+
+			// Recheck if footer isn't empty now
+			if (options.footer) {
+				options.footer = formatTitle(options.footer, options.borderStyle);
+				// If the footer is larger than content, box adheres to footer width
+				widest = Math.max(widest, stringWidth(options.footer));
 			}
 		}
 	}
@@ -348,6 +366,7 @@ export default function boxen(text, options) {
 		textAlignment: 'left',
 		float: 'left',
 		titleAlignment: 'left',
+		footerAlignment: 'left',
 		...options,
 	};
 
