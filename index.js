@@ -285,11 +285,16 @@ const determineDimensions = (text, options) => {
 	let widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
 	// If either title or footer are provided along with width, title and footer adhere to fixed width
-	if ((options.title || options.footer) && widthOverride) {
-		options.title &&= options.title.slice(0, Math.max(0, options.width - 2));
-		options.title &&= formatTitle(options.title, options.borderStyle);
-		options.footer = sliceAnsi(options.footer, 0, Math.max(0, options.width - 2));
-		options.footer &&= formatTitle(options.footer, options.borderStyle);
+	if (widthOverride) {
+		if (options.title) {
+			options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
+			options.title &&= formatTitle(options.title, options.borderStyle);
+		}
+
+		if (options.footer) {
+			options.footer = sliceAnsi(options.footer, 0, Math.max(0, options.width - 2));
+			options.footer &&= formatTitle(options.footer, options.borderStyle);
+		}
 	} else {
 		if (options.title) {
 			options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
