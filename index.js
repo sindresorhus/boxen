@@ -208,7 +208,17 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 const boxContent = (content, contentWidth, options) => {
 	const colorizeBorder = border => {
 		const coloredBorder = options.borderColor ? getColorFunction(options.borderColor)(border) : border;
-		const bgColoredBorder = options.borderBackgroundColor ? getBGColorFunction(options.borderBackgroundColor)(coloredBorder) : coloredBorder;
+
+		let bgColoredBorder = coloredBorder;
+		if (options.borderBackgroundColor !== undefined) {
+			if (options.borderBackgroundColor === 'inherit') {
+				if (options.backgroundColor) {
+					bgColoredBorder = getBGColorFunction(options.backgroundColor)(coloredBorder);
+				}
+			} else {
+				bgColoredBorder = getBGColorFunction(options.borderBackgroundColor)(coloredBorder);
+			}
+		}
 
 		return options.dimBorder ? chalk.dim(bgColoredBorder) : bgColoredBorder;
 	};
@@ -366,14 +376,12 @@ export default function boxen(text, options) {
 		throw new Error(`${options.backgroundColor} is not a valid backgroundColor`);
 	}
 
-	// Option borderBackgroundColor defaults to backgroundColor if unspecified
-	options.borderBackgroundColor ??= options.backgroundColor;
-
-	if (options.borderBackgroundColor === NONE) {
-		options.borderBackgroundColor = null;
+	// Option borderBackgroundColor defaults to 'inherit' if unspecified (not explicitly set to undefined)
+	if (!('borderBackgroundColor' in options)) {
+		options.borderBackgroundColor = 'inherit';
 	}
 
-	if (options.borderBackgroundColor && !isColorValid(options.borderBackgroundColor)) {
+	if (options.borderBackgroundColor !== undefined && options.borderBackgroundColor !== 'inherit' && !isColorValid(options.borderBackgroundColor)) {
 		throw new Error(`${options.borderBackgroundColor} is not a valid borderBackgroundColor`);
 	}
 

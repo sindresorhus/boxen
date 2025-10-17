@@ -26,8 +26,7 @@ export type Color = LiteralUnion<
 | 'blueBright'
 | 'magentaBright'
 | 'cyanBright'
-| 'whiteBright'
-| 'none',
+| 'whiteBright',
 string
 >;
 
@@ -123,9 +122,9 @@ export type Options = {
 	/**
 	Color of the background of the border.
 
-	Defaults to `backgroundColor`. Use `'none'` for no color.
+	Defaults to `backgroundColor`. Set to `undefined` to disable.
 	*/
-	readonly borderBackgroundColor?: Color;
+	readonly borderBackgroundColor?: Color | 'inherit' | undefined;
 
 	/**
 	Align the text in the box based on the widest line.
