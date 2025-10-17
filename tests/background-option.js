@@ -31,6 +31,18 @@ test('borderBackgroundColor hex', t => {
 	t.snapshot(box);
 });
 
+test('borderBackgroundColor with conflicting backgroundColor', t => {
+	const box = boxen('foo', {backgroundColor: 'blue', borderBackgroundColor: 'red'});
+
+	t.snapshot(box);
+});
+
+test('borderBackgroundColor and dimBorder option', t => {
+	const box = boxen('foo', {backgroundColor: 'blue', borderBackgroundColor: 'red', dimBorder: true});
+
+	t.snapshot(box);
+});
+
 test('borderBackgroundColor inherit with backgroundColor', t => {
 	const box = boxen('foo', {backgroundColor: 'blue', borderBackgroundColor: 'inherit'});
 
