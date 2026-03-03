@@ -1,3 +1,8 @@
+/**
+ * Create a boxed string with optional borders, padding, and title.
+ * @module boxen
+ */
+
 import process from 'node:process';
 import stringWidth from 'string-width';
 import chalk from 'chalk';
@@ -12,6 +17,10 @@ const NEWLINE = '\n';
 const PAD = ' ';
 const NONE = 'none';
 
+/**
+ * Get the number of terminal columns.
+ * @returns {number} The number of columns in the terminal.
+ */
 const terminalColumns = () => {
 	const {env, stdout, stderr} = process;
 
@@ -340,6 +349,31 @@ const isColorValid = color => typeof color === 'string' && (chalk[color] ?? isHe
 const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
+/**
+ * Options for boxen function.
+ * @typedef {Object} BoxenOptions
+ * @property {number|Object} [padding=0] - Padding around the content (number for all sides or object with top, right, bottom, left).
+ * @property {number|Object} [margin=0] - Margin around the box (number for all sides or object with top, right, bottom, left).
+ * @property {string} [borderStyle='single'] - Border style (single, double, round, etc.) or none.
+ * @property {string} [borderColor] - Color for the border (red, green, blue, or hex color).
+ * @property {boolean} [dimBorder=false] - Whether to dim the border color.
+ * @property {string} [backgroundColor] - Background color for the content.
+ * @property {string} [textAlignment='left'] - Text alignment (left, center, right).
+ * @property {string} [title] - Title to display in the border.
+ * @property {string} [titleAlignment='left'] - Title alignment (left, center, right).
+ * @property {string} [float='left'] - Float alignment (left, center, right).
+ * @property {number} [width] - Fixed width for the box.
+ * @property {number} [height] - Fixed height for the box.
+ * @property {boolean|function} [fullscreen=false] - Use full terminal dimensions, or a function to transform them.
+ * @property {string} [align] - Deprecated: Use textAlignment instead.
+ */
+
+/**
+ * Create a boxed string with optional borders, padding, and title.
+ * @param {string} text - The text content to box.
+ * @param {BoxenOptions} [options] - Options for the box appearance.
+ * @returns {string} The boxed text string.
+ */
 export default function boxen(text, options) {
 	options = {
 		padding: 0,
