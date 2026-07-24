@@ -87,3 +87,12 @@ test('title option with border style (none)', t => {
 
 	t.snapshot(box);
 });
+
+test('titleColor option', t => {
+	const box = boxen('foo', {
+		title: 'title',
+		titleColor: 'red',
+	});
+
+	t.snapshot(box);
+});

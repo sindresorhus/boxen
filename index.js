@@ -284,6 +284,10 @@ const determineDimensions = (text, options) => {
 
 	const widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
+	if (options.title && options.titleColor) {
+		options.title = getColorFunction(options.titleColor)(options.title);
+	}
+
 	// If title and width are provided, title adheres to fixed width
 	if (options.title && widthOverride) {
 		options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
@@ -358,6 +362,10 @@ export default function boxen(text, options) {
 
 	if (options.borderColor && !isColorValid(options.borderColor)) {
 		throw new Error(`${options.borderColor} is not a valid borderColor`);
+	}
+
+	if (options.titleColor && !isColorValid(options.titleColor)) {
+		throw new Error(`${options.titleColor} is not a valid titleColor`);
 	}
 
 	if (options.backgroundColor && !isColorValid(options.backgroundColor)) {
