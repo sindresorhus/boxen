@@ -1,5 +1,5 @@
 import test from 'ava';
-import {Chalk} from 'chalk';
+import chalk, {Chalk} from 'chalk';
 import boxen from '../index.js';
 
 const level3Chalk = new Chalk({level: 3});
@@ -89,10 +89,33 @@ test('title option with border style (none)', t => {
 });
 
 test('titleColor option', t => {
+	chalk.level = 3;
 	const box = boxen('foo', {
 		title: 'title',
 		titleColor: 'red',
 	});
+	chalk.level = 0;
 
-	t.snapshot(box);
+	t.true(box.includes(level3Chalk.red('title')));
 });
+
+test('titleColor hex', t => {
+	chalk.level = 3;
+	const box = boxen('foo', {
+		title: 'title',
+		titleColor: '#FF0000',
+	});
+	chalk.level = 0;
+
+	t.true(box.includes(level3Chalk.hex('#FF0000')('title')));
+});
+
+test('throws on unexpected titleColor', t => {
+	t.throws(() => {
+		boxen('foo', {
+			title: 'title',
+			titleColor: 'dark-yellow',
+		});
+	});
+});
+

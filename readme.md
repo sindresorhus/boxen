@@ -163,6 +163,15 @@ console.log(boxen('foo bar', {title: 'example'}));
 */
 ```
 
+##### titleColor
+
+Type: `string`\
+Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` or a hex value like `'#ff0000'`
+
+Color of the title.
+
+When not specified, the title uses the default text color or any styling already applied to the `title` string.
+
 ##### titleAlignment
 
 Type: `string`\
