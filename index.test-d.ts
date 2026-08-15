@@ -21,6 +21,8 @@ const spacing: Spacing = {
 
 expectType<string>(boxen('unicorns'));
 expectType<string>(boxen('unicorns', {title: 'title'}));
+expectType<string>(boxen('unicorns', {title: 'title', titleColor: 'red'}));
+expectType<string>(boxen('unicorns', {title: 'title', titleColor: '#ff0000'}));
 expectType<string>(boxen('unicorns', {title: 'title', titleAlignment: 'center'}));
 expectType<string>(boxen('unicorns', {borderColor: 'green'}));
 expectType<string>(boxen('unicorns', {borderColor: '#ff0000'}));

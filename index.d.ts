@@ -165,6 +165,31 @@ export type Options = {
 	readonly title?: string;
 
 	/**
+	Color of the title.
+	*/
+	readonly titleColor?: LiteralUnion<
+	| 'black'
+	| 'red'
+	| 'green'
+	| 'yellow'
+	| 'blue'
+	| 'magenta'
+	| 'cyan'
+	| 'white'
+	| 'gray'
+	| 'grey'
+	| 'blackBright'
+	| 'redBright'
+	| 'greenBright'
+	| 'yellowBright'
+	| 'blueBright'
+	| 'magentaBright'
+	| 'cyanBright'
+	| 'whiteBright',
+	string
+	>;
+
+	/**
 	Align the title in the top bar.
 
 	@default 'left'
