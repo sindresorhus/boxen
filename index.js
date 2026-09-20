@@ -69,7 +69,8 @@ const getBorderChars = borderStyle => {
 	}
 
 	if (typeof borderStyle === 'string') {
-		characters = cliBoxes[borderStyle];
+		// The style has to be an own property, or an inherited name like `constructor` would pass as a style
+		characters = Object.hasOwn(cliBoxes, borderStyle) ? cliBoxes[borderStyle] : undefined;
 
 		if (!characters) {
 			throw new TypeError(`Invalid border style: ${borderStyle}`);

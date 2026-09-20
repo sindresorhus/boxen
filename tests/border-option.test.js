@@ -201,6 +201,17 @@ test('throws on unexpected borderStyle as string', () => {
 	}, {message: 'Invalid border style: shakenSnake'});
 });
 
+test('throws on a border style name that only exists on the prototype', () => {
+	// A name that is inherited from `Object` is not a border style either
+	assert.throws(() => {
+		boxen('foo', {borderStyle: 'constructor'});
+	}, {message: 'Invalid border style: constructor'});
+
+	assert.throws(() => {
+		boxen('foo', {borderStyle: 'toString'});
+	}, {message: 'Invalid border style: toString'});
+});
+
 test('throws on unexpected borderStyle as object', () => {
 	assert.throws(() => {
 		boxen('foo', {borderStyle: {shake: 'snake'}});
