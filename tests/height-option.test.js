@@ -102,3 +102,45 @@ test('height option with border style (none)', t => {
 
 	t.assert.snapshot(box);
 });
+
+test('height option with border style (none) and labels', () => {
+	// A title and a footer are drawn on a row of their own when there is no border to draw them on
+	const empty = ' '.repeat(3);
+
+	assert.equal(boxen('foo', {
+		height: 5,
+		title: 'hi',
+		borderStyle: 'none',
+	}), [
+		'hi ',
+		'foo',
+		empty,
+		empty,
+		empty,
+	].join('\n'));
+
+	assert.equal(boxen('foo', {
+		height: 5,
+		footer: 'f',
+		borderStyle: 'none',
+	}), [
+		'foo',
+		empty,
+		empty,
+		empty,
+		'f' + ' '.repeat(2),
+	].join('\n'));
+
+	assert.equal(boxen('foo', {
+		height: 5,
+		title: 'hi',
+		footer: 'f',
+		borderStyle: 'none',
+	}), [
+		'hi ',
+		'foo',
+		empty,
+		empty,
+		'f' + ' '.repeat(2),
+	].join('\n'));
+});

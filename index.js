@@ -239,7 +239,7 @@ const boxContent = (content, contentWidth, options) => {
 	}
 
 	if (options.borderStyle !== NONE || options.title) {
-		// A label always spans the full width of the box, so an empty border is filled with spaces
+		// A bar always spans the full width of the box, so an empty border is filled with spaces
 		const topBar = options.title
 			? makeLabel(colorizeTitle(options.title), (chars.top || PAD).repeat(contentWidth), options.titleAlignment)
 			: chars.top.repeat(contentWidth);
@@ -337,6 +337,11 @@ const determineDimensions = (text, options) => {
 				widest = Math.max(widest, stringWidth(label));
 			}
 		}
+	}
+
+	// A label is drawn on a row of the border, but on a row of its own when there is no border
+	if (borderWidth === 0 && options.height) {
+		options.height = Math.max(1, options.height - (options.title ? 1 : 0) - (options.footer ? 1 : 0));
 	}
 
 	// If fixed width is provided, use it or content width as reference
