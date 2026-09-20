@@ -3,7 +3,6 @@ import stringWidth from 'string-width';
 import chalk from 'chalk';
 import widestLine from 'widest-line';
 import cliBoxes from 'cli-boxes';
-import ansiAlign from 'ansi-align';
 import wrapAnsi from 'wrap-ansi';
 import sliceAnsi from 'slice-ansi';
 
@@ -51,6 +50,19 @@ const sanitizeSize = (size, borderWidth) => size && Number.isFinite(size) ? Math
 
 // Wrapping trims the whitespace at the edges of a line, so a line that fits is kept as it is
 const wrapLine = (line, width) => stringWidth(line) > width ? wrapAnsi(line, width, {hard: true}) : line;
+
+// Pad every line to `width`, so that the text can be aligned in the box. A line that is wider than that is not padded, so a row that overflows the box does not widen the rows that fit.
+const alignText = (text, alignment, width) => {
+	if (alignment === 'left') {
+		return text;
+	}
+
+	return text.split(NEWLINE).map(line => {
+		const padding = Math.max(0, width - stringWidth(line));
+
+		return PAD.repeat(alignment === 'right' ? padding : Math.floor(padding / 2)) + line;
+	}).join(NEWLINE);
+};
 
 const getBorderChars = borderStyle => {
 	const sides = [
@@ -143,9 +155,8 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	// The text is wrapped first, so that the alignment measures the rows that are drawn
 	const wrappedText = text.split(NEWLINE).map(line => wrapLine(line, max)).join(NEWLINE);
 	// A character can be wider than the box, in which case the row overflows it and the other rows are not aligned to it
-	const widestRow = widestLine(wrappedText);
-	const alignedText = widestRow > max ? wrappedText : ansiAlign(wrappedText, {align: textAlignment});
-	const textWidth = Math.min(max, widestRow);
+	const textWidth = Math.min(max, widestLine(wrappedText));
+	const alignedText = alignText(wrappedText, textAlignment, textWidth);
 	// The rows are aligned to the widest row, and the block of rows is aligned in the box
 	let offset = 0;
 
@@ -309,9 +320,8 @@ const determineDimensions = (text, options) => {
 		: terminalWidth - options.margin.left - options.margin.right;
 
 	// The text is measured the way it is wrapped for the box, or the box can end up a column wider than the text
-	const alignedText = ansiAlign(text, {align: options.textAlignment});
 	const maxTextWidth = Math.max(1, maxContentWidth - options.padding.left - options.padding.right);
-	const wrappedText = alignedText.split(NEWLINE).map(line => wrapLine(line, maxTextWidth)).join(NEWLINE);
+	const wrappedText = text.split(NEWLINE).map(line => wrapLine(line, maxTextWidth)).join(NEWLINE);
 	const widestText = widestLine(wrappedText);
 	let widest = Math.min(widestText + options.padding.left + options.padding.right, maxContentWidth);
 

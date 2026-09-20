@@ -244,6 +244,23 @@ test('text alignement option (center) after wrapping + padding', t => {
 	t.assert.snapshot(box);
 });
 
+test('text alignement option (right) after wrapping a zero width character', () => {
+	// A soft hyphen is zero columns wide, and the rows are aligned with the width the box measures
+	const box = boxen('\u{AD} soft hyphen', {
+		width: 5,
+		textAlignment: 'right',
+	});
+
+	assert.equal(box, [
+		'┌───┐',
+		'│\u{AD}sof│',
+		'│  t│',
+		'│hyp│',
+		'│hen│',
+		'└───┘',
+	].join('\n'));
+});
+
 test('text alignement option (right) after wrapping + padding + margin', t => {
 	const box = boxen(longText, {
 		textAlignment: 'center',

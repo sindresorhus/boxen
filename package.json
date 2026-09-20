@@ -35,7 +35,6 @@
 		"text"
 	],
 	"dependencies": {
-		"ansi-align": "^3.0.1",
 		"chalk": "^6.0.0",
 		"cli-boxes": "^4.0.1",
 		"slice-ansi": "^9.0.1",
