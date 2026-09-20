@@ -1,9 +1,7 @@
 exports[`margin option wider than the terminal 1`] = `
-┌─┐
-│f│
-│o│
-│o│
-└─┘
+┌───┐
+│foo│
+└───┘
 `;
 
 exports[`margin option with border style (none) 1`] = `

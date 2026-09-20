@@ -42,6 +42,38 @@ test('margin option with custom margins', t => {
 	t.assert.snapshot(box);
 });
 
+test('one-sided margin is shrunk to fit the terminal', () => {
+	// A margin that does not fit is shrunk, exactly like a margin on both sides
+	const box = boxen('foo', {
+		margin: {
+			left: Number(process.env.COLUMNS),
+		},
+	});
+	const indent = ' '.repeat(Number(process.env.COLUMNS) - 5);
+
+	assert.equal(box, [
+		`${indent}┌───┐`,
+		`${indent}│foo│`,
+		`${indent}└───┘`,
+	].join('\n'));
+});
+
+test('one-sided margin with empty text is shrunk to fit the terminal', () => {
+	// The margin has to leave room for the content, which keeps at least one column
+	const box = boxen('', {
+		margin: {
+			left: Number(process.env.COLUMNS),
+		},
+	});
+	const indent = ' '.repeat(Number(process.env.COLUMNS) - 3);
+
+	assert.equal(box, [
+		`${indent}┌─┐`,
+		`${indent}│ │`,
+		`${indent}└─┘`,
+	].join('\n'));
+});
+
 test('margin option with padding', t => {
 	const box = boxen('foo', {
 		margin: 1,
@@ -81,6 +113,9 @@ test('margin option wider than the terminal', t => {
 			right: process.env.COLUMNS * 2,
 		},
 	});
+
+	// The margin is shrunk, so the content is kept
+	t.assert.ok(box.includes('│foo│'));
 
 	t.assert.snapshot(box);
 });
