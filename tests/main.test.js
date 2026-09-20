@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import process from 'node:process';
 import {test} from 'node:test';
 import chalk from 'chalk';
@@ -71,6 +72,23 @@ test('box not overflowing terminal with words + padding + margin', t => {
 	});
 
 	t.assert.snapshot(box);
+});
+
+test('handles Windows line endings', () => {
+	// A carriage return would move the cursor back and break the box
+	const box = boxen('foo\r\nbar');
+
+	assert.equal(box, [
+		'┌───┐',
+		'│foo│',
+		'│bar│',
+		'└───┘',
+	].join('\n'));
+});
+
+test('handles a lone carriage return', () => {
+	// A carriage return would move the cursor back and break the box
+	assert.equal(boxen('foo\rbar'), '┌───┐\n│foo│\n│bar│\n└───┘');
 });
 
 test('handles long text', t => {

@@ -380,6 +380,9 @@ const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color]
 const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[`bg${color[0].toUpperCase()}${color.slice(1)}`];
 
 export default function boxen(text, options) {
+	// Normalize the line endings so that a carriage return can not move the cursor inside the box
+	text = text.replaceAll(/\r\n?/gv, '\n');
+
 	options = {
 		padding: 0,
 		borderStyle: 'single',
