@@ -68,7 +68,7 @@ test('box not overflowing terminal with words + padding', t => {
 test('box not overflowing terminal with words + padding + margin', t => {
 	const box = boxen('foo '.repeat(process.env.COLUMNS), {
 		padding: 2,
-		magin: 1,
+		margin: 1,
 	});
 
 	t.assert.snapshot(box);
@@ -116,6 +116,14 @@ test('handles a long word in a narrow box', () => {
 
 	assert.equal(lines.length, 130_002);
 	assert.equal(lines[0], '┌─┐');
+});
+
+test('handles many lines', () => {
+	// The lines must not be spread into a function call, which overflows the stack on a long text
+	const lines = 130_000;
+	const box = boxen('x\n'.repeat(lines));
+
+	assert.equal(box.split('\n').length, lines + 3);
 });
 
 test('handles long text', t => {
