@@ -107,6 +107,24 @@ test('border style (round)', t => {
 	t.assert.snapshot(box);
 });
 
+test('border style (arrow)', t => {
+	const box = boxen('foo', {
+		borderStyle: 'arrow',
+	});
+
+	t.assert.snapshot(box);
+});
+
+test('border style (arrow) with a title and a footer', t => {
+	const box = boxen('foo bar', {
+		borderStyle: 'arrow',
+		title: 'arrow',
+		footer: 'footer',
+	});
+
+	t.assert.snapshot(box);
+});
+
 test('border style (none)', t => {
 	const box = boxen('foo', {
 		borderStyle: 'none',

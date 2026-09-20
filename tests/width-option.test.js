@@ -40,6 +40,19 @@ test('width option with big padding', t => {
 	t.assert.snapshot(box);
 });
 
+test('the box is as wide as the text and its padding', () => {
+	const box = boxen('foo bar', {
+		padding: {
+			left: 2,
+			right: 3,
+		},
+	});
+	const [topBorder] = box.split('\n', 1);
+
+	// The border adds a column on each side
+	assert.equal(topBorder, `┌${'─'.repeat(12)}┐`);
+});
+
 test('the box is not wider than the text', () => {
 	// A wrapped row must be measured the way it is drawn, without the whitespace that the wrapping drops
 	const box = boxen('xxxxxxxxxxxx bb bb bb', {

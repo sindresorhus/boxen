@@ -115,6 +115,50 @@ test('handles empty text', () => {
 	assert.equal(boxen(''), '┌─┐\n│ │\n└─┘');
 });
 
+test('handles a hyperlink', () => {
+	// A hyperlink is drawn as its text, so only the text counts for the box
+	const link = '\u{1B}]8;;https://example.com\u{1B}\\click\u{1B}]8;;\u{1B}\\';
+
+	assert.equal(boxen(link), `┌─────┐\n│${link}│\n└─────┘`);
+});
+
+test('does not modify the options', () => {
+	const options = {
+		borderStyle: {
+			topLeft: '1',
+			topRight: '2',
+			bottomLeft: '3',
+			bottomRight: '4',
+			top: '-',
+			bottom: '-',
+			left: '|',
+			right: '|',
+		},
+		padding: {
+			top: 1, right: 2, bottom: 3, left: 4,
+		},
+		margin: {
+			top: 0, right: 1, bottom: 2, left: 3,
+		},
+		title: 'title',
+		footer: 'footer',
+		width: 20,
+		height: 5,
+		float: 'center',
+		textAlignment: 'center',
+		titleAlignment: 'right',
+		footerAlignment: 'center',
+		borderColor: 'red',
+		backgroundColor: 'blue',
+	};
+	const copy = structuredClone(options);
+
+	// The object belongs to the caller
+	boxen('foo bar', options);
+
+	assert.deepEqual(options, copy);
+});
+
 test('handles a lone surrogate', () => {
 	// Cutting a character in half leaves a lone surrogate, which is written as a replacement character
 	const half = '👍'.slice(0, 1);

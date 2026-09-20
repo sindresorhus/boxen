@@ -19,6 +19,16 @@ test('height option works', t => {
 	);
 });
 
+test('the box has the height it is given', () => {
+	const box = boxen('foo', {
+		height: 5,
+		margin: 1,
+	});
+
+	// The margins are added around the box
+	assert.equal(box.split('\n').length, 5 + 2);
+});
+
 test('height option keeps the vertical padding', () => {
 	// The padding rows are part of the height, so only the text is cropped
 	const box = boxen('a\nb\nc', {

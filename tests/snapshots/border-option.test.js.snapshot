@@ -28,6 +28,18 @@ exports[`border color (yellow + dim) 1`] = `
 └───┘
 `;
 
+exports[`border style (arrow) 1`] = `
+↘↓↓↓↙
+→foo←
+↗↑↑↑↖
+`;
+
+exports[`border style (arrow) with a title and a footer 1`] = `
+↘ arrow ↓↙
+→foo bar ←
+↗ footer ↖
+`;
+
 exports[`border style (bold) 1`] = `
 ┏━━━┓
 ┃foo┃
