@@ -267,7 +267,7 @@ const boxContent = (content, contentWidth, options) => {
 const sanitizeOptions = options => {
 	// If fullscreen is enabled, max-out unspecified width/height
 	if (options.fullscreen && process?.stdout) {
-		let newDimensions = [process.stdout.columns, process.stdout.rows];
+		let newDimensions = [terminalColumns(), process.stdout.rows || process.stderr.rows];
 
 		if (typeof options.fullscreen === 'function') {
 			newDimensions = options.fullscreen(...newDimensions);
