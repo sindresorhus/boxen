@@ -109,6 +109,15 @@ test('handles empty text', () => {
 	assert.equal(boxen(''), '┌─┐\n│ │\n└─┘');
 });
 
+test('handles a long word in a narrow box', () => {
+	// The rows of a single line must not be spread into a function call either
+	const box = boxen('a'.repeat(130_000), {maxWidth: 3});
+	const lines = box.split('\n');
+
+	assert.equal(lines.length, 130_002);
+	assert.equal(lines[0], '┌─┐');
+});
+
 test('handles long text', t => {
 	const box = boxen(longText);
 

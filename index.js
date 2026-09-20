@@ -147,7 +147,7 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 			const alignedLines = ansiAlign(createdLines, {align: textAlignment});
 			const alignedLinesArray = alignedLines.split('\n');
 			// A character can be wider than the box, in which case the line overflows it
-			const longestLength = Math.min(max, Math.max(...alignedLinesArray.map(s => stringWidth(s))));
+			const longestLength = Math.min(max, widestLine(alignedLines));
 
 			for (const alignedLine of alignedLinesArray) {
 				let leftPadding = 0;
