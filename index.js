@@ -46,6 +46,9 @@ const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
 // A size has to be a finite number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
 const sanitizeSize = (size, borderWidth) => size && Number.isFinite(size) ? Math.max(1, size - borderWidth) : undefined;
 
+// Wrapping trims the whitespace at the edges of a line, so a line that fits is kept as it is
+const wrapLine = (line, width) => stringWidth(line) > width ? wrapAnsi(line, width, {hard: true}) : line;
+
 const getBorderChars = borderStyle => {
 	const sides = [
 		'topLeft',
@@ -140,8 +143,7 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	if (textWidth > max) {
 		const newLines = [];
 		for (const line of lines) {
-			// Wrapping trims the whitespace at the edges of a line, so the lines that fit are kept as they are
-			const createdLines = stringWidth(line) > max ? wrapAnsi(line, max, {hard: true}) : line;
+			const createdLines = wrapLine(line, max);
 			const alignedLines = ansiAlign(createdLines, {align: textAlignment});
 			const alignedLinesArray = alignedLines.split('\n');
 			// A character can be wider than the box, in which case the line overflows it
@@ -315,7 +317,12 @@ const determineDimensions = (text, options) => {
 	const maxContentWidth = Math.min(terminalWidth, options.maxWidth || terminalWidth);
 	const availableWidth = terminalWidth - options.margin.left - options.margin.right;
 
-	let widest = Math.min(widestLine(wrapAnsi(text, maxContentWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right, maxContentWidth);
+	// The text is measured the way it is wrapped for the box, or the box can end up a column wider than the text
+	const alignedText = ansiAlign(text, {align: options.textAlignment});
+	const maxTextWidth = Math.max(1, maxContentWidth - options.padding.left - options.padding.right);
+	const wrappedText = alignedText.split(NEWLINE).map(line => wrapLine(line, maxTextWidth)).join(NEWLINE);
+	const widestText = widestLine(wrappedText);
+	let widest = Math.min(widestText + options.padding.left + options.padding.right, maxContentWidth);
 
 	// If width is provided, the labels adhere to it
 	const labelWidth = isWidthOverride ? options.width : Math.min(availableWidth, maxContentWidth);

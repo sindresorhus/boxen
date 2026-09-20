@@ -1,8 +1,8 @@
 exports[`maxWidth option is capped by the terminal 1`] = `
-┌────────────────────────────────────────────────────────┐
-│foo bar foo bar foo bar foo bar foo bar foo bar foo bar │
-│foo bar foo bar foo bar                                 │
-└────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────┐
+│foo bar foo bar foo bar foo bar foo bar foo bar foo bar│
+│foo bar foo bar foo bar                                │
+└───────────────────────────────────────────────────────┘
 `;
 
 exports[`maxWidth option with a character wider than the box 1`] = `
@@ -12,26 +12,26 @@ exports[`maxWidth option with a character wider than the box 1`] = `
 `;
 
 exports[`maxWidth option with border style (none) 1`] = `
-foo bar foo bar foo 
-bar                 
+foo bar foo bar foo
+bar                
 `;
 
 exports[`maxWidth option with height 1`] = `
-┌────────────────┐
-│foo bar foo bar │
-│foo bar         │
-│                │
-└────────────────┘
+┌───────────────┐
+│foo bar foo bar│
+│foo bar        │
+│               │
+└───────────────┘
 `;
 
 exports[`maxWidth option with padding + margin 1`] = `
 
-   ┌──────────────────┐
-   │                  │
-   │   foo bar foo    │
-   │   bar foo bar    │
-   │                  │
-   └──────────────────┘
+   ┌─────────────────┐
+   │                 │
+   │   foo bar foo   │
+   │   bar foo bar   │
+   │                 │
+   └─────────────────┘
 
 `;
 
@@ -54,9 +54,9 @@ exports[`maxWidth option works 1`] = `
 `;
 
 exports[`maxWidth option works 2`] = `
-┌────────────────┐
-│foo bar foo bar │
-│foo bar foo bar │
-│foo bar foo bar │
-└────────────────┘
+┌───────────────┐
+│foo bar foo bar│
+│foo bar foo bar│
+│foo bar foo bar│
+└───────────────┘
 `;

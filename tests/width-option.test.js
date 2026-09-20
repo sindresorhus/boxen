@@ -40,6 +40,20 @@ test('width option with big padding', t => {
 	t.assert.snapshot(box);
 });
 
+test('the box is not wider than the text', () => {
+	// A wrapped row must be measured the way it is drawn, without the whitespace that the wrapping drops
+	const box = boxen('xxxxxxxxxxxx bb bb bb', {
+		maxWidth: 15,
+	});
+
+	assert.equal(box, [
+		'┌────────────┐',
+		'│xxxxxxxxxxxx│',
+		'│bb bb bb    │',
+		'└────────────┘',
+	].join('\n'));
+});
+
 test('width option that is not a finite number', () => {
 	// A size that is not a finite number is meaningless and would throw when the box is built
 	assert.equal(boxen('foo', {width: Infinity}), boxen('foo'));

@@ -46,6 +46,19 @@ test('maxWidth option with padding + margin', t => {
 	t.assert.snapshot(box);
 });
 
+test('maxWidth measures wrapped text with its horizontal padding', () => {
+	const box = boxen('xxxxxxxxxx bb bb', {maxWidth: 20, padding: 1});
+
+	assert.equal(box, [
+		'┌────────────────┐',
+		'│                │',
+		'│   xxxxxxxxxx   │',
+		'│   bb bb        │',
+		'│                │',
+		'└────────────────┘',
+	].join('\n'));
+});
+
 test('maxWidth option with title + footer', t => {
 	// The labels are sliced to the maximum
 	const box = boxen('foo bar', {

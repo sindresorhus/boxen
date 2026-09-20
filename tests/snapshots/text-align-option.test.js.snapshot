@@ -59,17 +59,17 @@ exports[`text alignement option (center) after wrapping + padding 1`] = `
 `;
 
 exports[`text alignement option (center) after wrapping 1`] = `
-┌──────────────────────────────────────────────────────────┐
-│Lorem ipsum dolor sit amet, consectetur adipiscing elit.  │
-│ Maecenas id erat arcu. Integer urna mauris, sodales vel  │
-│  egestas eu, consequat id turpis. Vivamus faucibus est   │
-│mattis tincidunt lobortis. In aliquam placerat nunc eget  │
-│ viverra. Duis aliquet faucibus diam, blandit tincidunt   │
-│ magna congue eu. Sed vel ante vestibulum, maximus risus  │
-│eget, iaculis velit. Quisque id dapibus purus, ut sodales │
-│lorem. Aenean laoreet iaculis tellus at malesuada. Donec  │
-│           imperdiet eu lacus vitae fringilla.            │
-└──────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│Lorem ipsum dolor sit amet, consectetur adipiscing elit. │
+│ Maecenas id erat arcu. Integer urna mauris, sodales vel │
+│  egestas eu, consequat id turpis. Vivamus faucibus est  │
+│mattis tincidunt lobortis. In aliquam placerat nunc eget │
+│ viverra. Duis aliquet faucibus diam, blandit tincidunt  │
+│ magna congue eu. Sed vel ante vestibulum, maximus risus │
+│eget, iaculis velit. Quisque id dapibus purus, ut sodales│
+│lorem. Aenean laoreet iaculis tellus at malesuada. Donec │
+│           imperdiet eu lacus vitae fringilla.           │
+└─────────────────────────────────────────────────────────┘
 `;
 
 exports[`text alignement option (left) + long title + padding + margin 1`] = `
@@ -178,15 +178,15 @@ exports[`text alignement option (right) after wrapping + padding + margin 1`] = 
 `;
 
 exports[`text alignement option (right) after wrapping 1`] = `
-┌──────────────────────────────────────────────────────────┐
-│  Lorem ipsum dolor sit amet, consectetur adipiscing elit.│
-│   Maecenas id erat arcu. Integer urna mauris, sodales vel│
-│     egestas eu, consequat id turpis. Vivamus faucibus est│
-│  mattis tincidunt lobortis. In aliquam placerat nunc eget│
-│    viverra. Duis aliquet faucibus diam, blandit tincidunt│
-│   magna congue eu. Sed vel ante vestibulum, maximus risus│
-│ eget, iaculis velit. Quisque id dapibus purus, ut sodales│
-│  lorem. Aenean laoreet iaculis tellus at malesuada. Donec│
-│                       imperdiet eu lacus vitae fringilla.│
-└──────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│ Lorem ipsum dolor sit amet, consectetur adipiscing elit.│
+│  Maecenas id erat arcu. Integer urna mauris, sodales vel│
+│    egestas eu, consequat id turpis. Vivamus faucibus est│
+│ mattis tincidunt lobortis. In aliquam placerat nunc eget│
+│   viverra. Duis aliquet faucibus diam, blandit tincidunt│
+│  magna congue eu. Sed vel ante vestibulum, maximus risus│
+│eget, iaculis velit. Quisque id dapibus purus, ut sodales│
+│ lorem. Aenean laoreet iaculis tellus at malesuada. Donec│
+│                      imperdiet eu lacus vitae fringilla.│
+└─────────────────────────────────────────────────────────┘
 `;

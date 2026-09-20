@@ -307,11 +307,11 @@ console.log(boxen('foo bar', {maxWidth: 20}));
 // └───────┘
 
 console.log(boxen('Lorem ipsum dolor sit amet, consectetur.', {maxWidth: 20}));
-// ┌──────────────────┐
-// │Lorem ipsum dolor │
-// │sit amet,         │
-// │consectetur.      │
-// └──────────────────┘
+// ┌─────────────────┐
+// │Lorem ipsum dolor│
+// │sit amet,        │
+// │consectetur.     │
+// └─────────────────┘
 ```
 
 ##### height

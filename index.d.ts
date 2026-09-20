@@ -276,11 +276,11 @@ export type Options = {
 	// └───────┘
 
 	console.log(boxen('Lorem ipsum dolor sit amet, consectetur.', {maxWidth: 20}));
-	// ┌──────────────────┐
-	// │Lorem ipsum dolor │
-	// │sit amet,         │
-	// │consectetur.      │
-	// └──────────────────┘
+	// ┌─────────────────┐
+	// │Lorem ipsum dolor│
+	// │sit amet,        │
+	// │consectetur.     │
+	// └─────────────────┘
 	```
 	*/
 	readonly maxWidth?: number;
