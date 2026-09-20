@@ -69,17 +69,17 @@ const getBorderChars = borderStyle => {
 			throw new TypeError(`Invalid border style: ${borderStyle}`);
 		}
 	} else {
-		// Ensure retro-compatibility
-		if (typeof borderStyle?.vertical === 'string') {
-			borderStyle.left = borderStyle.vertical;
-			borderStyle.right = borderStyle.vertical;
-		}
-
-		// Ensure retro-compatibility
-		if (typeof borderStyle?.horizontal === 'string') {
-			borderStyle.top = borderStyle.horizontal;
-			borderStyle.bottom = borderStyle.horizontal;
-		}
+		/*
+		Ensure retro-compatibility: `vertical` and `horizontal` are the deprecated names of the sides.
+		The style is copied, because the object belongs to the caller.
+		*/
+		borderStyle = {
+			...borderStyle,
+			left: borderStyle?.left ?? borderStyle?.vertical,
+			right: borderStyle?.right ?? borderStyle?.vertical,
+			top: borderStyle?.top ?? borderStyle?.horizontal,
+			bottom: borderStyle?.bottom ?? borderStyle?.horizontal,
+		};
 
 		for (const side of sides) {
 			if (borderStyle[side] === null || typeof borderStyle[side] !== 'string') {

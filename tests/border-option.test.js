@@ -138,6 +138,63 @@ test('nullish border style falls back to the default', () => {
 	assert.equal(boxen('foo', {borderStyle: null}), boxen('foo'));
 });
 
+test('deprecated vertical and horizontal border sides still work', () => {
+	const box = boxen('foo', {
+		borderStyle: {
+			topLeft: '1',
+			topRight: '2',
+			bottomLeft: '3',
+			bottomRight: '4',
+			horizontal: '-',
+			vertical: '|',
+		},
+	});
+
+	assert.equal(box, '1---2\n|foo|\n3---4');
+});
+
+test('deprecated vertical and horizontal border sides are a fallback', () => {
+	// The deprecated sides must not override the real ones
+	const box = boxen('foo', {
+		borderStyle: {
+			topLeft: '1',
+			topRight: '2',
+			bottomLeft: '3',
+			bottomRight: '4',
+			top: '-',
+			bottom: '_',
+			left: '|',
+			right: '!',
+			horizontal: 'H',
+			vertical: 'V',
+		},
+	});
+
+	assert.equal(box, '1---2\n|foo!\n3___4');
+});
+
+test('does not modify the border style object', () => {
+	const borderStyle = {
+		topLeft: '1',
+		topRight: '2',
+		bottomLeft: '3',
+		bottomRight: '4',
+		horizontal: '-',
+		vertical: '|',
+	};
+
+	// The object belongs to the caller
+	assert.equal(boxen('foo', {borderStyle}), '1---2\n|foo|\n3---4');
+	assert.deepEqual(borderStyle, {
+		topLeft: '1',
+		topRight: '2',
+		bottomLeft: '3',
+		bottomRight: '4',
+		horizontal: '-',
+		vertical: '|',
+	});
+});
+
 test('throws on unexpected borderStyle as string', () => {
 	assert.throws(() => {
 		boxen('foo', {borderStyle: 'shakenSnake'});
