@@ -1,7 +1,25 @@
+import assert from 'node:assert/strict';
 import process from 'node:process';
 import {test} from 'node:test';
 import boxen from '../index.js';
 import './setup.js';
+
+test('margin that is not a finite positive number is ignored', () => {
+	// A negative margin would throw when the box is built
+	assert.equal(boxen('foo', {margin: -1}), boxen('foo'));
+	assert.equal(boxen('foo', {margin: {right: -5}}), boxen('foo'));
+	assert.equal(boxen('foo', {
+		margin: {
+			top: -1, right: -1, bottom: -1, left: -1,
+		},
+	}), boxen('foo'));
+
+	// A missing side would corrupt the width of the box
+	assert.equal(boxen('foo', {margin: {left: undefined}}), boxen('foo'));
+	assert.equal(boxen('foo', {margin: {bottom: null}}), boxen('foo'));
+	assert.equal(boxen('foo', {margin: NaN}), boxen('foo'));
+	assert.equal(boxen('foo', {margin: Infinity}), boxen('foo'));
+});
 
 test('margin option works', t => {
 	const box = boxen('foo', {

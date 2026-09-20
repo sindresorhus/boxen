@@ -16,20 +16,30 @@ const terminalColumns = () => process.stdout?.columns
 	|| Number(process.env.COLUMNS)
 	|| 80;
 
-const getObject = detail => typeof detail === 'number'
-	? {
-		top: detail,
-		right: detail * 3,
-		bottom: detail,
-		left: detail * 3,
+const getObject = detail => {
+	const object = typeof detail === 'number'
+		? {
+			top: detail,
+			right: detail * 3,
+			bottom: detail,
+			left: detail * 3,
+		}
+		: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0,
+			...detail,
+		};
+
+	// A side has to be a finite non-negative number, anything else means no spacing
+	for (const side of ['top', 'right', 'bottom', 'left']) {
+		const value = Number(object[side]);
+		object[side] = Number.isFinite(value) ? Math.max(0, value) : 0;
 	}
-	: {
-		top: 0,
-		right: 0,
-		bottom: 0,
-		left: 0,
-		...detail,
-	};
+
+	return object;
+};
 
 const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
 
