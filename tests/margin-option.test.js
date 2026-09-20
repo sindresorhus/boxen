@@ -56,6 +56,17 @@ test('margin proportionally decreases when content <= columns', t => {
 	t.assert.snapshot(box);
 });
 
+test('margin option wider than the terminal', t => {
+	// A margin that leaves no room should not throw
+	const box = boxen('foo', {
+		margin: {
+			right: process.env.COLUMNS * 2,
+		},
+	});
+
+	t.assert.snapshot(box);
+});
+
 test('margin option with border style (none)', t => {
 	const box = boxen('foo', {
 		margin: {

@@ -338,8 +338,8 @@ const determineDimensions = (text, options) => {
 			// Right: 6 * 0.5 = 3
 		}
 
-		// Re-cap width considering the margins after shrinking
-		options.width = Math.min(options.width, columns - borderWidth - options.margin.left - options.margin.right);
+		// Re-cap width considering the margins after shrinking, keeping at least one column for the content
+		options.width = Math.max(1, Math.min(options.width, columns - borderWidth - options.margin.left - options.margin.right));
 	}
 
 	// Prevent padding overflow
