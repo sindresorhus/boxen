@@ -94,6 +94,11 @@ test('height option that is not a finite number', () => {
 	assert.equal(boxen('a\nb', {height: 0}), boxen('a\nb'));
 });
 
+test('height option that can not be a height', () => {
+	// A negative size is as meaningless as a size of 0, and it must not crop the text
+	assert.equal(boxen('a\nb\nc', {height: -5}), boxen('a\nb\nc'));
+});
+
 test('height option with border style (none)', t => {
 	const box = boxen('foo', {
 		height: 3,

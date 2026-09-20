@@ -45,8 +45,8 @@ const getObject = detail => {
 
 const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
 
-// A size has to be a finite number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
-const sanitizeSize = (size, borderWidth) => size && Number.isFinite(size) ? Math.max(1, size - borderWidth) : undefined;
+// A size has to be a finite positive number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
+const sanitizeSize = (size, borderWidth) => Number.isFinite(size) && size > 0 ? Math.max(1, size - borderWidth) : undefined;
 
 // Wrapping trims the whitespace at the edges of a line, so a line that fits is kept as it is
 const wrapLine = (line, width) => stringWidth(line) > width ? wrapAnsi(line, width, {hard: true}) : line;

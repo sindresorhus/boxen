@@ -67,6 +67,13 @@ test('width option that is not a finite number', () => {
 	assert.equal(boxen('foo', {maxWidth: 0}), boxen('foo'));
 });
 
+test('width option that can not be a width', () => {
+	// A negative size is as meaningless as a size of 0, and it must not crop the box or drop a title
+	assert.equal(boxen('foo', {width: -5}), boxen('foo'));
+	assert.equal(boxen('foo', {maxWidth: -5}), boxen('foo'));
+	assert.equal(boxen('foo bar', {width: -5, title: 'Hi'}), boxen('foo bar', {title: 'Hi'}));
+});
+
 test('width option with border style (none)', t => {
 	const box = boxen('foo', {
 		width: 3,
