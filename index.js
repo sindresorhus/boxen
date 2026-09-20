@@ -329,7 +329,8 @@ const determineDimensions = (text, options) => {
 	options.width ||= widest;
 
 	// The margin is shrunk whether it is on one side or both, otherwise the box would be pushed past the terminal
-	if ((options.margin.left || options.margin.right) && options.width > availableWidth) {
+	// The content keeps one column, exactly like it does in `spaceForMargins`, or the margin can be left one column short
+	if ((options.margin.left || options.margin.right) && Math.max(1, options.width) > availableWidth) {
 		// Let's assume we have margins: left = 3, right = 5, in total = 8, and that the content keeps one column
 		const spaceForMargins = columns - Math.max(1, options.width) - borderWidth;
 		// Let's assume we have space = 4

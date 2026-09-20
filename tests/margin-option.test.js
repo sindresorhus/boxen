@@ -74,6 +74,23 @@ test('one-sided margin with empty text is shrunk to fit the terminal', () => {
 	].join('\n'));
 });
 
+test('one-sided margin with empty text that leaves no column for the box is shrunk', () => {
+	// The margin has to leave room for the one column that the content keeps
+	const columns = Number(process.env.COLUMNS);
+	const box = boxen('', {
+		margin: {
+			left: columns - 2,
+		},
+	});
+	const indent = ' '.repeat(columns - 3);
+
+	assert.equal(box, [
+		`${indent}┌─┐`,
+		`${indent}│ │`,
+		`${indent}└─┘`,
+	].join('\n'));
+});
+
 test('margin option with fullscreen is shrunk to fit the terminal', () => {
 	// The box fills the terminal, so the margin has no room and is shrunk like any other margin
 	const columns = Number(process.env.COLUMNS);
