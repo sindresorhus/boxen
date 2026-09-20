@@ -74,6 +74,57 @@ test('one-sided margin with empty text is shrunk to fit the terminal', () => {
 	].join('\n'));
 });
 
+test('margin option with fullscreen is shrunk to fit the terminal', () => {
+	// The box fills the terminal, so the margin has no room and is shrunk like any other margin
+	const columns = Number(process.env.COLUMNS);
+	const box = boxen('foo', {
+		fullscreen: true,
+		margin: 1,
+	});
+
+	assert.equal(box, [
+		'',
+		`┌${'─'.repeat(columns - 2)}┐`,
+		`│foo${' '.repeat(columns - 5)}│`,
+		`└${'─'.repeat(columns - 2)}┘`,
+		'',
+	].join('\n'));
+});
+
+test('margin option with a width that fits the terminal is kept', () => {
+	// The box and the margin that is drawn fit the terminal, so the margin is kept
+	const box = boxen('foo', {
+		width: 20,
+		margin: 10,
+	});
+	const indent = ' '.repeat(30);
+
+	assert.equal(box, [
+		...Array.from({length: 10}, () => ''),
+		`${indent}┌──────────────────┐`,
+		`${indent}│foo               │`,
+		`${indent}└──────────────────┘`,
+		...Array.from({length: 10}, () => ''),
+	].join('\n'));
+});
+
+test('margin option with a width as wide as the terminal is shrunk', () => {
+	// The margin has no room next to a box that fills the terminal
+	const columns = Number(process.env.COLUMNS);
+	const box = boxen('foo', {
+		width: columns,
+		margin: 10,
+	});
+
+	assert.equal(box, [
+		...Array.from({length: 10}, () => ''),
+		`┌${'─'.repeat(columns - 2)}┐`,
+		`│foo${' '.repeat(columns - 5)}│`,
+		`└${'─'.repeat(columns - 2)}┘`,
+		...Array.from({length: 10}, () => ''),
+	].join('\n'));
+});
+
 test('margin option with padding', t => {
 	const box = boxen('foo', {
 		margin: 1,

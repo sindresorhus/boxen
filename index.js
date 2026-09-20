@@ -316,7 +316,12 @@ const determineDimensions = (text, options) => {
 	const terminalWidth = columns - borderWidth;
 	// The box grows with the content up to the terminal width and `maxWidth`
 	const maxContentWidth = Math.min(terminalWidth, options.maxWidth || terminalWidth);
-	const availableWidth = terminalWidth - options.margin.left - options.margin.right;
+	// A width that is fixed brings its own size, so only a margin that is drawn can push the box past the terminal then.
+	// A box that grows with the content is squeezed by both sides, and a margin that does not fit takes columns from the content.
+	const drawnMargin = options.float === 'left' ? options.margin.left : 0;
+	const availableWidth = isWidthOverride
+		? columns - borderWidth - drawnMargin
+		: terminalWidth - options.margin.left - options.margin.right;
 
 	// The text is measured the way it is wrapped for the box, or the box can end up a column wider than the text
 	const alignedText = ansiAlign(text, {align: options.textAlignment});
@@ -342,20 +347,20 @@ const determineDimensions = (text, options) => {
 	// If fixed width is provided, use it or content width as reference
 	options.width ||= widest;
 
-	if (!isWidthOverride) {
-		// The margin is shrunk whether it is on one side or both, otherwise the box would be pushed past the terminal
-		if ((options.margin.left || options.margin.right) && options.width > availableWidth) {
-			// Let's assume we have margins: left = 3, right = 5, in total = 8, and that the content keeps one column
-			const spaceForMargins = columns - Math.max(1, options.width) - borderWidth;
-			// Let's assume we have space = 4
-			const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
-			// Here: multiplier = 4/8 = 0.5
-			options.margin.left = Math.max(0, Math.floor(options.margin.left * multiplier));
-			options.margin.right = Math.max(0, Math.floor(options.margin.right * multiplier));
-			// Left: 3 * 0.5 = 1.5 -> 1
-			// Right: 6 * 0.5 = 3
-		}
+	// The margin is shrunk whether it is on one side or both, otherwise the box would be pushed past the terminal
+	if ((options.margin.left || options.margin.right) && options.width > availableWidth) {
+		// Let's assume we have margins: left = 3, right = 5, in total = 8, and that the content keeps one column
+		const spaceForMargins = columns - Math.max(1, options.width) - borderWidth;
+		// Let's assume we have space = 4
+		const multiplier = spaceForMargins / (options.margin.left + options.margin.right);
+		// Here: multiplier = 4/8 = 0.5
+		options.margin.left = Math.max(0, Math.floor(options.margin.left * multiplier));
+		options.margin.right = Math.max(0, Math.floor(options.margin.right * multiplier));
+		// Left: 3 * 0.5 = 1.5 -> 1
+		// Right: 6 * 0.5 = 3
+	}
 
+	if (!isWidthOverride) {
 		// Re-cap width considering the margins after shrinking, keeping at least one column for the content
 		options.width = Math.max(1, Math.min(options.width, columns - borderWidth - options.margin.left - options.margin.right));
 	}
