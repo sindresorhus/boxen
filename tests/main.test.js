@@ -91,6 +91,12 @@ test('handles a lone carriage return', () => {
 	assert.equal(boxen('foo\rbar'), '┌───┐\n│foo│\n│bar│\n└───┘');
 });
 
+test('handles a vertical tab and a form feed', () => {
+	// A vertical tab and a form feed move the cursor down, which would break the box
+	assert.equal(boxen('foo\vbar'), '┌───┐\n│foo│\n│bar│\n└───┘');
+	assert.equal(boxen('foo\fbar'), '┌───┐\n│foo│\n│bar│\n└───┘');
+});
+
 test('handles Windows line endings with wrapped text', () => {
 	const box = boxen('foo bar baz qux quux corge grault\r\n    indented', {
 		width: 20,

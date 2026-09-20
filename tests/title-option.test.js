@@ -109,6 +109,10 @@ test('title option with a line break', () => {
 	assert.equal(boxen('foo', {title: 'a\nb'}), '┌ a b ┐\n│foo  │\n└─────┘');
 	assert.equal(boxen('foo', {title: 'a\r\nb'}), '┌ a b ┐\n│foo  │\n└─────┘');
 	assert.equal(boxen('foo', {title: 'a\nb\nc'}), '┌ a b c ┐\n│foo    │\n└───────┘');
+
+	// A vertical tab and a form feed move the cursor down, so they are line breaks too
+	assert.equal(boxen('foo', {title: 'a\vb'}), '┌ a b ┐\n│foo  │\n└─────┘');
+	assert.equal(boxen('foo', {title: 'a\fb'}), '┌ a b ┐\n│foo  │\n└─────┘');
 });
 
 test('title option with border style (none) and a long title', () => {

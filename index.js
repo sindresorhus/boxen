@@ -11,6 +11,9 @@ const NEWLINE = '\n';
 const PAD = ' ';
 const NONE = 'none';
 
+// A text or a label is drawn inside a box, so every control that moves the cursor would break it
+const LINE_BREAKS = /\r\n|[\n\v\f\r]/gv;
+
 const terminalColumns = () => process.stdout?.columns
 	|| process.stderr?.columns
 	|| Number(process.env.COLUMNS)
@@ -302,7 +305,7 @@ const fitLabel = (label, width, borderStyle) => {
 	}
 
 	// A label is a single line, so line breaks would break the box
-	label = label.replaceAll(/\r\n|[\n\r]/gv, ' ');
+	label = label.replaceAll(LINE_BREAKS, ' ');
 	label = sliceAnsi(label, 0, Math.max(0, width - getBorderWidth(borderStyle)));
 
 	return label && formatLabel(label, borderStyle);
@@ -406,8 +409,8 @@ const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color]
 const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[`bg${color[0].toUpperCase()}${color.slice(1)}`];
 
 export default function boxen(text, options) {
-	// Normalize the line endings so that a carriage return can not move the cursor inside the box
-	text = text.replaceAll(/\r\n?/gv, '\n');
+	// Normalize the line breaks so that a carriage return, a vertical tab or a form feed can not move the cursor inside the box
+	text = text.replaceAll(LINE_BREAKS, '\n');
 
 	options = {
 		padding: 0,
