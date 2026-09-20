@@ -225,6 +225,9 @@ const boxContent = (content, contentWidth, options) => {
 
 	const colorizeContent = content => options.backgroundColor ? getBGColorFunction(options.backgroundColor)(content) : content;
 
+	// Styling already applied to the title takes precedence
+	const colorizeTitle = title => options.titleColor ? getColorFunction(options.titleColor)(title) : title;
+
 	const chars = getBorderChars(options.borderStyle);
 	const columns = terminalColumns();
 	let marginLeft = PAD.repeat(options.margin.left);
@@ -244,7 +247,11 @@ const boxContent = (content, contentWidth, options) => {
 	}
 
 	if (options.borderStyle !== NONE || options.title) {
-		result += marginLeft + colorizeBorder(chars.topLeft + (options.title ? makeTitle(options.title, chars.top.repeat(contentWidth), options.titleAlignment) : chars.top.repeat(contentWidth)) + chars.topRight) + NEWLINE;
+		const topBar = options.title
+			? makeTitle(colorizeTitle(options.title), chars.top.repeat(contentWidth), options.titleAlignment)
+			: chars.top.repeat(contentWidth);
+
+		result += marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight) + NEWLINE;
 	}
 
 	const lines = content.split(NEWLINE);
@@ -347,8 +354,29 @@ const determineDimensions = (text, options) => {
 	return options;
 };
 
-const isHex = color => color.match(/^#(?:[0-f]{3}){1,2}$/i);
-const isColorValid = color => typeof color === 'string' && (chalk[color] ?? isHex(color));
+const colorNames = new Set([
+	'black',
+	'red',
+	'green',
+	'yellow',
+	'blue',
+	'magenta',
+	'cyan',
+	'white',
+	'gray',
+	'grey',
+	'blackBright',
+	'redBright',
+	'greenBright',
+	'yellowBright',
+	'blueBright',
+	'magentaBright',
+	'cyanBright',
+	'whiteBright',
+]);
+
+const isHex = color => /^#(?:[\dA-Fa-f]{3}){1,2}$/.test(color);
+const isColorValid = color => typeof color === 'string' && (colorNames.has(color) || isHex(color));
 const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
 
@@ -370,6 +398,10 @@ export default function boxen(text, options) {
 
 	if (options.borderColor && !isColorValid(options.borderColor)) {
 		throw new Error(`${options.borderColor} is not a valid borderColor`);
+	}
+
+	if (options.titleColor && !isColorValid(options.titleColor)) {
+		throw new Error(`${options.titleColor} is not a valid titleColor`);
 	}
 
 	if (options.backgroundColor && !isColorValid(options.backgroundColor)) {

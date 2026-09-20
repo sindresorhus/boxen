@@ -1,8 +1,22 @@
 import test from 'ava';
-import {Chalk} from 'chalk';
+import chalk, {Chalk} from 'chalk';
 import boxen from '../index.js';
 
 const level3Chalk = new Chalk({level: 3});
+
+/**
+Run a function with ANSI colors enabled.
+*/
+const withColorEnabled = callback => {
+	const {level} = chalk;
+	chalk.level = 3;
+
+	try {
+		return callback();
+	} finally {
+		chalk.level = level;
+	}
+};
 
 test('title option works', t => {
 	const box = boxen('foo', {
@@ -86,4 +100,62 @@ test('title option with border style (none)', t => {
 	});
 
 	t.snapshot(box);
+});
+
+test('titleColor option', t => {
+	const box = withColorEnabled(() => boxen('foo', {
+		title: 'title',
+		titleColor: 'red',
+	}));
+
+	t.true(box.includes(level3Chalk.red(' title ')));
+});
+
+test('titleColor option defaults to border color', t => {
+	const box = withColorEnabled(() => boxen('foo', {
+		title: 'title',
+		borderColor: 'red',
+	}));
+
+	t.true(box.includes('\u001B[31m┌ title '));
+});
+
+test('titleColor option takes precedence over the border color', t => {
+	const box = withColorEnabled(() => boxen('foo', {
+		title: 'title',
+		borderColor: 'blue',
+		titleColor: 'red',
+	}));
+
+	t.true(box.includes('\u001B[34m┌\u001B[31m title '));
+});
+
+test('titleColor option keeps the color of the title', t => {
+	const box = withColorEnabled(() => boxen('foo', {
+		title: level3Chalk.blue('title'),
+		titleColor: 'red',
+	}));
+
+	// The title's own color comes after the title color, so it wins
+	t.true(box.includes('\u001B[31m \u001B[34mtitle'));
+});
+
+test('titleColor option supports hex colors', t => {
+	const box = withColorEnabled(() => boxen('foo', {
+		title: 'title',
+		titleColor: '#FF0000',
+	}));
+
+	t.true(box.includes(level3Chalk.hex('#FF0000')(' title ')));
+});
+
+test('throws on unexpected titleColor', t => {
+	for (const titleColor of ['dark-yellow', 'bold', 'bgRed', '#ggg', '#12345g']) {
+		t.throws(() => {
+			boxen('foo', {
+				title: 'title',
+				titleColor,
+			});
+		}, {message: `${titleColor} is not a valid titleColor`});
+	}
 });

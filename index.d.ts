@@ -156,6 +156,35 @@ export type Options = {
 	readonly title?: string;
 
 	/**
+	Color of the title.
+
+	Defaults to `borderColor` if set, otherwise the terminal's text color.
+
+	Styling already applied to the `title` takes precedence.
+	*/
+	readonly titleColor?: LiteralUnion<
+	| 'black'
+	| 'red'
+	| 'green'
+	| 'yellow'
+	| 'blue'
+	| 'magenta'
+	| 'cyan'
+	| 'white'
+	| 'gray'
+	| 'grey'
+	| 'blackBright'
+	| 'redBright'
+	| 'greenBright'
+	| 'yellowBright'
+	| 'blueBright'
+	| 'magentaBright'
+	| 'cyanBright'
+	| 'whiteBright',
+	string
+	>;
+
+	/**
 	Align the title in the top bar.
 
 	@default 'left'

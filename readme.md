@@ -163,6 +163,27 @@ console.log(boxen('foo bar', {title: 'example'}));
 */
 ```
 
+##### titleColor
+
+Type: `string`\
+Default: `borderColor` if set, otherwise the terminal's text color\
+Values: `'black'` `'red'` `'green'` `'yellow'` `'blue'` `'magenta'` `'cyan'` `'white'` `'gray'` `'grey'` `'blackBright'` `'redBright'` `'greenBright'` `'yellowBright'` `'blueBright'` `'magentaBright'` `'cyanBright'` `'whiteBright'` or a hex value like `'#ff0000'`
+
+Color of the title.
+
+Styling already applied to the `title` takes precedence over this option.
+
+Example:
+```js
+// Blue border with a red title
+console.log(boxen('foo bar', {title: 'example', borderColor: 'blue', titleColor: 'red'}));
+/*
+┌ example ┐
+│foo bar  │
+└─────────┘
+*/
+```
+
 ##### titleAlignment
 
 Type: `string`\
