@@ -128,7 +128,8 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 			const createdLines = wrapAnsi(line, max, {hard: true});
 			const alignedLines = ansiAlign(createdLines, {align: textAlignment});
 			const alignedLinesArray = alignedLines.split('\n');
-			const longestLength = Math.max(...alignedLinesArray.map(s => stringWidth(s)));
+			// A character can be wider than the box, in which case the line overflows it
+			const longestLength = Math.min(max, Math.max(...alignedLinesArray.map(s => stringWidth(s))));
 
 			for (const alignedLine of alignedLinesArray) {
 				let paddedLine;
@@ -168,7 +169,7 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	lines = lines.map(line => {
 		const newLine = paddingLeft + line + paddingRight;
 
-		return newLine + PAD.repeat(width - stringWidth(newLine));
+		return newLine + PAD.repeat(Math.max(0, width - stringWidth(newLine)));
 	});
 
 	if (padding.top > 0) {
@@ -273,6 +274,9 @@ const sanitizeOptions = options => {
 	// If width is provided, make sure it's not below 1
 	options.width &&= Math.max(1, options.width - getBorderWidth(options.borderStyle));
 
+	// If maxWidth is provided, make sure it's not below 1
+	options.maxWidth &&= Math.max(1, options.maxWidth - getBorderWidth(options.borderStyle));
+
 	// If height is provided, make sure it's not below 1
 	options.height &&= Math.max(1, options.height - getBorderWidth(options.borderStyle));
 
@@ -297,12 +301,15 @@ const determineDimensions = (text, options) => {
 	const widthOverride = options.width !== undefined;
 	const columns = terminalColumns();
 	const borderWidth = getBorderWidth(options.borderStyle);
-	const maxWidth = columns - options.margin.left - options.margin.right - borderWidth;
+	const terminalWidth = columns - borderWidth;
+	// The box grows with the content up to the terminal width and `maxWidth`
+	const maxContentWidth = Math.min(terminalWidth, options.maxWidth || terminalWidth);
+	const availableWidth = terminalWidth - options.margin.left - options.margin.right;
 
-	let widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+	let widest = Math.min(widestLine(wrapAnsi(text, maxContentWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right, maxContentWidth);
 
 	// If width is provided, the labels adhere to it
-	const labelWidth = widthOverride ? options.width : maxWidth;
+	const labelWidth = widthOverride ? options.width : Math.min(availableWidth, maxContentWidth);
 	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
 	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
 
@@ -319,7 +326,7 @@ const determineDimensions = (text, options) => {
 	options.width ||= widest;
 
 	if (!widthOverride) {
-		if ((options.margin.left && options.margin.right) && options.width > maxWidth) {
+		if ((options.margin.left && options.margin.right) && options.width > availableWidth) {
 			// Let's assume we have margins: left = 3, right = 5, in total = 8
 			const spaceForMargins = columns - options.width - borderWidth;
 			// Let's assume we have space = 4

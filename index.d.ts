@@ -258,6 +258,34 @@ export type Options = {
 	readonly width?: number;
 
 	/**
+	Set a maximum width for the box.
+
+	The box grows with the content and does not become wider than this value.
+
+	A character that is wider than the space left for it can still widen the box, because a character is never split.
+
+	__Note__: This option has no effect when `width` is set.
+
+	@example
+	```
+	import boxen from 'boxen';
+
+	console.log(boxen('foo bar', {maxWidth: 20}));
+	// ┌───────┐
+	// │foo bar│
+	// └───────┘
+
+	console.log(boxen('Lorem ipsum dolor sit amet, consectetur.', {maxWidth: 20}));
+	// ┌──────────────────┐
+	// │Lorem ipsum dolor │
+	// │sit amet,         │
+	// │consectetur.      │
+	// └──────────────────┘
+	```
+	*/
+	readonly maxWidth?: number;
+
+	/**
 	Set a fixed height for the box.
 
 	__Note__: This option will crop overflowing content.

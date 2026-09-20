@@ -286,6 +286,34 @@ console.log(boxen('foo bar', {width: 15}));
 // └─────────────┘
 ```
 
+##### maxWidth
+
+Type: `number`
+
+Set a maximum width for the box.
+
+The box grows with the content and does not become wider than this value.
+
+A character that is wider than the space left for it can still widen the box, because a character is never split.
+
+*Note:* This option has no effect when `width` is set.
+
+```js
+import boxen from 'boxen';
+
+console.log(boxen('foo bar', {maxWidth: 20}));
+// ┌───────┐
+// │foo bar│
+// └───────┘
+
+console.log(boxen('Lorem ipsum dolor sit amet, consectetur.', {maxWidth: 20}));
+// ┌──────────────────┐
+// │Lorem ipsum dolor │
+// │sit amet,         │
+// │consectetur.      │
+// └──────────────────┘
+```
+
 ##### height
 
 Type: `number`
