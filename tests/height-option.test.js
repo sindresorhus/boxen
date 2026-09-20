@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import boxen from '../index.js';
 import './setup.js';
@@ -16,6 +17,22 @@ test('height option works', t => {
 			height: 3,
 		}),
 	);
+});
+
+test('height option keeps the vertical padding', () => {
+	// The padding rows are part of the height, so only the text is cropped
+	const box = boxen('a\nb\nc', {
+		height: 5,
+		padding: 1,
+	});
+
+	assert.equal(box, [
+		'┌───────┐',
+		'│       │',
+		'│   a   │',
+		'│       │',
+		'└───────┘',
+	].join('\n'));
 });
 
 test('height option with padding + margin', t => {

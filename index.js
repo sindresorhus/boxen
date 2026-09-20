@@ -165,6 +165,11 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 		return newLine + PAD.repeat(Math.max(0, width - stringWidth(newLine)));
 	});
 
+	// The padding rows are part of the height, so only the text is cropped
+	if (height && lines.length > height - padding.top - padding.bottom) {
+		lines = lines.slice(0, height - padding.top - padding.bottom);
+	}
+
 	if (padding.top > 0) {
 		lines = [...Array.from({length: padding.top}, () => PAD.repeat(width)), ...lines];
 	}
@@ -173,9 +178,7 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 		lines = [...lines, ...Array.from({length: padding.bottom}, () => PAD.repeat(width))];
 	}
 
-	if (height && lines.length > height) {
-		lines = lines.slice(0, height);
-	} else if (height && lines.length < height) {
+	if (height && lines.length < height) {
 		lines = [...lines, ...Array.from({length: height - lines.length}, () => PAD.repeat(width))];
 	}
 
