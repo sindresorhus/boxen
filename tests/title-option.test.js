@@ -97,6 +97,23 @@ test('title + width option', t => {
 	);
 });
 
+test('title option with a margin that does not fit the terminal', () => {
+	// The margin is shrunk, and the title uses the space that is left in the box
+	const box = boxen('foo', {
+		margin: 10,
+		title: 'hi',
+	});
+	const indent = ' '.repeat(27);
+
+	assert.equal(box, [
+		...Array.from({length: 10}, () => ''),
+		`${indent}┌ hi ┐`,
+		`${indent}│foo │`,
+		`${indent}└────┘`,
+		...Array.from({length: 10}, () => ''),
+	].join('\n'));
+});
+
 test('nullish title alignment means the default', () => {
 	assert.equal(
 		boxen('foo', {title: 't', width: 12, titleAlignment: undefined}),

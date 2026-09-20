@@ -325,25 +325,6 @@ const determineDimensions = (text, options) => {
 	const widestText = widestLine(wrappedText);
 	let widest = Math.min(widestText + options.padding.left + options.padding.right, maxContentWidth);
 
-	// If width is provided, the labels adhere to it
-	const labelWidth = isWidthOverride ? options.width : Math.min(availableWidth, maxContentWidth);
-	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
-	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
-
-	if (!isWidthOverride) {
-		// If a label is larger than content, box adheres to label width
-		for (const label of [options.title, options.footer]) {
-			if (label) {
-				widest = Math.max(widest, stringWidth(label));
-			}
-		}
-	}
-
-	// A label is drawn on a row of the border, but on a row of its own when there is no border
-	if (borderWidth === 0 && options.height) {
-		options.height = Math.max(1, options.height - (options.title ? 1 : 0) - (options.footer ? 1 : 0));
-	}
-
 	// If fixed width is provided, use it or content width as reference
 	options.width ||= widest;
 
@@ -360,9 +341,26 @@ const determineDimensions = (text, options) => {
 		// Right: 6 * 0.5 = 3
 	}
 
+	// The labels are fitted with the space that the margin leaves behind, so that a shrunk margin still fits them
+	const labelWidth = isWidthOverride ? options.width : Math.min(columns - borderWidth - options.margin.left - options.margin.right, maxContentWidth);
+	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
+	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
+
+	// A label is drawn on a row of the border, but on a row of its own when there is no border
+	if (borderWidth === 0 && options.height) {
+		options.height = Math.max(1, options.height - (options.title ? 1 : 0) - (options.footer ? 1 : 0));
+	}
+
 	if (!isWidthOverride) {
+		// If a label is larger than content, box adheres to label width
+		for (const label of [options.title, options.footer]) {
+			if (label) {
+				widest = Math.max(widest, stringWidth(label));
+			}
+		}
+
 		// Re-cap width considering the margins after shrinking, keeping at least one column for the content
-		options.width = Math.max(1, Math.min(options.width, columns - borderWidth - options.margin.left - options.margin.right));
+		options.width = Math.max(1, Math.min(widest, columns - borderWidth - options.margin.left - options.margin.right));
 	}
 
 	// Prevent padding overflow
