@@ -113,6 +113,11 @@ test('nullish footer alignment means the default', () => {
 	);
 });
 
+test('footer option with a line break', () => {
+	// A footer is a single line, so a line break would break the box
+	assert.equal(boxen('foo', {footer: 'a\nb'}), '┌─────┐\n│foo  │\n└ a b ┘');
+});
+
 test('footer option with border style (none)', t => {
 	const box = boxen('foo', {
 		footer: 'footer',

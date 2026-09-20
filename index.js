@@ -298,6 +298,8 @@ const fitLabel = (label, width, borderStyle) => {
 		return label;
 	}
 
+	// A label is a single line, so line breaks would break the box
+	label = label.replaceAll(/\r\n|[\n\r]/gv, ' ');
 	label = sliceAnsi(label, 0, Math.max(0, width - getBorderWidth(borderStyle)));
 
 	return label && formatLabel(label, borderStyle);

@@ -104,6 +104,21 @@ test('nullish title alignment means the default', () => {
 	);
 });
 
+test('title option with a line break', () => {
+	// A title is a single line, so a line break would break the box
+	assert.equal(boxen('foo', {title: 'a\nb'}), '┌ a b ┐\n│foo  │\n└─────┘');
+	assert.equal(boxen('foo', {title: 'a\r\nb'}), '┌ a b ┐\n│foo  │\n└─────┘');
+	assert.equal(boxen('foo', {title: 'a\nb\nc'}), '┌ a b c ┐\n│foo    │\n└───────┘');
+});
+
+test('title option with border style (none) and a long title', () => {
+	// The title uses the full content width, as no space is needed for the border
+	assert.equal(
+		boxen('x', {width: 10, title: 'a very long title', borderStyle: 'none'}),
+		'a very lon\nx         ',
+	);
+});
+
 test('title option with border style (none)', t => {
 	const box = boxen('foo', {
 		title: 'title',
