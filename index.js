@@ -242,7 +242,7 @@ const boxContent = (content, contentWidth, options) => {
 		// A bar always spans the full width of the box, so an empty border is filled with spaces
 		const topBar = options.title
 			? makeLabel(colorizeTitle(options.title), (chars.top || PAD).repeat(contentWidth), options.titleAlignment)
-			: chars.top.repeat(contentWidth);
+			: (chars.top || PAD).repeat(contentWidth);
 
 		result += marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight) + NEWLINE;
 	}
@@ -254,7 +254,7 @@ const boxContent = (content, contentWidth, options) => {
 	if (options.borderStyle !== NONE || options.footer) {
 		const bottomBar = options.footer
 			? makeLabel(options.footer, (chars.bottom || PAD).repeat(contentWidth), options.footerAlignment)
-			: chars.bottom.repeat(contentWidth);
+			: (chars.bottom || PAD).repeat(contentWidth);
 
 		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + bottomBar + chars.bottomRight);
 	}

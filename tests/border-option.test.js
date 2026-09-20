@@ -138,6 +138,25 @@ test('nullish border style falls back to the default', () => {
 	assert.equal(boxen('foo', {borderStyle: null}), boxen('foo'));
 });
 
+test('an empty top and bottom side is filled with spaces', () => {
+	// The corners have to line up with the rows of the box
+	const borderStyle = {
+		topLeft: '1',
+		topRight: '2',
+		bottomLeft: '3',
+		bottomRight: '4',
+		top: '',
+		bottom: '',
+		left: '|',
+		right: '|',
+	};
+
+	assert.equal(boxen('foo', {borderStyle}), '1   2\n|foo|\n3   4');
+
+	// A label uses the same width as the rows
+	assert.equal(boxen('foo', {borderStyle, title: 't'}), '1 t 2\n|foo|\n3   4');
+});
+
 test('deprecated vertical and horizontal border sides still work', () => {
 	const box = boxen('foo', {
 		borderStyle: {
