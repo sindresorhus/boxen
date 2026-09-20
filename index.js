@@ -127,7 +127,8 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	if (textWidth > max) {
 		const newLines = [];
 		for (const line of lines) {
-			const createdLines = wrapAnsi(line, max, {hard: true});
+			// Wrapping trims the whitespace at the edges of a line, so the lines that fit are kept as they are
+			const createdLines = stringWidth(line) > max ? wrapAnsi(line, max, {hard: true}) : line;
 			const alignedLines = ansiAlign(createdLines, {align: textAlignment});
 			const alignedLinesArray = alignedLines.split('\n');
 			// A character can be wider than the box, in which case the line overflows it

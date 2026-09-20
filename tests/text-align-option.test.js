@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import boxen from '../index.js';
 import './setup.js';
@@ -147,6 +148,21 @@ test('text alignement option (right) + long title + padding + margin', t => {
 	});
 
 	t.assert.snapshot(box);
+});
+
+test('text alignement option (left) keeps the whitespace of lines that fit', () => {
+	// Wrapping a line must not trim the lines that fit in the box
+	const box = boxen('foo bar baz qux quux corge grault\n    indented  ', {
+		width: 20,
+	});
+
+	assert.equal(box, [
+		'┌──────────────────┐',
+		'│foo bar baz qux   │',
+		'│quux corge grault │',
+		'│    indented      │',
+		'└──────────────────┘',
+	].join('\n'));
 });
 
 test('text alignement option (center) after wrapping', t => {
