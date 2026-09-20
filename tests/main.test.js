@@ -91,6 +91,24 @@ test('handles a lone carriage return', () => {
 	assert.equal(boxen('foo\rbar'), '┌───┐\n│foo│\n│bar│\n└───┘');
 });
 
+test('handles Windows line endings with wrapped text', () => {
+	const box = boxen('foo bar baz qux quux corge grault\r\n    indented', {
+		width: 20,
+	});
+
+	assert.equal(box, [
+		'┌──────────────────┐',
+		'│foo bar baz qux   │',
+		'│quux corge grault │',
+		'│    indented      │',
+		'└──────────────────┘',
+	].join('\n'));
+});
+
+test('handles empty text', () => {
+	assert.equal(boxen(''), '┌─┐\n│ │\n└─┘');
+});
+
 test('handles long text', t => {
 	const box = boxen(longText);
 

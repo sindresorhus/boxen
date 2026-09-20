@@ -35,6 +35,22 @@ test('height option keeps the vertical padding', () => {
 	].join('\n'));
 });
 
+test('height option with big padding', () => {
+	// The padding does not fit in the box, so it is disabled
+	const box = boxen('foo', {
+		height: 5,
+		padding: 3,
+	});
+
+	assert.equal(box, [
+		'┌─────────────────────┐',
+		'│         foo         │',
+		'│                     │',
+		'│                     │',
+		'└─────────────────────┘',
+	].join('\n'));
+});
+
 test('height option with padding + margin', t => {
 	// Creates a wide box for little text
 	const box = boxen('foo', {
