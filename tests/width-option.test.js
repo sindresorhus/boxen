@@ -49,9 +49,7 @@ test('width option with border style (none)', t => {
 });
 
 test('width option with a character wider than the box', t => {
-	/*
-	A character that is wider than the content area overflows the box instead of throwing. `wrapAnsi` also emits an empty first line, because it cannot split the character.
-	*/
+	// A character that is wider than the content area overflows the box instead of throwing
 	t.assert.snapshot(
 		boxen('字', {
 			width: 2,

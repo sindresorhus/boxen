@@ -70,55 +70,55 @@ Type: `string | object`\
 Default: `'single'`\
 Values:
 - `'single'`
-```
+```text
 ┌───┐
 │foo│
 └───┘
 ```
 - `'double'`
-```
+```text
 ╔═══╗
 ║foo║
 ╚═══╝
 ```
 - `'round'` (`'single'` sides with round corners)
-```
+```text
 ╭───╮
 │foo│
 ╰───╯
 ```
 - `'bold'`
-```
+```text
 ┏━━━┓
 ┃foo┃
 ┗━━━┛
 ```
 - `'singleDouble'` (`'single'` on top and bottom, `'double'` on right and left)
-```
+```text
 ╓───╖
 ║foo║
 ╙───╜
 ```
 - `'doubleSingle'` (`'double'` on top and bottom, `'single'` on right and left)
-```
+```text
 ╒═══╕
 │foo│
 ╘═══╛
 ```
 - `'classic'`
-```
+```text
 +---+
 |foo|
 +---+
 ```
 - `'arrow'`
-```
+```text
 ↘↓↓↓↙
 →foo←
 ↗↑↑↑↖
 ```
 - `'none'`
-```
+```text
 foo
 ```
 

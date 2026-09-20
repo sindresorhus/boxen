@@ -13,21 +13,23 @@ const NONE = 'none';
 
 const terminalColumns = () => process.stdout?.columns
 	|| process.stderr?.columns
-	|| Number.parseInt(process.env.COLUMNS, 10)
+	|| Number(process.env.COLUMNS)
 	|| 80;
 
-const getObject = detail => typeof detail === 'number' ? {
-	top: detail,
-	right: detail * 3,
-	bottom: detail,
-	left: detail * 3,
-} : {
-	top: 0,
-	right: 0,
-	bottom: 0,
-	left: 0,
-	...detail,
-};
+const getObject = detail => typeof detail === 'number'
+	? {
+		top: detail,
+		right: detail * 3,
+		bottom: detail,
+		left: detail * 3,
+	}
+	: {
+		top: 0,
+		right: 0,
+		bottom: 0,
+		left: 0,
+		...detail,
+	};
 
 const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
 
@@ -132,25 +134,15 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 			const longestLength = Math.min(max, Math.max(...alignedLinesArray.map(s => stringWidth(s))));
 
 			for (const alignedLine of alignedLinesArray) {
-				let paddedLine;
-				switch (textAlignment) {
-					case 'center': {
-						paddedLine = PAD.repeat((max - longestLength) / 2) + alignedLine;
-						break;
-					}
+				let leftPadding = 0;
 
-					case 'right': {
-						paddedLine = PAD.repeat(max - longestLength) + alignedLine;
-						break;
-					}
-
-					default: {
-						paddedLine = alignedLine;
-						break;
-					}
+				if (textAlignment === 'center') {
+					leftPadding = (max - longestLength) / 2;
+				} else if (textAlignment === 'right') {
+					leftPadding = max - longestLength;
 				}
 
-				newLines.push(paddedLine);
+				newLines.push(PAD.repeat(leftPadding) + alignedLine);
 			}
 		}
 
@@ -207,7 +199,7 @@ const boxContent = (content, contentWidth, options) => {
 		return options.dimBorder ? chalk.dim(bgColoredBorder) : bgColoredBorder;
 	};
 
-	const colorizeContent = content => options.backgroundColor ? getBGColorFunction(options.backgroundColor)(content) : content;
+	const colorizeContent = text => options.backgroundColor ? getBGColorFunction(options.backgroundColor)(text) : text;
 
 	// Styling already applied to the title takes precedence
 	const colorizeTitle = title => options.titleColor ? getColorFunction(options.titleColor)(title) : title;
@@ -298,7 +290,7 @@ const fitLabel = (label, width, borderStyle) => {
 
 const determineDimensions = (text, options) => {
 	options = sanitizeOptions(options);
-	const widthOverride = options.width !== undefined;
+	const isWidthOverride = options.width !== undefined;
 	const columns = terminalColumns();
 	const borderWidth = getBorderWidth(options.borderStyle);
 	const terminalWidth = columns - borderWidth;
@@ -309,11 +301,11 @@ const determineDimensions = (text, options) => {
 	let widest = Math.min(widestLine(wrapAnsi(text, maxContentWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right, maxContentWidth);
 
 	// If width is provided, the labels adhere to it
-	const labelWidth = widthOverride ? options.width : Math.min(availableWidth, maxContentWidth);
+	const labelWidth = isWidthOverride ? options.width : Math.min(availableWidth, maxContentWidth);
 	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
 	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
 
-	if (!widthOverride) {
+	if (!isWidthOverride) {
 		// If a label is larger than content, box adheres to label width
 		for (const label of [options.title, options.footer]) {
 			if (label) {
@@ -325,7 +317,7 @@ const determineDimensions = (text, options) => {
 	// If fixed width is provided, use it or content width as reference
 	options.width ||= widest;
 
-	if (!widthOverride) {
+	if (!isWidthOverride) {
 		if ((options.margin.left && options.margin.right) && options.width > availableWidth) {
 			// Let's assume we have margins: left = 3, right = 5, in total = 8
 			const spaceForMargins = columns - options.width - borderWidth;
@@ -343,12 +335,12 @@ const determineDimensions = (text, options) => {
 	}
 
 	// Prevent padding overflow
-	if (options.width - (options.padding.left + options.padding.right) <= 0) {
+	if (options.padding.left + options.padding.right >= options.width) {
 		options.padding.left = 0;
 		options.padding.right = 0;
 	}
 
-	if (options.height && options.height - (options.padding.top + options.padding.bottom) <= 0) {
+	if (options.height && options.padding.top + options.padding.bottom >= options.height) {
 		options.padding.top = 0;
 		options.padding.bottom = 0;
 	}
@@ -377,7 +369,7 @@ const colorNames = new Set([
 	'whiteBright',
 ]);
 
-const isHex = color => /^#(?:[\da-f]{3}){1,2}$/i.test(color);
+const isHex = color => /^#(?:[\da-f]{3}){1,2}$/iv.test(color);
 const isColorValid = color => typeof color === 'string' && (colorNames.has(color) || isHex(color));
 const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color];
 const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[`bg${color[0].toUpperCase()}${color.slice(1)}`];

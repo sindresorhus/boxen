@@ -9,25 +9,25 @@ type Boxes = {
 } & CLIBoxes;
 
 export type Color = LiteralUnion<
-| 'black'
-| 'red'
-| 'green'
-| 'yellow'
-| 'blue'
-| 'magenta'
-| 'cyan'
-| 'white'
-| 'gray'
-| 'grey'
-| 'blackBright'
-| 'redBright'
-| 'greenBright'
-| 'yellowBright'
-| 'blueBright'
-| 'magentaBright'
-| 'cyanBright'
-| 'whiteBright',
-string
+	| 'black'
+	| 'red'
+	| 'green'
+	| 'yellow'
+	| 'blue'
+	| 'magenta'
+	| 'cyan'
+	| 'white'
+	| 'gray'
+	| 'grey'
+	| 'blackBright'
+	| 'redBright'
+	| 'greenBright'
+	| 'yellowBright'
+	| 'blueBright'
+	| 'magentaBright'
+	| 'cyanBright'
+	| 'whiteBright',
+	string
 >;
 
 /**
@@ -163,25 +163,25 @@ export type Options = {
 	Styling already applied to the `title` takes precedence.
 	*/
 	readonly titleColor?: LiteralUnion<
-	| 'black'
-	| 'red'
-	| 'green'
-	| 'yellow'
-	| 'blue'
-	| 'magenta'
-	| 'cyan'
-	| 'white'
-	| 'gray'
-	| 'grey'
-	| 'blackBright'
-	| 'redBright'
-	| 'greenBright'
-	| 'yellowBright'
-	| 'blueBright'
-	| 'magentaBright'
-	| 'cyanBright'
-	| 'whiteBright',
-	string
+		| 'black'
+		| 'red'
+		| 'green'
+		| 'yellow'
+		| 'blue'
+		| 'magenta'
+		| 'cyan'
+		| 'white'
+		| 'gray'
+		| 'grey'
+		| 'blackBright'
+		| 'redBright'
+		| 'greenBright'
+		| 'yellowBright'
+		| 'blueBright'
+		| 'magentaBright'
+		| 'cyanBright'
+		| 'whiteBright',
+		string
 	>;
 
 	/**

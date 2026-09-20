@@ -8,6 +8,8 @@ const level3Chalk = new Chalk({level: 3});
 
 /**
 Run a function with ANSI colors enabled.
+
+@param {() => string} callback - The function to run.
 */
 const withColorEnabled = callback => {
 	const {level} = chalk;
@@ -119,7 +121,7 @@ test('titleColor option defaults to border color', () => {
 		borderColor: 'red',
 	}));
 
-	assert.ok(box.includes('\u001B[31m┌ title '));
+	assert.ok(box.includes('\u{1B}[31m┌ title '));
 });
 
 test('titleColor option takes precedence over the border color', () => {
@@ -129,7 +131,7 @@ test('titleColor option takes precedence over the border color', () => {
 		titleColor: 'red',
 	}));
 
-	assert.ok(box.includes('\u001B[34m┌\u001B[31m title '));
+	assert.ok(box.includes('\u{1B}[34m┌\u{1B}[31m title '));
 });
 
 test('titleColor option keeps the color of the title', () => {
@@ -139,7 +141,7 @@ test('titleColor option keeps the color of the title', () => {
 	}));
 
 	// The title's own color comes after the title color, so it wins
-	assert.ok(box.includes('\u001B[31m \u001B[34mtitle'));
+	assert.ok(box.includes('\u{1B}[31m \u{1B}[34mtitle'));
 });
 
 test('titleColor option supports hex colors', () => {
@@ -152,12 +154,9 @@ test('titleColor option supports hex colors', () => {
 });
 
 test('throws on unexpected titleColor', () => {
-	for (const titleColor of ['dark-yellow', 'bold', 'bgRed', '#ggg', '#12345g']) {
-		assert.throws(() => {
-			boxen('foo', {
-				title: 'title',
-				titleColor,
-			});
-		}, {message: `${titleColor} is not a valid titleColor`});
-	}
+	assert.throws(() => boxen('foo', {title: 'title', titleColor: 'dark-yellow'}), {message: 'dark-yellow is not a valid titleColor'});
+	assert.throws(() => boxen('foo', {title: 'title', titleColor: 'bold'}), {message: 'bold is not a valid titleColor'});
+	assert.throws(() => boxen('foo', {title: 'title', titleColor: 'bgRed'}), {message: 'bgRed is not a valid titleColor'});
+	assert.throws(() => boxen('foo', {title: 'title', titleColor: '#ggg'}), {message: '#ggg is not a valid titleColor'});
+	assert.throws(() => boxen('foo', {title: 'title', titleColor: '#12345g'}), {message: '#12345g is not a valid titleColor'});
 });

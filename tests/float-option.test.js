@@ -1,4 +1,3 @@
-import assert from 'node:assert/strict';
 import process from 'node:process';
 import {test} from 'node:test';
 import boxen from '../index.js';
@@ -55,12 +54,6 @@ test('float option (right) with margin', t => {
 test('float option (center) when content > columns', t => {
 	const longContent = 'foobar'.repeat(process.env.COLUMNS);
 
-	assert.doesNotThrow(() => {
-		boxen(longContent, {
-			float: 'center',
-		});
-	});
-
 	const box = boxen(longContent, {
 		float: 'center',
 	});
@@ -70,12 +63,6 @@ test('float option (center) when content > columns', t => {
 
 test('float option (right) when content > columns', t => {
 	const longContent = 'foobar'.repeat(process.env.COLUMNS);
-
-	assert.doesNotThrow(() => {
-		boxen(longContent, {
-			float: 'right',
-		});
-	});
 
 	const box = boxen(longContent, {
 		float: 'right',

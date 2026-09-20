@@ -48,7 +48,7 @@ test('border color (hex)', t => {
 test('throws on unexpected borderColor', () => {
 	assert.throws(() => {
 		boxen('foo', {borderColor: 'greasy-white'});
-	});
+	}, {message: 'greasy-white is not a valid borderColor'});
 });
 
 test('border style (single)', t => {
@@ -135,13 +135,13 @@ test('border style (custom ascii style)', t => {
 test('throws on unexpected borderStyle as string', () => {
 	assert.throws(() => {
 		boxen('foo', {borderStyle: 'shakenSnake'});
-	});
+	}, {message: 'Invalid border style: shakenSnake'});
 });
 
 test('throws on unexpected borderStyle as object', () => {
 	assert.throws(() => {
 		boxen('foo', {borderStyle: {shake: 'snake'}});
-	});
+	}, {message: 'Invalid border style: topLeft'});
 
 	// Missing bottomRight
 	const invalid = {
@@ -154,5 +154,5 @@ test('throws on unexpected borderStyle as object', () => {
 
 	assert.throws(() => {
 		boxen('foo', {borderStyle: invalid});
-	});
+	}, {message: 'Invalid border style: bottomRight'});
 });

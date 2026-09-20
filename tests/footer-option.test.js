@@ -8,6 +8,8 @@ const level3Chalk = new Chalk({level: 3});
 
 /**
 Run a function with ANSI colors enabled.
+
+@param {() => string} callback - The function to run.
 */
 const withColorEnabled = callback => {
 	const {level} = chalk;

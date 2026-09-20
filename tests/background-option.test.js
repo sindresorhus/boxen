@@ -18,7 +18,7 @@ test('backgroundColor hex', t => {
 test('throws on unexpected backgroundColor', () => {
 	assert.throws(() => {
 		boxen('foo', {backgroundColor: 'dark-yellow'});
-	});
+	}, {message: 'dark-yellow is not a valid backgroundColor'});
 });
 
 test('borderBackgroundColor option', t => {
@@ -73,5 +73,5 @@ test('borderBackgroundColor defaults to inherit', () => {
 test('throws on unexpected borderBackgroundColor', () => {
 	assert.throws(() => {
 		boxen('foo', {borderBackgroundColor: 'dark-yellow'});
-	});
+	}, {message: 'dark-yellow is not a valid borderBackgroundColor'});
 });

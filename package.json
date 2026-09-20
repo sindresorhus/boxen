@@ -5,11 +5,7 @@
 	"license": "MIT",
 	"repository": "sindresorhus/boxen",
 	"funding": "https://github.com/sponsors/sindresorhus",
-	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "https://sindresorhus.com"
-	},
+	"author": "Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)",
 	"type": "module",
 	"exports": {
 		"types": "./index.d.ts",
@@ -40,24 +36,24 @@
 	],
 	"dependencies": {
 		"ansi-align": "^3.0.1",
-		"chalk": "^5.3.0",
-		"cli-boxes": "^3.0.0",
-		"slice-ansi": "^7.1.2",
-		"string-width": "^7.2.0",
-		"type-fest": "^4.21.0",
-		"widest-line": "^5.0.0",
-		"wrap-ansi": "^9.0.0"
+		"chalk": "^6.0.0",
+		"cli-boxes": "^4.0.1",
+		"slice-ansi": "^9.0.1",
+		"string-width": "^8.2.2",
+		"type-fest": "^5.10.0",
+		"widest-line": "^6.0.0",
+		"wrap-ansi": "^10.0.1"
 	},
 	"devDependencies": {
-		"tsd": "^0.31.1",
-		"xo": "^0.58.0"
+		"tsd": "^0.33.0",
+		"xo": "^5.0.1"
 	},
 	"xo": {
 		"rules": {
 			"@typescript-eslint/no-unsafe-assignment": "off",
 			"unicorn/import-style": "off",
 			"ava/no-import-test-files": "off",
-			"import/no-unassigned-import": [
+			"import-x/no-unassigned-import": [
 				"error",
 				{
 					"allow": [
