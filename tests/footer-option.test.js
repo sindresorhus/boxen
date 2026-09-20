@@ -115,6 +115,19 @@ test('footer option with border style (none)', t => {
 	t.assert.snapshot(box);
 });
 
+test('footer option with border style (none) keeps the box width', () => {
+	assert.equal(boxen('foobar', {footer: 'x', borderStyle: 'none'}), 'foobar\nx     ');
+});
+
+test('footer option with border style (none) uses the full width', () => {
+	assert.equal(boxen('x', {width: 10, footer: 'abcdefgh', borderStyle: 'none'}), 'x         \nabcdefgh  ');
+});
+
+test('footer alignment with border style (none)', () => {
+	assert.equal(boxen('foobar', {footer: 'x', footerAlignment: 'center', borderStyle: 'none'}), 'foobar\n  x   ');
+	assert.equal(boxen('foobar', {footer: 'x', footerAlignment: 'right', borderStyle: 'none'}), 'foobar\n     x');
+});
+
 test('footer uses the border color', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		footer: 'footer',

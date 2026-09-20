@@ -106,6 +106,21 @@ test('title option with border style (none)', t => {
 	t.assert.snapshot(box);
 });
 
+test('title option with border style (none) keeps the box width', () => {
+	// The title line is padded to the content width
+	assert.equal(boxen('foobar', {title: 'x', borderStyle: 'none'}), 'x     \nfoobar');
+});
+
+test('title option with border style (none) uses the full width', () => {
+	// Two spaces are not reserved for the border, as there is none
+	assert.equal(boxen('x', {width: 10, title: 'abcdefgh', borderStyle: 'none'}), 'abcdefgh  \nx         ');
+});
+
+test('title alignment with border style (none)', () => {
+	assert.equal(boxen('foobar', {title: 'x', titleAlignment: 'center', borderStyle: 'none'}), '  x   \nfoobar');
+	assert.equal(boxen('foobar', {title: 'x', titleAlignment: 'right', borderStyle: 'none'}), '     x\nfoobar');
+});
+
 test('titleColor option', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		title: 'title',

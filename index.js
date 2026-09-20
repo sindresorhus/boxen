@@ -223,8 +223,9 @@ const boxContent = (content, contentWidth, options) => {
 	}
 
 	if (options.borderStyle !== NONE || options.title) {
+		// A label always spans the full width of the box, so an empty border is filled with spaces
 		const topBar = options.title
-			? makeLabel(colorizeTitle(options.title), chars.top.repeat(contentWidth), options.titleAlignment)
+			? makeLabel(colorizeTitle(options.title), (chars.top || PAD).repeat(contentWidth), options.titleAlignment)
 			: chars.top.repeat(contentWidth);
 
 		result += marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight) + NEWLINE;
@@ -236,7 +237,7 @@ const boxContent = (content, contentWidth, options) => {
 
 	if (options.borderStyle !== NONE || options.footer) {
 		const bottomBar = options.footer
-			? makeLabel(options.footer, chars.bottom.repeat(contentWidth), options.footerAlignment)
+			? makeLabel(options.footer, (chars.bottom || PAD).repeat(contentWidth), options.footerAlignment)
 			: chars.bottom.repeat(contentWidth);
 
 		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + bottomBar + chars.bottomRight);
@@ -283,7 +284,7 @@ const fitLabel = (label, width, borderStyle) => {
 		return label;
 	}
 
-	label = sliceAnsi(label, 0, Math.max(0, width - 2));
+	label = sliceAnsi(label, 0, Math.max(0, width - getBorderWidth(borderStyle)));
 
 	return label && formatLabel(label, borderStyle);
 };
