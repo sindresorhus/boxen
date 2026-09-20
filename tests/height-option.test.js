@@ -84,6 +84,16 @@ test('height option with width + padding + margin', t => {
 	t.assert.snapshot(box);
 });
 
+test('height option that is not a finite number', () => {
+	// A size that is not a finite number is meaningless and would throw when the box is built
+	assert.equal(boxen('foo', {height: Infinity}), boxen('foo'));
+	assert.equal(boxen('foo', {height: -Infinity}), boxen('foo'));
+	assert.equal(boxen('foo', {height: NaN}), boxen('foo'));
+
+	// A height of 0 means it is not set too, so the text is not cropped
+	assert.equal(boxen('a\nb', {height: 0}), boxen('a\nb'));
+});
+
 test('height option with border style (none)', t => {
 	const box = boxen('foo', {
 		height: 3,

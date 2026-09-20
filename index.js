@@ -43,6 +43,9 @@ const getObject = detail => {
 
 const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
 
+// A size has to be a finite number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
+const sanitizeSize = (size, borderWidth) => size && Number.isFinite(size) ? Math.max(1, size - borderWidth) : undefined;
+
 const getBorderChars = borderStyle => {
 	const sides = [
 		'topLeft',
@@ -278,14 +281,11 @@ const sanitizeOptions = options => {
 		options.height ||= newDimensions[1];
 	}
 
-	// If width is provided, make sure it's not below 1
-	options.width &&= Math.max(1, options.width - getBorderWidth(options.borderStyle));
+	const borderWidth = getBorderWidth(options.borderStyle);
 
-	// If maxWidth is provided, make sure it's not below 1
-	options.maxWidth &&= Math.max(1, options.maxWidth - getBorderWidth(options.borderStyle));
-
-	// If height is provided, make sure it's not below 1
-	options.height &&= Math.max(1, options.height - getBorderWidth(options.borderStyle));
+	options.width = sanitizeSize(options.width, borderWidth);
+	options.maxWidth = sanitizeSize(options.maxWidth, borderWidth);
+	options.height = sanitizeSize(options.height, borderWidth);
 
 	return options;
 };

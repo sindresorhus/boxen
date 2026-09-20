@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import boxen from '../index.js';
 import './setup.js';
@@ -37,6 +38,19 @@ test('width option with big padding', t => {
 	});
 
 	t.assert.snapshot(box);
+});
+
+test('width option that is not a finite number', () => {
+	// A size that is not a finite number is meaningless and would throw when the box is built
+	assert.equal(boxen('foo', {width: Infinity}), boxen('foo'));
+	assert.equal(boxen('foo', {width: -Infinity}), boxen('foo'));
+	assert.equal(boxen('foo', {width: NaN}), boxen('foo'));
+	assert.equal(boxen('foo', {maxWidth: Infinity}), boxen('foo'));
+	assert.equal(boxen('foo', {maxWidth: NaN}), boxen('foo'));
+
+	// A size of 0 means it is not set too, so it must not drop a title or footer
+	assert.equal(boxen('foo bar', {width: 0, title: 'Hi'}), boxen('foo bar', {title: 'Hi'}));
+	assert.equal(boxen('foo', {maxWidth: 0}), boxen('foo'));
 });
 
 test('width option with border style (none)', t => {
