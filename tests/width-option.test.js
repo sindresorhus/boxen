@@ -1,16 +1,17 @@
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('width option works', t => {
 	// Creates a wide box for little text
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			width: 20,
 		}),
 	);
 
 	// Creates a small box for a lot of text
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo bar foo bar', {
 			width: 10,
 		}),
@@ -25,7 +26,7 @@ test('width option with padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('width option with big padding', t => {
@@ -35,7 +36,7 @@ test('width option with big padding', t => {
 		padding: 3,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('width option with border style (none)', t => {
@@ -44,5 +45,5 @@ test('width option with border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

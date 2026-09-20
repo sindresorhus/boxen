@@ -1,6 +1,8 @@
-import test from 'ava';
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
 import chalk, {Chalk} from 'chalk';
 import boxen from '../index.js';
+import './setup.js';
 
 const level3Chalk = new Chalk({level: 3});
 
@@ -23,7 +25,7 @@ test('title option works', t => {
 		title: 'title',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('title align left', t => {
@@ -32,7 +34,7 @@ test('title align left', t => {
 		titleAlignment: 'left',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('title align center', t => {
@@ -41,7 +43,7 @@ test('title align center', t => {
 		titleAlignment: 'center',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('title align right', t => {
@@ -50,7 +52,7 @@ test('title align right', t => {
 		titleAlignment: 'right',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('long title expands box', t => {
@@ -58,12 +60,12 @@ test('long title expands box', t => {
 		title: 'very long title',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('title + width option', t => {
 	// Not enough space, no title
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			title: 'very long title',
 			width: 3,
@@ -71,21 +73,21 @@ test('title + width option', t => {
 	);
 
 	// Space for only one character
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			title: 'very long title',
 			width: 5,
 		}),
 	);
 
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			title: 'very long title',
 			width: 20,
 		}),
 	);
 
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			title: level3Chalk.red('colorful title'),
 			width: 18,
@@ -99,59 +101,59 @@ test('title option with border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
-test('titleColor option', t => {
+test('titleColor option', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		title: 'title',
 		titleColor: 'red',
 	}));
 
-	t.true(box.includes(level3Chalk.red(' title ')));
+	assert.ok(box.includes(level3Chalk.red(' title ')));
 });
 
-test('titleColor option defaults to border color', t => {
+test('titleColor option defaults to border color', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		title: 'title',
 		borderColor: 'red',
 	}));
 
-	t.true(box.includes('\u001B[31m┌ title '));
+	assert.ok(box.includes('\u001B[31m┌ title '));
 });
 
-test('titleColor option takes precedence over the border color', t => {
+test('titleColor option takes precedence over the border color', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		title: 'title',
 		borderColor: 'blue',
 		titleColor: 'red',
 	}));
 
-	t.true(box.includes('\u001B[34m┌\u001B[31m title '));
+	assert.ok(box.includes('\u001B[34m┌\u001B[31m title '));
 });
 
-test('titleColor option keeps the color of the title', t => {
+test('titleColor option keeps the color of the title', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		title: level3Chalk.blue('title'),
 		titleColor: 'red',
 	}));
 
 	// The title's own color comes after the title color, so it wins
-	t.true(box.includes('\u001B[31m \u001B[34mtitle'));
+	assert.ok(box.includes('\u001B[31m \u001B[34mtitle'));
 });
 
-test('titleColor option supports hex colors', t => {
+test('titleColor option supports hex colors', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		title: 'title',
 		titleColor: '#FF0000',
 	}));
 
-	t.true(box.includes(level3Chalk.hex('#FF0000')(' title ')));
+	assert.ok(box.includes(level3Chalk.hex('#FF0000')(' title ')));
 });
 
-test('throws on unexpected titleColor', t => {
+test('throws on unexpected titleColor', () => {
 	for (const titleColor of ['dark-yellow', 'bold', 'bgRed', '#ggg', '#12345g']) {
-		t.throws(() => {
+		assert.throws(() => {
 			boxen('foo', {
 				title: 'title',
 				titleColor,

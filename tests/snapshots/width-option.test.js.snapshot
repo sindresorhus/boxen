@@ -1,0 +1,40 @@
+exports[`width option with big padding 1`] = `
+┌────┐
+│    │
+│    │
+│    │
+│foo │
+│    │
+│    │
+│    │
+└────┘
+`;
+
+exports[`width option with border style (none) 1`] = `
+foo
+`;
+
+exports[`width option with padding + margin 1`] = `
+
+
+      ┌──────────────────┐
+      │                  │
+      │   foo            │
+      │                  │
+      └──────────────────┘
+
+
+`;
+
+exports[`width option works 1`] = `
+┌──────────────────┐
+│foo               │
+└──────────────────┘
+`;
+
+exports[`width option works 2`] = `
+┌────────┐
+│foo bar │
+│foo bar │
+└────────┘
+`;

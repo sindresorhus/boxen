@@ -1,13 +1,14 @@
 import process from 'node:process';
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('margin option works', t => {
 	const box = boxen('foo', {
 		margin: 2,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('margin option with custom margins', t => {
@@ -20,7 +21,7 @@ test('margin option with custom margins', t => {
 		},
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('margin option with padding', t => {
@@ -29,7 +30,7 @@ test('margin option with padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('margin proportionally decreases when content <= columns', t => {
@@ -38,21 +39,21 @@ test('margin proportionally decreases when content <= columns', t => {
 		margin: 2,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 
 	// A bit of space
 	box = boxen('x'.repeat(process.env.COLUMNS - 6 - 2), {
 		margin: 2,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 
 	// No room
 	box = boxen('ax'.repeat(process.env.COLUMNS - 2), {
 		margin: 2,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('margin option with border style (none)', t => {
@@ -66,5 +67,5 @@ test('margin option with border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

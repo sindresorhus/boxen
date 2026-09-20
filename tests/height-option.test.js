@@ -1,16 +1,17 @@
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('height option works', t => {
 	// Creates a tall box with empty rows
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			height: 5,
 		}),
 	);
 
 	// Creates a 1 line box, cropping the other lines
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo bar\nfoo bar', {
 			height: 3,
 		}),
@@ -25,7 +26,7 @@ test('height option with padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('height option with width', t => {
@@ -35,7 +36,7 @@ test('height option with width', t => {
 		width: 20,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('height option with width + padding + margin', t => {
@@ -47,7 +48,7 @@ test('height option with width + padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('height option with border style (none)', t => {
@@ -56,5 +57,5 @@ test('height option with border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

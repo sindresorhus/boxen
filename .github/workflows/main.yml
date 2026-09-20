@@ -11,13 +11,12 @@ jobs:
       matrix:
         node-version:
           - 22
-          - 20
-          - 18
+          - 24
+          - 26
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - shell: 'script -q -e -c "bash {0}"' # Workaround for https://github.com/actions/runner/issues/241
-        run: npm test
+      - run: npm test

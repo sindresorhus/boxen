@@ -1,0 +1,53 @@
+exports[`backgroundColor hex 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`backgroundColor option 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor and dimBorder option 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor hex 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor inherit with backgroundColor 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor inherit without backgroundColor 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor option 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor undefined disables background 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`borderBackgroundColor with conflicting backgroundColor 1`] = `
+┌───┐
+│foo│
+└───┘
+`;

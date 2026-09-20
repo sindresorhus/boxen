@@ -1,5 +1,6 @@
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 const longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id erat arcu. Integer urna mauris, sodales vel egestas eu, consequat id turpis. Vivamus faucibus est mattis tincidunt lobortis. In aliquam placerat nunc eget viverra. Duis aliquet faucibus diam, blandit tincidunt magna congue eu. Sed vel ante vestibulum, maximus risus eget, iaculis velit. Quisque id dapibus purus, ut sodales lorem. Aenean laoreet iaculis tellus at malesuada. Donec imperdiet eu lacus vitae fringilla.';
 
@@ -8,7 +9,7 @@ test('text alignement option (left)', t => {
 		textAlignment: 'left',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center)', t => {
@@ -16,7 +17,7 @@ test('text alignement option (center)', t => {
 		textAlignment: 'center',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right)', t => {
@@ -24,7 +25,7 @@ test('text alignement option (right)', t => {
 		textAlignment: 'right',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (left) + padding', t => {
@@ -33,7 +34,7 @@ test('text alignement option (left) + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center) + padding', t => {
@@ -42,7 +43,7 @@ test('text alignement option (center) + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right) + padding', t => {
@@ -51,7 +52,7 @@ test('text alignement option (right) + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (left) + long title', t => {
@@ -60,7 +61,7 @@ test('text alignement option (left) + long title', t => {
 		title: 'This is a famous movie quote:',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center) + long title', t => {
@@ -69,7 +70,7 @@ test('text alignement option (center) + long title', t => {
 		title: 'This is a famous movie quote:',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right) + long title', t => {
@@ -78,7 +79,7 @@ test('text alignement option (right) + long title', t => {
 		title: 'This is a famous movie quote:',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (left) + long title + padding', t => {
@@ -88,7 +89,7 @@ test('text alignement option (left) + long title + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center) + long title + padding', t => {
@@ -98,7 +99,7 @@ test('text alignement option (center) + long title + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right) + long title + padding', t => {
@@ -108,7 +109,7 @@ test('text alignement option (right) + long title + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (left) + long title + padding + margin', t => {
@@ -119,7 +120,7 @@ test('text alignement option (left) + long title + padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center) + long title + padding + margin', t => {
@@ -130,7 +131,7 @@ test('text alignement option (center) + long title + padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right) + long title + padding + margin', t => {
@@ -141,7 +142,7 @@ test('text alignement option (right) + long title + padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center) after wrapping', t => {
@@ -149,7 +150,7 @@ test('text alignement option (center) after wrapping', t => {
 		textAlignment: 'center',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right) after wrapping', t => {
@@ -157,7 +158,7 @@ test('text alignement option (right) after wrapping', t => {
 		textAlignment: 'right',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (center) after wrapping + padding', t => {
@@ -166,7 +167,7 @@ test('text alignement option (center) after wrapping + padding', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('text alignement option (right) after wrapping + padding + margin', t => {
@@ -176,5 +177,5 @@ test('text alignement option (right) after wrapping + padding + margin', t => {
 		padding: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

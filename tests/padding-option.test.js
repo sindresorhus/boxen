@@ -1,12 +1,13 @@
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('padding option works', t => {
 	const box = boxen('foo', {
 		padding: 2,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('padding option advanced', t => {
@@ -19,7 +20,7 @@ test('padding option advanced', t => {
 		},
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('padding option with border style (none)', t => {
@@ -33,5 +34,5 @@ test('padding option with border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

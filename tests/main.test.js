@@ -1,7 +1,8 @@
 import process from 'node:process';
-import test from 'ava';
+import {test} from 'node:test';
 import chalk from 'chalk';
 import boxen from '../index.js';
+import './setup.js';
 
 const longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id erat arcu. Integer urna mauris, sodales vel egestas eu, consequat id turpis. Vivamus faucibus est mattis tincidunt lobortis. In aliquam placerat nunc eget viverra. Duis aliquet faucibus diam, blandit tincidunt magna congue eu. Sed vel ante vestibulum, maximus risus eget, iaculis velit. Quisque id dapibus purus, ut sodales lorem. Aenean laoreet iaculis tellus at malesuada. Donec imperdiet eu lacus vitae fringilla.';
 
@@ -24,13 +25,13 @@ const randomText = 'lewb{+^PN_6-l 8eK2eqB:jn^YFgGl;wuT)mdA9TZlf 9}?X#P49`x"@+nLx
 test('creates a box', t => {
 	const box = boxen('foo');
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('box not overflowing terminal', t => {
 	const box = boxen('foo'.repeat(process.env.COLUMNS));
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('box not overflowing terminal with padding', t => {
@@ -38,13 +39,13 @@ test('box not overflowing terminal with padding', t => {
 		padding: 3,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('box not overflowing terminal with words', t => {
 	const box = boxen('foo '.repeat(process.env.COLUMNS));
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('box not overflowing terminal with words + padding', t => {
@@ -52,7 +53,7 @@ test('box not overflowing terminal with words + padding', t => {
 		padding: 2,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('box not overflowing terminal with words + padding + margin', t => {
@@ -61,37 +62,37 @@ test('box not overflowing terminal with words + padding + margin', t => {
 		magin: 1,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('handles long text', t => {
 	const box = boxen(longText);
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('handles formatted text', t => {
 	const box = boxen(formattedText);
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('handles random text', t => {
 	const box = boxen(randomText);
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('handles colored texts', t => {
 	let box = boxen(chalk.red(longText));
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 
 	box = boxen(chalk.blue(formattedText));
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 
 	box = boxen(chalk.yellow(randomText));
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

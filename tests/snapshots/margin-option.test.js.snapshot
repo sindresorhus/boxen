@@ -1,0 +1,67 @@
+exports[`margin option with border style (none) 1`] = `
+
+ foo
+
+`;
+
+exports[`margin option with custom margins 1`] = `
+
+  ┌───┐
+  │foo│
+  └───┘
+
+
+
+
+`;
+
+exports[`margin option with padding 1`] = `
+
+   ┌─────────┐
+   │         │
+   │   foo   │
+   │         │
+   └─────────┘
+
+`;
+
+exports[`margin option works 1`] = `
+
+
+      ┌───┐
+      │foo│
+      └───┘
+
+
+`;
+
+exports[`margin proportionally decreases when content <= columns 1`] = `
+
+
+      ┌────────────────────────────┐
+      │xxxxxxxxxxxxxxxxxxxxxxxxxxxx│
+      └────────────────────────────┘
+
+
+`;
+
+exports[`margin proportionally decreases when content <= columns 2`] = `
+
+
+   ┌────────────────────────────────────────────────────┐
+   │xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx│
+   └────────────────────────────────────────────────────┘
+
+
+`;
+
+exports[`margin proportionally decreases when content <= columns 3`] = `
+
+
+┌──────────────────────────────────────────────────────────┐
+│axaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxax│
+│axaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxaxax│
+└──────────────────────────────────────────────────────────┘
+
+
+`;

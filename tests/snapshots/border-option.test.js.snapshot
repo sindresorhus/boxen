@@ -1,0 +1,81 @@
+exports[`border color (blue) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`border color (green) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`border color (hex) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`border color (red) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`border color (yellow + dim) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`border style (bold) 1`] = `
+┏━━━┓
+┃foo┃
+┗━━━┛
+`;
+
+exports[`border style (classic) 1`] = `
++---+
+|foo|
++---+
+`;
+
+exports[`border style (custom ascii style) 1`] = `
+1---2
+|foo!
+3___4
+`;
+
+exports[`border style (double) 1`] = `
+╔═══╗
+║foo║
+╚═══╝
+`;
+
+exports[`border style (doubleSingle) 1`] = `
+╒═══╕
+│foo│
+╘═══╛
+`;
+
+exports[`border style (none) 1`] = `
+foo
+`;
+
+exports[`border style (round) 1`] = `
+╭───╮
+│foo│
+╰───╯
+`;
+
+exports[`border style (single) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`border style (singleDouble) 1`] = `
+╓───╖
+║foo║
+╙───╜
+`;

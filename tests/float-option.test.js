@@ -1,13 +1,15 @@
+import assert from 'node:assert/strict';
 import process from 'node:process';
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('float option (left)', t => {
 	const box = boxen('foo', {
 		float: 'left',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('float option (center)', t => {
@@ -15,7 +17,7 @@ test('float option (center)', t => {
 		float: 'center',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('float option (right)', t => {
@@ -23,7 +25,7 @@ test('float option (right)', t => {
 		float: 'right',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('float option (center) with margin', t => {
@@ -35,7 +37,7 @@ test('float option (center) with margin', t => {
 		},
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('float option (right) with margin', t => {
@@ -47,13 +49,13 @@ test('float option (right) with margin', t => {
 		},
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('float option (center) when content > columns', t => {
 	const longContent = 'foobar'.repeat(process.env.COLUMNS);
 
-	t.notThrows(() => {
+	assert.doesNotThrow(() => {
 		boxen(longContent, {
 			float: 'center',
 		});
@@ -63,13 +65,13 @@ test('float option (center) when content > columns', t => {
 		float: 'center',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('float option (right) when content > columns', t => {
 	const longContent = 'foobar'.repeat(process.env.COLUMNS);
 
-	t.notThrows(() => {
+	assert.doesNotThrow(() => {
 		boxen(longContent, {
 			float: 'right',
 		});
@@ -79,5 +81,5 @@ test('float option (right) when content > columns', t => {
 		float: 'right',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });

@@ -1,12 +1,14 @@
-import test from 'ava';
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('border color (red)', t => {
 	const box = boxen('foo', {
 		borderColor: 'red',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border color (blue)', t => {
@@ -14,7 +16,7 @@ test('border color (blue)', t => {
 		borderColor: 'blue',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border color (green)', t => {
@@ -22,7 +24,7 @@ test('border color (green)', t => {
 		borderColor: 'green',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border color (yellow + dim)', t => {
@@ -31,7 +33,7 @@ test('border color (yellow + dim)', t => {
 		dimBorder: true,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border color (hex)', t => {
@@ -40,11 +42,11 @@ test('border color (hex)', t => {
 		dimBorder: true,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
-test('throws on unexpected borderColor', t => {
-	t.throws(() => {
+test('throws on unexpected borderColor', () => {
+	assert.throws(() => {
 		boxen('foo', {borderColor: 'greasy-white'});
 	});
 });
@@ -54,7 +56,7 @@ test('border style (single)', t => {
 		borderStyle: 'single',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (singleDouble)', t => {
@@ -62,7 +64,7 @@ test('border style (singleDouble)', t => {
 		borderStyle: 'singleDouble',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (doubleSingle)', t => {
@@ -70,7 +72,7 @@ test('border style (doubleSingle)', t => {
 		borderStyle: 'doubleSingle',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (double)', t => {
@@ -78,7 +80,7 @@ test('border style (double)', t => {
 		borderStyle: 'double',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (classic)', t => {
@@ -86,7 +88,7 @@ test('border style (classic)', t => {
 		borderStyle: 'classic',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (bold)', t => {
@@ -94,7 +96,7 @@ test('border style (bold)', t => {
 		borderStyle: 'bold',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (round)', t => {
@@ -102,7 +104,7 @@ test('border style (round)', t => {
 		borderStyle: 'round',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (none)', t => {
@@ -110,7 +112,7 @@ test('border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('border style (custom ascii style)', t => {
@@ -127,17 +129,17 @@ test('border style (custom ascii style)', t => {
 		},
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
-test('throws on unexpected borderStyle as string', t => {
-	t.throws(() => {
+test('throws on unexpected borderStyle as string', () => {
+	assert.throws(() => {
 		boxen('foo', {borderStyle: 'shakenSnake'});
 	});
 });
 
-test('throws on unexpected borderStyle as object', t => {
-	t.throws(() => {
+test('throws on unexpected borderStyle as object', () => {
+	assert.throws(() => {
 		boxen('foo', {borderStyle: {shake: 'snake'}});
 	});
 
@@ -150,7 +152,7 @@ test('throws on unexpected borderStyle as object', t => {
 		vertical: '|',
 	};
 
-	t.throws(() => {
+	assert.throws(() => {
 		boxen('foo', {borderStyle: invalid});
 	});
 });

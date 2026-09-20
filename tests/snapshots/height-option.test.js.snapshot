@@ -1,0 +1,66 @@
+exports[`height option with border style (none) 1`] = `
+foo
+   
+   
+`;
+
+exports[`height option with padding + margin 1`] = `
+
+
+      ┌─────────┐
+      │         │
+      │   foo   │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      │         │
+      └─────────┘
+
+
+`;
+
+exports[`height option with width + padding + margin 1`] = `
+
+
+      ┌──────────────────┐
+      │                  │
+      │   foo            │
+      │                  │
+      └──────────────────┘
+
+
+`;
+
+exports[`height option with width 1`] = `
+┌──────────────────┐
+│foo               │
+│                  │
+│                  │
+└──────────────────┘
+`;
+
+exports[`height option works 1`] = `
+┌───┐
+│foo│
+│   │
+│   │
+└───┘
+`;
+
+exports[`height option works 2`] = `
+┌───────┐
+│foo bar│
+└───────┘
+`;

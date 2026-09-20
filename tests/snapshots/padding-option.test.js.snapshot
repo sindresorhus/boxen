@@ -1,0 +1,23 @@
+exports[`padding option advanced 1`] = `
+┌──────────────────┐
+│     foo          │
+│                  │
+│                  │
+└──────────────────┘
+`;
+
+exports[`padding option with border style (none) 1`] = `
+     
+ foo 
+     
+`;
+
+exports[`padding option works 1`] = `
+┌───────────────┐
+│               │
+│               │
+│      foo      │
+│               │
+│               │
+└───────────────┘
+`;

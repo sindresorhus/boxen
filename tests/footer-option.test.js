@@ -1,6 +1,8 @@
-import test from 'ava';
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
 import chalk, {Chalk} from 'chalk';
 import boxen from '../index.js';
+import './setup.js';
 
 const level3Chalk = new Chalk({level: 3});
 
@@ -18,14 +20,12 @@ const withColorEnabled = callback => {
 	}
 };
 
-// These snapshots are known to fail in this environment. AVA's `cbor` dependency drops data on Node.js 26, so the snapshot files AVA writes cannot be read back. The tests pass on the first run, which records the snapshots, and fail on every run after that.
-
 test('footer option works', t => {
 	const box = boxen('foo', {
 		footer: 'footer',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('footer align left', t => {
@@ -34,7 +34,7 @@ test('footer align left', t => {
 		footerAlignment: 'left',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('footer align center', t => {
@@ -43,7 +43,7 @@ test('footer align center', t => {
 		footerAlignment: 'center',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('footer align right', t => {
@@ -52,7 +52,7 @@ test('footer align right', t => {
 		footerAlignment: 'right',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('long footer expands box', t => {
@@ -60,7 +60,7 @@ test('long footer expands box', t => {
 		footer: 'very long footer',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('title and footer together', t => {
@@ -69,12 +69,12 @@ test('title and footer together', t => {
 		footer: 'footer',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('footer + width option', t => {
 	// Not enough space, no footer
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			footer: 'very long footer',
 			width: 3,
@@ -82,21 +82,21 @@ test('footer + width option', t => {
 	);
 
 	// Space for only one character
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			footer: 'very long footer',
 			width: 5,
 		}),
 	);
 
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			footer: 'very long footer',
 			width: 20,
 		}),
 	);
 
-	t.snapshot(
+	t.assert.snapshot(
 		boxen('foo', {
 			footer: level3Chalk.red('colorful footer'),
 			width: 18,
@@ -110,14 +110,14 @@ test('footer option with border style (none)', t => {
 		borderStyle: 'none',
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
-test('footer uses the border color', t => {
+test('footer uses the border color', () => {
 	const box = withColorEnabled(() => boxen('foo', {
 		footer: 'footer',
 		borderColor: 'red',
 	}));
 
-	t.true(box.includes(level3Chalk.red('└ footer ┘')));
+	assert.ok(box.includes(level3Chalk.red('└ footer ┘')));
 });

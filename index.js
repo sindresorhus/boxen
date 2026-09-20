@@ -3,7 +3,6 @@ import stringWidth from 'string-width';
 import chalk from 'chalk';
 import widestLine from 'widest-line';
 import cliBoxes from 'cli-boxes';
-import camelCase from 'camelcase';
 import ansiAlign from 'ansi-align';
 import wrapAnsi from 'wrap-ansi';
 import sliceAnsi from 'slice-ansi';
@@ -12,23 +11,10 @@ const NEWLINE = '\n';
 const PAD = ' ';
 const NONE = 'none';
 
-const terminalColumns = () => {
-	const {env, stdout, stderr} = process;
-
-	if (stdout?.columns) {
-		return stdout.columns;
-	}
-
-	if (stderr?.columns) {
-		return stderr.columns;
-	}
-
-	if (env.COLUMNS) {
-		return Number.parseInt(env.COLUMNS, 10);
-	}
-
-	return 80;
-};
+const terminalColumns = () => process.stdout?.columns
+	|| process.stderr?.columns
+	|| Number.parseInt(process.env.COLUMNS, 10)
+	|| 80;
 
 const getObject = detail => typeof detail === 'number' ? {
 	top: detail,
@@ -61,10 +47,7 @@ const getBorderChars = borderStyle => {
 
 	// Create empty border style
 	if (borderStyle === NONE) {
-		borderStyle = {};
-		for (const side of sides) {
-			borderStyle[side] = '';
-		}
+		borderStyle = Object.fromEntries(sides.map(side => [side, '']));
 	}
 
 	if (typeof borderStyle === 'string') {
@@ -189,17 +172,17 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	});
 
 	if (padding.top > 0) {
-		lines = [...Array.from({length: padding.top}).fill(PAD.repeat(width)), ...lines];
+		lines = [...Array.from({length: padding.top}, () => PAD.repeat(width)), ...lines];
 	}
 
 	if (padding.bottom > 0) {
-		lines = [...lines, ...Array.from({length: padding.bottom}).fill(PAD.repeat(width))];
+		lines = [...lines, ...Array.from({length: padding.bottom}, () => PAD.repeat(width))];
 	}
 
 	if (height && lines.length > height) {
 		lines = lines.slice(0, height);
 	} else if (height && lines.length < height) {
-		lines = [...lines, ...Array.from({length: height - lines.length}).fill(PAD.repeat(width))];
+		lines = [...lines, ...Array.from({length: height - lines.length}, () => PAD.repeat(width))];
 	}
 
 	return lines.join(NEWLINE);
@@ -387,10 +370,10 @@ const colorNames = new Set([
 	'whiteBright',
 ]);
 
-const isHex = color => /^#(?:[\dA-Fa-f]{3}){1,2}$/.test(color);
+const isHex = color => /^#(?:[\da-f]{3}){1,2}$/i.test(color);
 const isColorValid = color => typeof color === 'string' && (colorNames.has(color) || isHex(color));
 const getColorFunction = color => isHex(color) ? chalk.hex(color) : chalk[color];
-const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[camelCase(['bg', color])];
+const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[`bg${color[0].toUpperCase()}${color.slice(1)}`];
 
 export default function boxen(text, options) {
 	options = {

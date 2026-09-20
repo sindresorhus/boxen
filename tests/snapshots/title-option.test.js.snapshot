@@ -1,0 +1,60 @@
+exports[`long title expands box 1`] = `
+┌ very long title ┐
+│foo              │
+└─────────────────┘
+`;
+
+exports[`title + width option 1`] = `
+┌─┐
+│f│
+│o│
+│o│
+└─┘
+`;
+
+exports[`title + width option 2`] = `
+┌ v ┐
+│foo│
+└───┘
+`;
+
+exports[`title + width option 3`] = `
+┌ very long title ─┐
+│foo               │
+└──────────────────┘
+`;
+
+exports[`title + width option 4`] = `
+┌ [31mcolorful title[39m ┐
+│foo             │
+└────────────────┘
+`;
+
+exports[`title align center 1`] = `
+┌──── title ────┐
+│foo bar foo bar│
+└───────────────┘
+`;
+
+exports[`title align left 1`] = `
+┌ title ────────┐
+│foo bar foo bar│
+└───────────────┘
+`;
+
+exports[`title align right 1`] = `
+┌──────── title ┐
+│foo bar foo bar│
+└───────────────┘
+`;
+
+exports[`title option with border style (none) 1`] = `
+title
+foo  
+`;
+
+exports[`title option works 1`] = `
+┌ title ┐
+│foo    │
+└───────┘
+`;

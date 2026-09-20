@@ -1,0 +1,66 @@
+exports[`footer + width option 1`] = `
+┌─┐
+│f│
+│o│
+│o│
+└─┘
+`;
+
+exports[`footer + width option 2`] = `
+┌───┐
+│foo│
+└ v ┘
+`;
+
+exports[`footer + width option 3`] = `
+┌──────────────────┐
+│foo               │
+└ very long footer ┘
+`;
+
+exports[`footer + width option 4`] = `
+┌────────────────┐
+│foo             │
+└ [31mcolorful foote[39m ┘
+`;
+
+exports[`footer align center 1`] = `
+┌───────────────┐
+│foo bar foo bar│
+└─── footer ────┘
+`;
+
+exports[`footer align left 1`] = `
+┌───────────────┐
+│foo bar foo bar│
+└ footer ───────┘
+`;
+
+exports[`footer align right 1`] = `
+┌───────────────┐
+│foo bar foo bar│
+└─────── footer ┘
+`;
+
+exports[`footer option with border style (none) 1`] = `
+foo   
+footer
+`;
+
+exports[`footer option works 1`] = `
+┌────────┐
+│foo     │
+└ footer ┘
+`;
+
+exports[`long footer expands box 1`] = `
+┌──────────────────┐
+│foo               │
+└ very long footer ┘
+`;
+
+exports[`title and footer together 1`] = `
+┌ title ─┐
+│foo     │
+└ footer ┘
+`;

@@ -1,0 +1,62 @@
+exports[`float option (center) 1`] = `
+                           ┌───┐
+                           │foo│
+                           └───┘
+`;
+
+exports[`float option (center) when content > columns 1`] = `
+┌──────────────────────────────────────────────────────────┐
+│foobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoob│
+│arfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfo│
+│obarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobar│
+│foobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoob│
+│arfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfo│
+│obarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobar│
+│foobarfoobar                                              │
+└──────────────────────────────────────────────────────────┘
+`;
+
+exports[`float option (center) with margin 1`] = `
+
+
+
+
+                                                       ┌───┐
+                                                       │foo│
+                                                       └───┘
+`;
+
+exports[`float option (left) 1`] = `
+┌───┐
+│foo│
+└───┘
+`;
+
+exports[`float option (right) 1`] = `
+                                                       ┌───┐
+                                                       │foo│
+                                                       └───┘
+`;
+
+exports[`float option (right) when content > columns 1`] = `
+┌──────────────────────────────────────────────────────────┐
+│foobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoob│
+│arfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfo│
+│obarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobar│
+│foobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoob│
+│arfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfo│
+│obarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobarfoobar│
+│foobarfoobar                                              │
+└──────────────────────────────────────────────────────────┘
+`;
+
+exports[`float option (right) with margin 1`] = `
+                                                     ┌───┐
+                                                     │foo│
+                                                     └───┘
+
+
+
+
+
+`;

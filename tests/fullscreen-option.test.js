@@ -1,12 +1,13 @@
-import test from 'ava';
+import {test} from 'node:test';
 import boxen from '../index.js';
+import './setup.js';
 
 test('fullscreen option', t => {
 	const box = boxen('foo', {
 		fullscreen: true,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('fullscreen option + width', t => {
@@ -15,7 +16,7 @@ test('fullscreen option + width', t => {
 		width: 10,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('fullscreen option + height', t => {
@@ -24,7 +25,7 @@ test('fullscreen option + height', t => {
 		height: 10,
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
 
 test('fullscreen option with callback', t => {
@@ -32,5 +33,5 @@ test('fullscreen option with callback', t => {
 		fullscreen: (width, height) => [width - 2, height - 2],
 	});
 
-	t.snapshot(box);
+	t.assert.snapshot(box);
 });
