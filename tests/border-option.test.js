@@ -132,6 +132,12 @@ test('border style (custom ascii style)', t => {
 	t.assert.snapshot(box);
 });
 
+test('nullish border style falls back to the default', () => {
+	// An option that is explicitly `undefined` must not break the box
+	assert.equal(boxen('foo', {borderStyle: undefined}), boxen('foo'));
+	assert.equal(boxen('foo', {borderStyle: null}), boxen('foo'));
+});
+
 test('throws on unexpected borderStyle as string', () => {
 	assert.throws(() => {
 		boxen('foo', {borderStyle: 'shakenSnake'});

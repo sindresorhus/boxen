@@ -97,6 +97,13 @@ test('title + width option', t => {
 	);
 });
 
+test('nullish title alignment means the default', () => {
+	assert.equal(
+		boxen('foo', {title: 't', width: 12, titleAlignment: undefined}),
+		boxen('foo', {title: 't', width: 12}),
+	);
+});
+
 test('title option with border style (none)', t => {
 	const box = boxen('foo', {
 		title: 'title',

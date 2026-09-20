@@ -385,14 +385,16 @@ export default function boxen(text, options) {
 
 	options = {
 		padding: 0,
-		borderStyle: 'single',
 		dimBorder: false,
-		textAlignment: 'left',
 		float: 'left',
-		titleAlignment: 'left',
-		footerAlignment: 'left',
 		...options,
 	};
+
+	// A nullish option, for example one that is explicitly `undefined`, means its default
+	options.borderStyle ??= 'single';
+	options.textAlignment ??= 'left';
+	options.titleAlignment ??= 'left';
+	options.footerAlignment ??= 'left';
 
 	// This option is deprecated
 	if (options.align) {

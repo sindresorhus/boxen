@@ -33,6 +33,16 @@ test('text alignement option (right)', t => {
 	t.assert.snapshot(box);
 });
 
+test('nullish text alignment means the default', () => {
+	// An option that is explicitly `undefined` must not change the layout
+	assert.equal(
+		boxen('foo\nbarbaz', {width: 10, textAlignment: undefined}),
+		boxen('foo\nbarbaz', {width: 10}),
+	);
+
+	assert.equal(boxen('foo', {width: 10, align: undefined}), boxen('foo', {width: 10}));
+});
+
 test('text alignement option (left) + padding', t => {
 	const box = boxen('Hello there !\nGeneral Kenobi !', {
 		textAlignment: 'left',

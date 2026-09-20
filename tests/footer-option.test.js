@@ -106,6 +106,13 @@ test('footer + width option', t => {
 	);
 });
 
+test('nullish footer alignment means the default', () => {
+	assert.equal(
+		boxen('foo', {footer: 'f', width: 12, footerAlignment: undefined}),
+		boxen('foo', {footer: 'f', width: 12}),
+	);
+});
+
 test('footer option with border style (none)', t => {
 	const box = boxen('foo', {
 		footer: 'footer',
