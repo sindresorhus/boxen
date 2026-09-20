@@ -138,42 +138,24 @@ const makeLabel = (text, horizontal, alignment) => {
 };
 
 const makeContentText = (text, {padding, width, textAlignment, height}) => {
-	text = ansiAlign(text, {align: textAlignment});
-	let lines = text.split(NEWLINE);
-	const textWidth = widestLine(text);
-
 	const max = width - padding.left - padding.right;
 
-	if (textWidth > max) {
-		const newLines = [];
-		for (const line of lines) {
-			const createdLines = wrapLine(line, max);
-			const alignedLines = ansiAlign(createdLines, {align: textAlignment});
-			const alignedLinesArray = alignedLines.split('\n');
-			// A character can be wider than the box, in which case the line overflows it
-			const longestLength = Math.min(max, widestLine(alignedLines));
+	// The text is wrapped first, so that the alignment measures the rows that are drawn
+	const wrappedText = text.split(NEWLINE).map(line => wrapLine(line, max)).join(NEWLINE);
+	// A character can be wider than the box, in which case the row overflows it and the other rows are not aligned to it
+	const widestRow = widestLine(wrappedText);
+	const alignedText = widestRow > max ? wrappedText : ansiAlign(wrappedText, {align: textAlignment});
+	const textWidth = Math.min(max, widestRow);
+	// The rows are aligned to the widest row, and the block of rows is aligned in the box
+	let offset = 0;
 
-			for (const alignedLine of alignedLinesArray) {
-				let leftPadding = 0;
-
-				if (textAlignment === 'center') {
-					leftPadding = (max - longestLength) / 2;
-				} else if (textAlignment === 'right') {
-					leftPadding = max - longestLength;
-				}
-
-				newLines.push(PAD.repeat(leftPadding) + alignedLine);
-			}
-		}
-
-		lines = newLines;
+	if (textAlignment === 'right') {
+		offset = max - textWidth;
+	} else if (textAlignment === 'center') {
+		offset = Math.floor((max - textWidth) / 2);
 	}
 
-	if (textAlignment === 'center' && textWidth < max) {
-		lines = lines.map(line => PAD.repeat((max - textWidth) / 2) + line);
-	} else if (textAlignment === 'right' && textWidth < max) {
-		lines = lines.map(line => PAD.repeat(max - textWidth) + line);
-	}
+	let lines = alignedText.split(NEWLINE).map(line => PAD.repeat(offset) + line);
 
 	const paddingLeft = PAD.repeat(padding.left);
 	const paddingRight = PAD.repeat(padding.right);

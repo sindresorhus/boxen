@@ -196,6 +196,37 @@ test('text alignement option (center) after wrapping', t => {
 	t.assert.snapshot(box);
 });
 
+test('text alignement option (center) keeps the lines of a wrapped text centered', () => {
+	// The alignment has to measure the rows that are drawn, or a line that fits lands in the wrong column
+	const box = boxen(`hi\n${'x'.repeat(30)}`, {
+		width: 20,
+		textAlignment: 'center',
+	});
+
+	assert.equal(box, [
+		'┌──────────────────┐',
+		'│        hi        │',
+		'│xxxxxxxxxxxxxxxxxx│',
+		'│   xxxxxxxxxxxx   │',
+		'└──────────────────┘',
+	].join('\n'));
+});
+
+test('text alignement option (right) with a character wider than the box', () => {
+	// The character overflows the box, but the rows that fit are not pushed out with it
+	const box = boxen('👍\nb', {
+		width: 3,
+		textAlignment: 'right',
+	});
+
+	assert.equal(box, [
+		'┌─┐',
+		'│👍│',
+		'│b│',
+		'└─┘',
+	].join('\n'));
+});
+
 test('text alignement option (right) after wrapping', t => {
 	const box = boxen(longText, {
 		textAlignment: 'right',
