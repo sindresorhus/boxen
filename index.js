@@ -98,19 +98,19 @@ const getBorderChars = borderStyle => {
 	return characters;
 };
 
-const makeTitle = (text, horizontal, alignment) => {
-	let title = '';
+const makeLabel = (text, horizontal, alignment) => {
+	let label = '';
 
 	const textWidth = stringWidth(text);
 
 	switch (alignment) {
 		case 'left': {
-			title = text + horizontal.slice(textWidth);
+			label = text + horizontal.slice(textWidth);
 			break;
 		}
 
 		case 'right': {
-			title = horizontal.slice(textWidth) + text;
+			label = horizontal.slice(textWidth) + text;
 			break;
 		}
 
@@ -119,17 +119,17 @@ const makeTitle = (text, horizontal, alignment) => {
 
 			if (horizontal.length % 2 === 1) { // This is needed in case the length is odd
 				horizontal = horizontal.slice(Math.floor(horizontal.length / 2));
-				title = horizontal.slice(1) + text + horizontal; // We reduce the left part of one character to avoid the bar to go beyond its limit
+				label = horizontal.slice(1) + text + horizontal; // We reduce the left part of one character to avoid the bar to go beyond its limit
 			} else {
 				horizontal = horizontal.slice(horizontal.length / 2);
-				title = horizontal + text + horizontal;
+				label = horizontal + text + horizontal;
 			}
 
 			break;
 		}
 	}
 
-	return title;
+	return label;
 };
 
 const makeContentText = (text, {padding, width, textAlignment, height}) => {
@@ -248,7 +248,7 @@ const boxContent = (content, contentWidth, options) => {
 
 	if (options.borderStyle !== NONE || options.title) {
 		const topBar = options.title
-			? makeTitle(colorizeTitle(options.title), chars.top.repeat(contentWidth), options.titleAlignment)
+			? makeLabel(colorizeTitle(options.title), chars.top.repeat(contentWidth), options.titleAlignment)
 			: chars.top.repeat(contentWidth);
 
 		result += marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight) + NEWLINE;
@@ -258,8 +258,12 @@ const boxContent = (content, contentWidth, options) => {
 
 	result += lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
 
-	if (options.borderStyle !== NONE) {
-		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + chars.bottom.repeat(contentWidth) + chars.bottomRight);
+	if (options.borderStyle !== NONE || options.footer) {
+		const bottomBar = options.footer
+			? makeLabel(options.footer, chars.bottom.repeat(contentWidth), options.footerAlignment)
+			: chars.bottom.repeat(contentWidth);
+
+		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + bottomBar + chars.bottomRight);
 	}
 
 	if (options.margin.bottom) {
@@ -292,7 +296,18 @@ const sanitizeOptions = options => {
 	return options;
 };
 
-const formatTitle = (title, borderStyle) => borderStyle === NONE ? title : ` ${title} `;
+const formatLabel = (label, borderStyle) => borderStyle === NONE ? label : ` ${label} `;
+
+// Slice a label to the available space and pad it with spaces
+const fitLabel = (label, width, borderStyle) => {
+	if (!label) {
+		return label;
+	}
+
+	label = sliceAnsi(label, 0, Math.max(0, width - 2));
+
+	return label && formatLabel(label, borderStyle);
+};
 
 const determineDimensions = (text, options) => {
 	options = sanitizeOptions(options);
@@ -301,21 +316,18 @@ const determineDimensions = (text, options) => {
 	const borderWidth = getBorderWidth(options.borderStyle);
 	const maxWidth = columns - options.margin.left - options.margin.right - borderWidth;
 
-	const widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
+	let widest = widestLine(wrapAnsi(text, columns - borderWidth, {hard: true, trim: false})) + options.padding.left + options.padding.right;
 
-	// If title and width are provided, title adheres to fixed width
-	if (options.title && widthOverride) {
-		options.title = sliceAnsi(options.title, 0, Math.max(0, options.width - 2));
-		options.title &&= formatTitle(options.title, options.borderStyle);
-	} else if (options.title) {
-		options.title = sliceAnsi(options.title, 0, Math.max(0, maxWidth - 2));
+	// If width is provided, the labels adhere to it
+	const labelWidth = widthOverride ? options.width : maxWidth;
+	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
+	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
 
-		// Recheck if title isn't empty now
-		if (options.title) {
-			options.title = formatTitle(options.title, options.borderStyle);
-			// If the title is larger than content, box adheres to title width
-			if (stringWidth(options.title) > widest) {
-				options.width = stringWidth(options.title);
+	if (!widthOverride) {
+		// If a label is larger than content, box adheres to label width
+		for (const label of [options.title, options.footer]) {
+			if (label) {
+				widest = Math.max(widest, stringWidth(label));
 			}
 		}
 	}
@@ -388,6 +400,7 @@ export default function boxen(text, options) {
 		textAlignment: 'left',
 		float: 'left',
 		titleAlignment: 'left',
+		footerAlignment: 'left',
 		...options,
 	};
 

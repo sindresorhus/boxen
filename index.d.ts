@@ -205,6 +205,42 @@ export type Options = {
 	readonly titleAlignment?: 'left' | 'right' | 'center';
 
 	/**
+	Display a footer at the bottom of the box.
+	If needed, the box will horizontally expand to fit the footer.
+
+	The footer uses the border color.
+
+	@example
+	```
+	console.log(boxen('foo bar', {footer: 'example'}));
+	// ┌─────────┐
+	// │foo bar  │
+	// └ example ┘
+	```
+	*/
+	readonly footer?: string;
+
+	/**
+	Align the footer in the bottom bar.
+
+	@default 'left'
+
+	@example
+	```
+	console.log(boxen('foo bar foo bar', {footer: 'example', footerAlignment: 'center'}));
+	// ┌───────────────┐
+	// │foo bar foo bar│
+	// └─── example ───┘
+
+	console.log(boxen('foo bar foo bar', {footer: 'example', footerAlignment: 'right'}));
+	// ┌───────────────┐
+	// │foo bar foo bar│
+	// └────── example ┘
+	```
+	*/
+	readonly footerAlignment?: 'left' | 'right' | 'center';
+
+	/**
 	Set a fixed width for the box.
 
 	__Note__: This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.

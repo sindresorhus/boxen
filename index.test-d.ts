@@ -24,6 +24,8 @@ expectType<string>(boxen('unicorns', {title: 'title'}));
 expectType<string>(boxen('unicorns', {title: 'title', titleColor: 'red'}));
 expectType<string>(boxen('unicorns', {title: 'title', titleColor: '#ff0000'}));
 expectType<string>(boxen('unicorns', {title: 'title', titleAlignment: 'center'}));
+expectType<string>(boxen('unicorns', {footer: 'footer'}));
+expectType<string>(boxen('unicorns', {footer: 'footer', footerAlignment: 'center'}));
 expectType<string>(boxen('unicorns', {borderColor: 'green'}));
 expectType<string>(boxen('unicorns', {borderColor: '#ff0000'}));
 expectType<string>(boxen('unicorns', {borderStyle: 'double'}));
