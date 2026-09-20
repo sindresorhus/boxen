@@ -402,14 +402,9 @@ export default function boxen(text, options) {
 
 	// A nullish option, for example one that is explicitly `undefined`, means its default
 	options.borderStyle ??= 'single';
-	options.textAlignment ??= 'left';
+	options.textAlignment ??= options.align ?? 'left'; // `align` is deprecated
 	options.titleAlignment ??= 'left';
 	options.footerAlignment ??= 'left';
-
-	// This option is deprecated
-	if (options.align) {
-		options.textAlignment = options.align;
-	}
 
 	if (options.borderColor && !isColorValid(options.borderColor)) {
 		throw new Error(`${options.borderColor} is not a valid borderColor`);

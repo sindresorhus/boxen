@@ -160,6 +160,19 @@ test('text alignement option (right) + long title + padding + margin', t => {
 	t.assert.snapshot(box);
 });
 
+test('deprecated align option is a fallback for textAlignment', () => {
+	// The deprecated option must not override the option that replaces it
+	assert.equal(
+		boxen('foo', {align: 'center', textAlignment: 'right', width: 10}),
+		boxen('foo', {textAlignment: 'right', width: 10}),
+	);
+
+	assert.equal(
+		boxen('foo', {align: 'right', width: 10}),
+		boxen('foo', {textAlignment: 'right', width: 10}),
+	);
+});
+
 test('text alignement option (left) keeps the whitespace of lines that fit', () => {
 	// Wrapping a line must not trim the lines that fit in the box
 	const box = boxen('foo bar baz qux quux corge grault\n    indented  ', {
