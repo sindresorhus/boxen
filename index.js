@@ -177,8 +177,8 @@ const getBorderChars = borderStyle => {
 		characters = borderStyle;
 	}
 
-	// A side is drawn inside the box as well, so the sides are copied and stripped of the controls that would move the cursor
-	return Object.fromEntries(sides.map(side => [side, writeControls(characters[side])]));
+	// A side is drawn inside the box as well, and it is a single row, so it is written the way a label is
+	return Object.fromEntries(sides.map(side => [side, writeControls(characters[side].replaceAll(LINE_BREAKS, ' ')).toWellFormed()]));
 };
 
 const makeLabel = (text, horizontal, alignment) => {

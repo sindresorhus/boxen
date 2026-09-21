@@ -202,3 +202,41 @@ test('a backspace does not cut an escape sequence in half', () => {
 	assertAligned(`${red}\bg`);
 	assertAligned(`a\b${red}`);
 });
+
+test('a line break in a border character is drawn as a space', () => {
+	// A side is a single row of the box, so a line break would break it
+	const borderStyle = {
+		topLeft: '+',
+		topRight: '+',
+		bottomLeft: '+',
+		bottomRight: '+',
+		top: '-',
+		bottom: '-',
+		left: '\n',
+		right: '|',
+	};
+	const box = boxen('foo', {borderStyle});
+
+	assert.equal(box, '+---+\n foo|\n+---+');
+	assert.equal(box.split('\n').length, 3);
+});
+
+test('a lone surrogate in a border character is a replacement character', () => {
+	// A character that is cut in half is not a character, and the box is written as it is measured
+	const half = '👍'.slice(0, 1);
+	const box = boxen('foo', {
+		borderStyle: {
+			topLeft: '+',
+			topRight: '+',
+			bottomLeft: '+',
+			bottomRight: '+',
+			top: half,
+			bottom: half,
+			left: '|',
+			right: '|',
+		},
+	});
+
+	assert.ok(box.isWellFormed());
+	assert.equal(box, '+\u{FFFD}\u{FFFD}\u{FFFD}+\n|foo|\n+\u{FFFD}\u{FFFD}\u{FFFD}+');
+});
