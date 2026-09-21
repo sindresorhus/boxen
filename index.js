@@ -298,7 +298,7 @@ const fitLabel = (label, width, borderStyle) => {
 	}
 
 	// A label is a single line, so line breaks would break the box
-	label = label.replaceAll(LINE_BREAKS, ' ');
+	label = label.replaceAll(LINE_BREAKS, ' ').toWellFormed();
 	label = sliceAnsi(label, 0, Math.max(0, width - getBorderWidth(borderStyle)));
 
 	return label && formatLabel(label, borderStyle);
@@ -405,7 +405,8 @@ const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[`b
 
 export default function boxen(text, options) {
 	// Normalize the line breaks so that a carriage return, a vertical tab or a form feed can not move the cursor inside the box
-	text = text.replaceAll(LINE_BREAKS, '\n');
+	// A lone surrogate is written as a replacement character, which is one column wide, so it has to be measured as one
+	text = text.replaceAll(LINE_BREAKS, '\n').toWellFormed();
 
 	options = {
 		padding: 0,

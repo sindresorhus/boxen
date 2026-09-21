@@ -115,6 +115,22 @@ test('handles empty text', () => {
 	assert.equal(boxen(''), '┌─┐\n│ │\n└─┘');
 });
 
+test('handles a lone surrogate', () => {
+	// Cutting a character in half leaves a lone surrogate, which is written as a replacement character
+	const half = '👍'.slice(0, 1);
+	const box = boxen(half + 'abc');
+
+	assert.equal(box, [
+		'┌────┐',
+		'│\u{FFFD}abc│',
+		'└────┘',
+	].join('\n'));
+
+	// A title and a footer are normalized the same way
+	assert.equal(boxen('foo', {title: half}), '┌ \u{FFFD} ┐\n│foo│\n└───┘');
+	assert.equal(boxen('foo', {footer: half}), '┌───┐\n│foo│\n└ \u{FFFD} ┘');
+});
+
 test('handles a long word in a narrow box', () => {
 	// The rows of a single line must not be spread into a function call either
 	const box = boxen('a'.repeat(130_000), {maxWidth: 3});
