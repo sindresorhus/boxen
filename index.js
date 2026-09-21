@@ -13,6 +13,33 @@ const NONE = 'none';
 // A text or a label is drawn inside a box, so every control that moves the cursor would break it
 const LINE_BREAKS = /\r\n|[\n\v\f\r]/gv;
 
+/*
+A text, a label and a border are drawn inside the box, so a control that moves the cursor would break it.
+A style escape and a hyperlink are drawn with the text they wrap, every other escape is dropped, a tab is drawn as a single space, which is not the column it moves the cursor to but keeps the row as wide as it is measured, and a backspace overtypes the character before it.
+*/
+const STYLING_ESCAPE = /(\u{1B}\[[0-9:;]*m|\u{1B}\][^\u{7}\u{1B}]*(?:\u{7}|\u{1B}\\))/gv;
+const CURSOR_ESCAPE = /\u{1B}\[[\u{20}-\u{3F}]*[\u{40}-\u{7E}]|\u{1B}[^\u{7}\u{5B}\u{5D}]?/gv;
+
+const writeControls = text => {
+	// The styling escapes are the odd entries of the split, the rest of the text is stripped of the escapes that move the cursor
+	const written = text
+		.split(STYLING_ESCAPE)
+		.map((part, index) => index % 2 === 1 ? part : part.replaceAll(CURSOR_ESCAPE, '').replaceAll('\t', ' '))
+		.join('');
+
+	const characters = [];
+
+	for (const character of written) {
+		if (character === '\u{8}') {
+			characters.pop();
+		} else {
+			characters.push(character);
+		}
+	}
+
+	return characters.join('');
+};
+
 const terminalColumns = () => process.stdout?.columns
 	|| process.stderr?.columns
 	|| Number(process.env.COLUMNS)
@@ -112,7 +139,8 @@ const getBorderChars = borderStyle => {
 		characters = borderStyle;
 	}
 
-	return characters;
+	// A side is drawn inside the box as well, so the sides are copied and stripped of the controls that would move the cursor
+	return Object.fromEntries(sides.map(side => [side, writeControls(characters[side])]));
 };
 
 const makeLabel = (text, horizontal, alignment) => {
@@ -298,7 +326,7 @@ const fitLabel = (label, width, borderStyle) => {
 	}
 
 	// A label is a single line, so line breaks would break the box
-	label = label.replaceAll(LINE_BREAKS, ' ').toWellFormed();
+	label = writeControls(label.replaceAll(LINE_BREAKS, ' ')).toWellFormed();
 	label = sliceAnsi(label, 0, Math.max(0, width - getBorderWidth(borderStyle)));
 
 	return label && formatLabel(label, borderStyle);
@@ -407,7 +435,7 @@ const getBGColorFunction = color => isHex(color) ? chalk.bgHex(color) : chalk[`b
 export default function boxen(text, options) {
 	// Normalize the line breaks so that a carriage return, a vertical tab or a form feed can not move the cursor inside the box
 	// A lone surrogate is written as a replacement character, which is one column wide, so it has to be measured as one
-	text = text.replaceAll(LINE_BREAKS, '\n').toWellFormed();
+	text = writeControls(text.replaceAll(LINE_BREAKS, '\n')).toWellFormed();
 
 	options = {
 		padding: 0,

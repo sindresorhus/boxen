@@ -59,7 +59,10 @@
 						"**/tests/setup.js"
 					]
 				}
-			]
+			],
+			"no-control-regex": "off",
+			"regexp/no-control-character": "off",
+			"regexp/prefer-named-capture-group": "off"
 		}
 	}
 }
