@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import process from 'node:process';
 import {test} from 'node:test';
 import boxen from '../index.js';
@@ -69,4 +70,16 @@ test('float option (right) when content > columns', t => {
 	});
 
 	t.assert.snapshot(box);
+});
+
+test('a margin that is not drawn does not take columns from the content', () => {
+	// A box that is floated is centered or pushed right instead of being indented, so its left margin is not drawn
+	const text = 'x'.repeat(50);
+
+	assert.equal(boxen(text, {float: 'center', margin: 2}), boxen(text, {float: 'center', margin: {top: 2, bottom: 2}}));
+	assert.equal(boxen(text, {float: 'right', margin: {left: 2}}), boxen(text, {float: 'right'}));
+
+	// The margin that is drawn still takes its columns
+	assert.notEqual(boxen(text, {float: 'right', margin: {right: 2}}), boxen(text, {float: 'right'}));
+	assert.notEqual(boxen(text, {float: 'left', margin: 1}), boxen(text));
 });

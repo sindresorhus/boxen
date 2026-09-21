@@ -394,12 +394,27 @@ const determineDimensions = (text, options) => {
 	const terminalWidth = columns - borderWidth;
 	// The box grows with the content up to the terminal width and `maxWidth`
 	const maxContentWidth = Math.min(terminalWidth, options.maxWidth || terminalWidth);
-	// A width that is fixed brings its own size, so only a margin that is drawn can push the box past the terminal then.
-	// A box that grows with the content is squeezed by both sides, and a margin that does not fit takes columns from the content.
-	const drawnMargin = options.float === 'left' ? options.margin.left : 0;
+	// A box that is floated is centered or pushed to the right of the terminal instead of being indented, so only a margin that is drawn takes columns from the content
+	const marginWidth = () => {
+		switch (options.float) {
+			case 'center': {
+				return 0;
+			}
+
+			case 'right': {
+				return options.margin.right;
+			}
+
+			default: {
+				return options.margin.left + options.margin.right;
+			}
+		}
+	};
+
+	// A width that is fixed brings its own size, so only the margin that is indented can push the box past the terminal then
 	const availableWidth = isWidthOverride
-		? columns - borderWidth - drawnMargin
-		: terminalWidth - options.margin.left - options.margin.right;
+		? columns - borderWidth - (options.float === 'left' ? options.margin.left : 0)
+		: terminalWidth - marginWidth();
 
 	// The text is measured the way it is wrapped for the box, or the box can end up a column wider than the text
 	const maxTextWidth = Math.max(1, maxContentWidth - options.padding.left - options.padding.right);
@@ -425,7 +440,7 @@ const determineDimensions = (text, options) => {
 	}
 
 	// The labels are fitted with the space that the margin leaves behind, so that a shrunk margin still fits them
-	const labelWidth = isWidthOverride ? options.width : Math.min(columns - borderWidth - options.margin.left - options.margin.right, maxContentWidth);
+	const labelWidth = isWidthOverride ? options.width : Math.min(columns - borderWidth - marginWidth(), maxContentWidth);
 	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
 	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
 
@@ -443,7 +458,7 @@ const determineDimensions = (text, options) => {
 		}
 
 		// Re-cap width considering the margins after shrinking, keeping at least one column for the content
-		options.width = Math.max(1, Math.min(widest, columns - borderWidth - options.margin.left - options.margin.right));
+		options.width = Math.max(1, Math.min(widest, columns - borderWidth - marginWidth()));
 	}
 
 	// Prevent padding overflow
