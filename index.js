@@ -75,7 +75,19 @@ const getObject = detail => {
 	return object;
 };
 
-const getBorderWidth = borderStyle => borderStyle === NONE ? 0 : 2;
+// The width of the border is the width of the sides it draws, and a side that draws nothing is drawn as a space
+const getBorderWidth = borderStyle => {
+	if (borderStyle === NONE) {
+		return 0;
+	}
+
+	const {left, right} = getBorderChars(borderStyle);
+
+	return stringWidth(left || PAD) + stringWidth(right || PAD);
+};
+
+// The top and the bottom are drawn on a row of their own, whether the sides are empty or not
+const getBorderHeight = borderStyle => borderStyle === NONE ? 0 : 2;
 
 // A size has to be a finite positive number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
 const sanitizeSize = (size, borderWidth) => {
@@ -161,27 +173,28 @@ const getBorderChars = borderStyle => {
 const makeLabel = (text, horizontal, alignment) => {
 	let label = '';
 
+	// A bar character can be wider than one column, so the label is placed with the width of the bar, not with its length
 	const textWidth = stringWidth(text);
 
 	switch (alignment) {
 		case 'left': {
-			label = text + horizontal.slice(textWidth);
+			label = text + sliceAnsi(horizontal, textWidth);
 			break;
 		}
 
 		case 'right': {
-			label = horizontal.slice(textWidth) + text;
+			label = sliceAnsi(horizontal, textWidth) + text;
 			break;
 		}
 
 		default: {
-			horizontal = horizontal.slice(textWidth);
+			const width = Math.max(0, stringWidth(horizontal) - textWidth);
 
-			if (horizontal.length % 2 === 1) { // This is needed in case the length is odd
-				horizontal = horizontal.slice(Math.floor(horizontal.length / 2));
-				label = horizontal.slice(1) + text + horizontal; // We reduce the left part of one character to avoid the bar to go beyond its limit
+			if (width % 2 === 1) { // This is needed in case the width is odd
+				horizontal = sliceAnsi(horizontal, Math.floor(width / 2) + textWidth);
+				label = sliceAnsi(horizontal, 1) + text + horizontal; // We reduce the left part of one column to avoid the bar to go beyond its limit
 			} else {
-				horizontal = horizontal.slice(horizontal.length / 2);
+				horizontal = sliceAnsi(horizontal, (width / 2) + textWidth);
 				label = horizontal + text + horizontal;
 			}
 
@@ -240,6 +253,16 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	return lines.join(NEWLINE);
 };
 
+/*
+Fill a bar with the character of a side. The character can be wider than one column, or empty, in which case the bar is filled with spaces, so it is repeated and cut to the width of the bar.
+*/
+const fillBar = (character, width) => {
+	const fill = character || PAD;
+	const count = Math.ceil(Math.max(0, width) / Math.max(1, stringWidth(fill)));
+
+	return sliceAnsi(fill.repeat(count), 0, Math.max(0, width));
+};
+
 const boxContent = (content, contentWidth, options) => {
 	const colorizeBorder = border => {
 		const coloredBorder = options.borderColor ? getColorFunction(options.borderColor)(border) : border;
@@ -281,23 +304,35 @@ const boxContent = (content, contentWidth, options) => {
 		result += NEWLINE.repeat(options.margin.top);
 	}
 
+	// The rows have the width of the content plus the sides, and a style that draws a border draws a space for a side that is empty
+	const hasBorder = options.borderStyle !== NONE;
+	const left = hasBorder ? (chars.left || PAD) : '';
+	const right = hasBorder ? (chars.right || PAD) : '';
+	const rowWidth = contentWidth + stringWidth(left) + stringWidth(right);
+	// A bar spans the width of a row, so it is filled to the width that is left between the corners, and the label is placed in the fill
+	const bar = (character, cornerStart, cornerEnd, label, alignment) => {
+		const width = Math.max(0, rowWidth - stringWidth(cornerStart) - stringWidth(cornerEnd));
+		const fill = fillBar(character, width);
+		const filled = label ? makeLabel(label, fill, alignment) : fill;
+
+		// A character that is wider than one column does not fill the last column of an odd width, and a label can end in the middle of one
+		const padding = PAD.repeat(Math.max(0, width - stringWidth(filled)));
+
+		return sliceAnsi(filled + padding, 0, Math.max(0, width));
+	};
+
 	if (options.borderStyle !== NONE || options.title) {
-		// A bar always spans the full width of the box, so an empty border is filled with spaces
-		const topBar = options.title
-			? makeLabel(colorizeTitle(options.title), (chars.top || PAD).repeat(contentWidth), options.titleAlignment)
-			: (chars.top || PAD).repeat(contentWidth);
+		const topBar = bar(chars.top, chars.topLeft, chars.topRight, options.title ? colorizeTitle(options.title) : '', options.titleAlignment);
 
 		result += marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight) + NEWLINE;
 	}
 
 	const lines = content.split(NEWLINE);
 
-	result += lines.map(line => marginLeft + colorizeBorder(chars.left) + colorizeContent(line) + colorizeBorder(chars.right)).join(NEWLINE);
+	result += lines.map(line => marginLeft + colorizeBorder(left) + colorizeContent(line) + colorizeBorder(right)).join(NEWLINE);
 
 	if (options.borderStyle !== NONE || options.footer) {
-		const bottomBar = options.footer
-			? makeLabel(options.footer, (chars.bottom || PAD).repeat(contentWidth), options.footerAlignment)
-			: (chars.bottom || PAD).repeat(contentWidth);
+		const bottomBar = bar(chars.bottom, chars.bottomLeft, chars.bottomRight, options.footer ?? '', options.footerAlignment);
 
 		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + bottomBar + chars.bottomRight);
 	}
@@ -331,7 +366,7 @@ const sanitizeOptions = options => {
 
 	options.width = sanitizeSize(options.width, borderWidth);
 	options.maxWidth = sanitizeSize(options.maxWidth, borderWidth);
-	options.height = sanitizeSize(options.height, borderWidth);
+	options.height = sanitizeSize(options.height, getBorderHeight(options.borderStyle));
 
 	return options;
 };
@@ -395,7 +430,7 @@ const determineDimensions = (text, options) => {
 	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
 
 	// A label is drawn on a row of the border, but on a row of its own when there is no border
-	if (borderWidth === 0 && options.height) {
+	if (getBorderHeight(options.borderStyle) === 0 && options.height) {
 		options.height = Math.max(1, options.height - (options.title ? 1 : 0) - (options.footer ? 1 : 0));
 	}
 

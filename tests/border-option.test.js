@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import process from 'node:process';
 import {test} from 'node:test';
 import boxen from '../index.js';
 import './setup.js';
@@ -266,4 +267,66 @@ test('throws on unexpected borderStyle as object', () => {
 	assert.throws(() => {
 		boxen('foo', {borderStyle: invalid});
 	}, {message: 'Invalid border style: bottomRight'});
+});
+
+test('a border side that is wider than one column', () => {
+	// The rows and the bars have to be as wide as the border the sides draw
+	const wideSides = {
+		topLeft: '+',
+		topRight: '+',
+		bottomLeft: '+',
+		bottomRight: '+',
+		top: '-',
+		bottom: '-',
+		left: '中',
+		right: '中',
+	};
+
+	assert.equal(boxen('foo', {borderStyle: wideSides}), '+-----+\n中foo中\n+-----+');
+
+	const twoColumnSides = {...wideSides, left: '||', right: '||'};
+
+	assert.equal(boxen('foo', {borderStyle: twoColumnSides}), '+-----+\n||foo||\n+-----+');
+
+	// The width, the maxWidth and the centering count the columns of the sides
+	assert.equal(boxen('foo', {borderStyle: twoColumnSides, width: 11}), '+---------+\n||foo    ||\n+---------+');
+	assert.equal(boxen('foo', {borderStyle: twoColumnSides, maxWidth: 7}), '+-----+\n||foo||\n+-----+');
+	// The border of the sides is counted by the float as well
+	const indent = ' '.repeat(Number(process.env.COLUMNS) - 3 - 4);
+
+	assert.equal(boxen('foo', {borderStyle: twoColumnSides, float: 'right'}), `${indent}+-----+\n${indent}||foo||\n${indent}+-----+`);
+});
+
+test('a border top or bottom that is wider than one column', () => {
+	// The bar is filled with the side character, which can be more than one column wide
+	const borderStyle = {
+		topLeft: '+',
+		topRight: '+',
+		bottomLeft: '+',
+		bottomRight: '+',
+		top: '══',
+		bottom: '══',
+		left: '|',
+		right: '|',
+	};
+
+	assert.equal(boxen('foo', {borderStyle}), '+═══+\n|foo|\n+═══+');
+	assert.equal(boxen('foo bar', {borderStyle, title: 't'}), '+ t ════+\n|foo bar|\n+═══════+');
+});
+
+test('a border side that draws nothing is drawn as a space', () => {
+	// The rows have to line up with the corners of the bars
+	const borderStyle = {
+		topLeft: '1',
+		topRight: '2',
+		bottomLeft: '3',
+		bottomRight: '4',
+		top: '-',
+		bottom: '-',
+		left: '',
+		right: '',
+	};
+
+	assert.equal(boxen('foo', {borderStyle}), '1---2\n foo \n3---4');
+	assert.equal(boxen('foo', {borderStyle, title: 't'}), '1 t 2\n foo \n3---4');
 });
