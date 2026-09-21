@@ -101,10 +101,10 @@ const getBorderWidth = borderStyle => {
 const getBorderHeight = borderStyle => borderStyle === NONE ? 0 : 2;
 
 // A size has to be a finite positive number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
-const sanitizeSize = (size, borderWidth) => {
+const sanitizeSize = (size, borderWidth, minimum = 1) => {
 	const value = Number(size);
 
-	return Number.isFinite(value) && value > 0 ? Math.max(1, value - borderWidth) : undefined;
+	return Number.isFinite(value) && value > 0 ? Math.max(minimum, value - borderWidth) : undefined;
 };
 
 // Wrapping trims the whitespace at the edges of a line, so a line that fits is kept as it is
@@ -245,7 +245,7 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 	});
 
 	// The padding rows are part of the height, so only the text is cropped
-	if (height && lines.length > height - padding.top - padding.bottom) {
+	if (height !== undefined && lines.length > Math.max(0, height - padding.top - padding.bottom)) {
 		lines = lines.slice(0, height - padding.top - padding.bottom);
 	}
 
@@ -257,7 +257,7 @@ const makeContentText = (text, {padding, width, textAlignment, height}) => {
 		lines = [...lines, ...Array.from({length: padding.bottom}, () => PAD.repeat(width))];
 	}
 
-	if (height && lines.length < height) {
+	if (height !== undefined && lines.length < height) {
 		lines = [...lines, ...Array.from({length: height - lines.length}, () => PAD.repeat(width))];
 	}
 
@@ -309,11 +309,7 @@ const boxContent = (content, contentWidth, options) => {
 		marginLeft = PAD.repeat(marginWidth);
 	}
 
-	let result = '';
-
-	if (options.margin.top) {
-		result += NEWLINE.repeat(options.margin.top);
-	}
+	const rows = [];
 
 	// The rows have the width of the content plus the sides, and a style that draws a border draws a space for a side that is empty
 	const hasBorder = options.borderStyle !== NONE;
@@ -335,24 +331,24 @@ const boxContent = (content, contentWidth, options) => {
 	if (options.borderStyle !== NONE || options.title) {
 		const topBar = bar(chars.top, chars.topLeft, chars.topRight, options.title ? colorizeTitle(options.title) : '', options.titleAlignment);
 
-		result += marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight) + NEWLINE;
+		rows.push(marginLeft + colorizeBorder(chars.topLeft + topBar + chars.topRight));
 	}
 
-	const lines = content.split(NEWLINE);
+	// A box of no rows has no content to draw
+	const lines = content === '' ? [] : content.split(NEWLINE);
 
-	result += lines.map(line => marginLeft + colorizeBorder(left) + colorizeContent(line) + colorizeBorder(right)).join(NEWLINE);
+	for (const line of lines) {
+		rows.push(marginLeft + colorizeBorder(left) + colorizeContent(line) + colorizeBorder(right));
+	}
 
 	if (options.borderStyle !== NONE || options.footer) {
 		const bottomBar = bar(chars.bottom, chars.bottomLeft, chars.bottomRight, options.footer ?? '', options.footerAlignment);
 
-		result += NEWLINE + marginLeft + colorizeBorder(chars.bottomLeft + bottomBar + chars.bottomRight);
+		rows.push(marginLeft + colorizeBorder(chars.bottomLeft + bottomBar + chars.bottomRight));
 	}
 
-	if (options.margin.bottom) {
-		result += NEWLINE.repeat(options.margin.bottom);
-	}
-
-	return result;
+	// A margin is drawn as empty rows around the box
+	return NEWLINE.repeat(options.margin.top) + rows.join(NEWLINE) + NEWLINE.repeat(options.margin.bottom);
 };
 
 const sanitizeOptions = options => {
@@ -377,7 +373,8 @@ const sanitizeOptions = options => {
 
 	options.width = sanitizeSize(options.width, borderWidth);
 	options.maxWidth = sanitizeSize(options.maxWidth, borderWidth);
-	options.height = sanitizeSize(options.height, getBorderHeight(options.borderStyle));
+	// A box can have no row for the text, it is still a box of the height that is given
+	options.height = sanitizeSize(options.height, getBorderHeight(options.borderStyle), 0);
 
 	return options;
 };
@@ -456,8 +453,8 @@ const determineDimensions = (text, options) => {
 	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
 
 	// A label is drawn on a row of the border, but on a row of its own when there is no border
-	if (getBorderHeight(options.borderStyle) === 0 && options.height) {
-		options.height = Math.max(1, options.height - (options.title ? 1 : 0) - (options.footer ? 1 : 0));
+	if (getBorderHeight(options.borderStyle) === 0 && options.height !== undefined) {
+		options.height = Math.max(0, options.height - (options.title ? 1 : 0) - (options.footer ? 1 : 0));
 	}
 
 	if (!isWidthOverride) {
@@ -478,7 +475,7 @@ const determineDimensions = (text, options) => {
 		options.padding.right = 0;
 	}
 
-	if (options.height && options.padding.top + options.padding.bottom >= options.height) {
+	if (options.height !== undefined && options.padding.top + options.padding.bottom >= options.height) {
 		options.padding.top = 0;
 		options.padding.bottom = 0;
 	}

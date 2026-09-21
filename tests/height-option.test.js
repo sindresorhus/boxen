@@ -166,3 +166,15 @@ test('height option that is a number in a string', () => {
 	assert.equal(boxen('foo', {height: '0'}), boxen('foo'));
 	assert.equal(boxen('foo', {height: 'tall'}), boxen('foo'));
 });
+
+test('the box has the height it is given when there is no room for the text', () => {
+	// The content is cropped before the border, so a box with no row for the text is still a box
+	assert.equal(boxen('foo bar', {height: 2}), '┌───────┐\n└───────┘');
+	assert.equal(boxen('foo bar', {height: 1}), '┌───────┐\n└───────┘');
+	assert.equal(boxen('foo bar', {height: 2, borderStyle: 'none'}), 'foo bar\n       ');
+	assert.equal(boxen('foo bar', {height: 1, borderStyle: 'none'}), 'foo bar');
+	assert.equal(boxen('foo bar', {height: 2, title: 'T', footer: 'F'}), '┌ T ────┐\n└ F ────┘');
+	assert.equal(boxen('foo', {height: 1, title: 'T', borderStyle: 'none'}), 'T  ');
+	// The padding still has its columns, there is just no row to draw the text on
+	assert.equal(boxen('foo bar', {height: 2, padding: 1}), '┌─────────────┐\n└─────────────┘');
+});
