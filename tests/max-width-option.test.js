@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import boxen from '../index.js';
 import './setup.js';
@@ -95,4 +96,12 @@ test('maxWidth option with height', t => {
 	});
 
 	t.assert.snapshot(box);
+});
+
+test('maxWidth option that is a number in a string', () => {
+	// A size that can be read as a number is a size, exactly like a padding side
+	const text = 'foo bar foo bar foo bar';
+	assert.equal(boxen(text, {maxWidth: '20'}), boxen(text, {maxWidth: 20}));
+	assert.equal(boxen(text, {maxWidth: '0'}), boxen(text));
+	assert.equal(boxen(text, {maxWidth: 'wide'}), boxen(text));
 });

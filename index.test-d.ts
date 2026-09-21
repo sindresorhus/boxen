@@ -1,4 +1,4 @@
-import {expectType} from 'tsd';
+import {expectError, expectType} from 'tsd';
 import boxen, {type Spacing, type CustomBorderStyle} from './index.js';
 
 const border: CustomBorderStyle = {
@@ -44,6 +44,12 @@ expectType<string>(boxen('unicorns', {borderBackgroundColor: 'inherit', backgrou
 expectType<string>(boxen('unicorns', {borderBackgroundColor: undefined}));
 expectType<string>(boxen('unicorns', {textAlignment: 'right'}));
 expectType<string>(boxen('unicorns', {width: 20}));
+expectType<string>(boxen('unicorns', {width: '20'}));
 expectType<string>(boxen('unicorns', {maxWidth: 20}));
+expectType<string>(boxen('unicorns', {maxWidth: '20'}));
 expectType<string>(boxen('unicorns', {height: 5}));
+expectType<string>(boxen('unicorns', {height: '5'}));
+expectError(boxen('unicorns', {width: 'invalid'}));
+expectError(boxen('unicorns', {maxWidth: 'invalid'}));
+expectError(boxen('unicorns', {height: 'invalid'}));
 expectType<string>(boxen('unicorns', {fullscreen: true}));

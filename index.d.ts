@@ -243,6 +243,8 @@ export type Options = {
 	/**
 	Set a fixed width for the box.
 
+	A numeric string is also accepted.
+
 	__Note__: This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
 	@example
@@ -255,10 +257,12 @@ export type Options = {
 	// └─────────────┘
 	```
 	*/
-	readonly width?: number;
+	readonly width?: number | `${number}`;
 
 	/**
 	Set a maximum width for the box.
+
+	A numeric string is also accepted.
 
 	The box grows with the content and does not become wider than this value.
 
@@ -283,10 +287,12 @@ export type Options = {
 	// └─────────────────┘
 	```
 	*/
-	readonly maxWidth?: number;
+	readonly maxWidth?: number | `${number}`;
 
 	/**
 	Set a fixed height for the box.
+
+	A numeric string is also accepted.
 
 	__Note__: This option will crop overflowing content.
 
@@ -302,7 +308,7 @@ export type Options = {
 	// └───────┘
 	```
 	*/
-	readonly height?: number;
+	readonly height?: number | `${number}`;
 
 	/**
 	__boolean__: Whether or not to fit all available space within the terminal.

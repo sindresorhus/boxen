@@ -271,9 +271,11 @@ Values:
 
 ##### width
 
-Type: `number`
+Type: `number` or a numeric string
 
 Set a fixed width for the box.
+
+A numeric string is also accepted.
 
 *Note:* This disables terminal overflow handling and may cause the box to look broken if the user's terminal is not wide enough.
 
@@ -288,9 +290,11 @@ console.log(boxen('foo bar', {width: 15}));
 
 ##### maxWidth
 
-Type: `number`
+Type: `number` or a numeric string
 
 Set a maximum width for the box.
+
+A numeric string is also accepted.
 
 The box grows with the content and does not become wider than this value.
 
@@ -316,9 +320,11 @@ console.log(boxen('Lorem ipsum dolor sit amet, consectetur.', {maxWidth: 20}));
 
 ##### height
 
-Type: `number`
+Type: `number` or a numeric string
 
 Set a fixed height for the box.
+
+A numeric string is also accepted.
 
 *Note:* This option will crop overflowing content.
 

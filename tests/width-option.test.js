@@ -118,3 +118,12 @@ test('width option with a character wider than the box', t => {
 		}),
 	);
 });
+
+test('width option that is a number in a string', () => {
+	// A size that can be read as a number is a size, exactly like a padding side
+	assert.equal(boxen('foo', {width: '20'}), boxen('foo', {width: 20}));
+	assert.equal(boxen('foo', {width: ' 20 '}), boxen('foo', {width: 20}));
+	assert.equal(boxen('foo', {width: '2'}), boxen('foo', {width: 2}));
+	assert.equal(boxen('foo', {width: '0'}), boxen('foo'));
+	assert.equal(boxen('foo', {width: 'abc'}), boxen('foo'));
+});

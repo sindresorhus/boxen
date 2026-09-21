@@ -159,3 +159,10 @@ test('height option with border style (none) and labels', () => {
 		'f' + ' '.repeat(2),
 	].join('\n'));
 });
+
+test('height option that is a number in a string', () => {
+	// A size that can be read as a number is a size, exactly like a padding side
+	assert.equal(boxen('foo', {height: '5'}), boxen('foo', {height: 5}));
+	assert.equal(boxen('foo', {height: '0'}), boxen('foo'));
+	assert.equal(boxen('foo', {height: 'tall'}), boxen('foo'));
+});
