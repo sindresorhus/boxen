@@ -3,8 +3,9 @@ import process from 'node:process';
 import {snapshot} from 'node:test';
 import chalk from 'chalk';
 
-// Use a fixed terminal width so the box art is deterministic
+// Use a fixed terminal size so the box art is deterministic
 process.env.COLUMNS = '60';
+delete process.env.LINES;
 
 // The snapshots are colorless, so the color support of the environment must not leak in
 chalk.level = 0;

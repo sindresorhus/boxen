@@ -45,6 +45,11 @@ const terminalColumns = () => process.stdout?.columns
 	|| Number(process.env.COLUMNS)
 	|| 80;
 
+// A terminal has no height when the output is not a terminal, and there is nothing to fill then
+const terminalRows = () => process.stdout?.rows
+	|| process.stderr?.rows
+	|| Number(process.env.LINES);
+
 const getObject = detail => {
 	const object = typeof detail === 'number'
 		? {
@@ -81,6 +86,12 @@ const sanitizeSize = (size, borderWidth) => {
 
 // Wrapping trims the whitespace at the edges of a line, so a line that fits is kept as it is
 const wrapLine = (line, width) => stringWidth(line) > width ? wrapAnsi(line, width, {hard: true}) : line;
+
+const isValidSize = size => {
+	const value = Number(size);
+
+	return Number.isFinite(value) && value > 0;
+};
 
 // Pad every line to `width`, so that the text can be aligned in the box. A line that is wider than that is not padded, so a row that overflows the box does not widen the rows that fit.
 const alignText = (text, alignment, width) => {
@@ -301,15 +312,19 @@ const boxContent = (content, contentWidth, options) => {
 const sanitizeOptions = options => {
 	// If fullscreen is enabled, max-out unspecified width/height
 	if (options.fullscreen && process?.stdout) {
-		let newDimensions = [terminalColumns(), process.stdout.rows || process.stderr.rows];
+		let newDimensions = [terminalColumns(), terminalRows()];
 
 		if (typeof options.fullscreen === 'function') {
 			newDimensions = options.fullscreen(...newDimensions);
 		}
 
-		options.width ||= newDimensions[0];
+		if (!isValidSize(options.width)) {
+			options.width = newDimensions[0];
+		}
 
-		options.height ||= newDimensions[1];
+		if (!isValidSize(options.height)) {
+			options.height = newDimensions[1];
+		}
 	}
 
 	const borderWidth = getBorderWidth(options.borderStyle);
