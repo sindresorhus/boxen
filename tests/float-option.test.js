@@ -79,7 +79,16 @@ test('a margin that is not drawn does not take columns from the content', () => 
 	assert.equal(boxen(text, {float: 'center', margin: 2}), boxen(text, {float: 'center', margin: {top: 2, bottom: 2}}));
 	assert.equal(boxen(text, {float: 'right', margin: {left: 2}}), boxen(text, {float: 'right'}));
 
-	// The margin that is drawn still takes its columns
+	// The margin that is drawn still takes its columns, and the box stops at it
+	const columns = Number(process.env.COLUMNS);
+	const longText = 'x'.repeat(columns - 5);
+
 	assert.notEqual(boxen(text, {float: 'right', margin: {right: 2}}), boxen(text, {float: 'right'}));
 	assert.notEqual(boxen(text, {float: 'left', margin: 1}), boxen(text));
+
+	// The box is not indented by its left margin, so it keeps the columns that the right margin reserves
+	const floated = boxen(longText, {float: 'right', margin: {left: 3, right: 3}});
+	const [floatedRow] = floated.split('\n', 1);
+
+	assert.equal(floatedRow.length, columns - 3);
 });

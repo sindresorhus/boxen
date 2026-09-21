@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import process from 'node:process';
 import {test} from 'node:test';
 import chalk from 'chalk';
+import stringWidth from 'string-width';
 import boxen from '../index.js';
 import './setup.js';
 
@@ -222,4 +223,150 @@ test('handles colored texts', t => {
 	box = boxen(chalk.yellow(randomText));
 
 	t.assert.snapshot(box);
+});
+
+test('every row of the box ends on the same column', () => {
+	// The border, the text and the padding are drawn next to each other, so a row that is measured wrong does not line up
+	const texts = ['foo', '', 'foo bar baz qux quux corge grault', 'a\nbb\nccc\ndddd', '   indented  ', 'a b c d e f g h i j k l m n o p', '字', 'foo 字 bar', 'a\tb', 'a\bb'];
+	const wideCorners = {
+		topLeft: '中',
+		topRight: '中',
+		bottomLeft: '中',
+		bottomRight: '中',
+		top: '-',
+		bottom: '-',
+		left: '|',
+		right: '|',
+	};
+	const wideSides = {
+		topLeft: '+',
+		topRight: '+',
+		bottomLeft: '+',
+		bottomRight: '+',
+		top: '-',
+		bottom: '-',
+		left: '||',
+		right: '||',
+	};
+	const optionSets = [
+		{},
+		{padding: 1},
+		{
+			padding: {
+				top: 1, right: 3, bottom: 2, left: 4,
+			},
+		},
+		{margin: 2},
+		{width: 12},
+		{maxWidth: 12},
+		{height: 5},
+		{height: 2},
+		{
+			title: 'title',
+			footer: 'footer',
+		},
+		{float: 'right'},
+		{float: 'center', margin: 1},
+		{borderStyle: 'none', title: 'title'},
+		{textAlignment: 'center'},
+		{textAlignment: 'right', padding: 1},
+		{borderStyle: wideCorners},
+		{borderStyle: wideCorners, title: 'title', footer: 'footer'},
+		{borderStyle: wideSides},
+		{borderStyle: wideSides, title: 'title'},
+		{maxWidth: 3},
+		{width: 2},
+		{title: '中', padding: 1},
+	];
+	const misaligned = [];
+
+	for (const text of texts) {
+		for (const options of optionSets) {
+			const box = boxen(text, options);
+			const rows = box.split('\n').filter(row => row.trim() !== '');
+			const widths = rows.map(row => stringWidth(row));
+
+			if (new Set(widths).size > 1) {
+				misaligned.push({
+					text,
+					options,
+					widths,
+				});
+			}
+		}
+	}
+
+	assert.deepEqual(misaligned, []);
+});
+
+test('the box is as wide as the text and its padding', () => {
+	// The box grows with the text up to the terminal and `maxWidth`, and it is never wider than the text needs
+	const cases = [
+		['foo', {}, 5],
+		['foo', {padding: 1}, 11],
+		['foo bar baz', {padding: {left: 2, right: 3}}, 18],
+		// The box grows up to `maxWidth` and no further
+		['foo bar baz qux quux corge', {maxWidth: 20}, 17],
+		['', {}, 3],
+		['foo', {title: 't'}, 5],
+		['foo', {footer: 'a longer footer'}, 19],
+	];
+	const wrong = [];
+
+	for (const [text, options, expected] of cases) {
+		const [firstRow] = boxen(text, options).split('\n', 1);
+		const actual = stringWidth(firstRow);
+
+		if (actual !== expected) {
+			wrong.push({
+				text,
+				options,
+				expected,
+				actual,
+			});
+		}
+	}
+
+	assert.deepEqual(wrong, []);
+});
+
+test('the box never becomes wider than the terminal', () => {
+	const columns = Number(process.env.COLUMNS);
+	const text = 'foo bar baz qux quux corge grault';
+	const cases = [
+		[text, {}],
+		[text, {padding: 2}],
+		[text, {margin: 3}],
+		[text, {title: 'a title that is way too long'}],
+		[text, {float: 'right'}],
+		[text, {float: 'center', margin: 2}],
+		['x'.repeat(columns * 2), {}],
+		['', {margin: columns}],
+	];
+	const overflowed = [];
+
+	for (const [value, options] of cases) {
+		const box = boxen(value, options);
+
+		for (const row of box.split('\n')) {
+			if (stringWidth(row) > columns) {
+				overflowed.push({value: value.slice(0, 20), options, row});
+			}
+		}
+	}
+
+	assert.deepEqual(overflowed, []);
+});
+
+test('a size that is given is the size the box has', () => {
+	// The same box without a size is the box the text needs, so a size that is the size of the box does not change it
+	const box = boxen('foo bar');
+	const [firstRow] = box.split('\n', 1);
+
+	assert.equal(boxen('foo bar', {width: stringWidth(firstRow)}), box);
+	assert.equal(boxen('foo bar', {maxWidth: stringWidth(firstRow)}), box);
+	assert.equal(boxen('foo bar', {height: box.split('\n').length}), box);
+	assert.equal(boxen('foo bar', {borderStyle: 'single'}), box);
+	assert.equal(boxen('foo bar', {padding: 0, margin: 0}), box);
+	assert.equal(boxen('foo bar', {textAlignment: 'left', float: 'left', dimBorder: false}), box);
 });
