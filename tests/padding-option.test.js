@@ -54,3 +54,11 @@ test('padding option with border style (none)', t => {
 
 	t.assert.snapshot(box);
 });
+
+test('padding option that is not a whole number of columns', () => {
+	// A side is drawn a whole number of columns wide, so the box is measured with the width that is drawn
+	assert.equal(boxen('foo', {padding: {left: 2.5, right: 0.5}}), '┌─────┐\n│  foo│\n└─────┘');
+	// A number is three times as wide on the sides, and the sides are floored to a whole column
+	assert.equal(boxen('foo', {padding: 1.5}), '┌───────────┐\n│           │\n│    foo    │\n│           │\n└───────────┘');
+	assert.equal(boxen('foo', {padding: {top: 1.5}}), '┌───┐\n│   │\n│foo│\n└───┘');
+});

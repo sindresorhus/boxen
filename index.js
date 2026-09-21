@@ -66,10 +66,10 @@ const getObject = detail => {
 			...detail,
 		};
 
-	// A side has to be a finite non-negative number, anything else means no spacing
+	// A side has to be a finite non-negative whole number of columns, anything else means no spacing
 	for (const side of ['top', 'right', 'bottom', 'left']) {
 		const value = Number(object[side]);
-		object[side] = Number.isFinite(value) ? Math.max(0, value) : 0;
+		object[side] = Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
 	}
 
 	return object;
