@@ -41,7 +41,7 @@
 		"string-width": "^8.2.2",
 		"type-fest": "^5.10.0",
 		"widest-line": "^6.0.0",
-		"wrap-ansi": "^10.0.1"
+		"wrap-ansi": "^10.0.2"
 	},
 	"devDependencies": {
 		"tsd": "^0.33.0",

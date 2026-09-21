@@ -101,6 +101,16 @@ const getBorderWidth = borderStyle => {
 const getBorderHeight = borderStyle => borderStyle === NONE ? 0 : 2;
 
 // A size has to be a finite positive number, anything else means it is not set. The size is the space inside the border, so it can not be below 1.
+// The corners of a bar can be wider than its sides, and a label is drawn between them
+const getCornerWidths = borderStyle => {
+	const {topLeft, topRight, bottomLeft, bottomRight} = getBorderChars(borderStyle);
+
+	return {
+		top: stringWidth(topLeft) + stringWidth(topRight),
+		bottom: stringWidth(bottomLeft) + stringWidth(bottomRight),
+	};
+};
+
 const sanitizeSize = (size, borderWidth, minimum = 1) => {
 	const value = Number(size);
 
@@ -338,7 +348,10 @@ const boxContent = (content, contentWidth, options) => {
 	const lines = content === '' ? [] : content.split(NEWLINE);
 
 	for (const line of lines) {
-		rows.push(marginLeft + colorizeBorder(left) + colorizeContent(line) + colorizeBorder(right));
+		// A row is padded to the width of the box, which a row that is wider than it does not have to be
+		const padded = line + PAD.repeat(Math.max(0, contentWidth - stringWidth(line)));
+
+		rows.push(marginLeft + colorizeBorder(left) + colorizeContent(padded) + colorizeBorder(right));
 	}
 
 	if (options.borderStyle !== NONE || options.footer) {
@@ -379,17 +392,21 @@ const sanitizeOptions = options => {
 	return options;
 };
 
+// The spaces that are drawn around a label, which it shares with the corners of the bar
+const labelFrame = borderStyle => borderStyle === NONE ? 0 : 2;
+
 const formatLabel = (label, borderStyle) => borderStyle === NONE ? label : ` ${label} `;
 
 // Slice a label to the available space and pad it with spaces
-const fitLabel = (label, width, borderStyle) => {
+const fitLabel = (label, width, borderStyle, cornerWidth) => {
 	if (!label) {
 		return label;
 	}
 
 	// A label is a single line, so line breaks would break the box
 	label = writeControls(label.replaceAll(LINE_BREAKS, ' ')).toWellFormed();
-	label = sliceAnsi(label, 0, Math.max(0, width - getBorderWidth(borderStyle)));
+	// The label is drawn between the corners of the bar, with the spaces that `formatLabel` adds around it
+	label = sliceAnsi(label, 0, Math.max(0, width + getBorderWidth(borderStyle) - cornerWidth - labelFrame(borderStyle)));
 
 	return label && formatLabel(label, borderStyle);
 };
@@ -399,6 +416,8 @@ const determineDimensions = (text, options) => {
 	const isWidthOverride = options.width !== undefined;
 	const columns = terminalColumns();
 	const borderWidth = getBorderWidth(options.borderStyle);
+	const cornerWidths = getCornerWidths(options.borderStyle);
+	const corners = Math.max(cornerWidths.top, cornerWidths.bottom);
 	const terminalWidth = columns - borderWidth;
 	// The box grows with the content up to the terminal width and `maxWidth`
 	const maxContentWidth = Math.min(terminalWidth, options.maxWidth || terminalWidth);
@@ -449,8 +468,8 @@ const determineDimensions = (text, options) => {
 
 	// The labels are fitted with the space that the margin leaves behind, so that a shrunk margin still fits them
 	const labelWidth = isWidthOverride ? options.width : Math.min(columns - borderWidth - marginWidth(), maxContentWidth);
-	options.title = fitLabel(options.title, labelWidth, options.borderStyle);
-	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle);
+	options.title = fitLabel(options.title, labelWidth, options.borderStyle, cornerWidths.top);
+	options.footer = fitLabel(options.footer, labelWidth, options.borderStyle, cornerWidths.bottom);
 
 	// A label is drawn on a row of the border, but on a row of its own when there is no border
 	if (getBorderHeight(options.borderStyle) === 0 && options.height !== undefined) {
@@ -458,10 +477,10 @@ const determineDimensions = (text, options) => {
 	}
 
 	if (!isWidthOverride) {
-		// If a label is larger than content, box adheres to label width
-		for (const label of [options.title, options.footer]) {
+		// If a label is larger than content, box adheres to label width, and the box keeps the room the corners of its bar need
+		for (const [label, cornerWidth] of [[options.title, cornerWidths.top], [options.footer, cornerWidths.bottom]]) {
 			if (label) {
-				widest = Math.max(widest, stringWidth(label));
+				widest = Math.max(widest, stringWidth(label) - borderWidth + cornerWidth);
 			}
 		}
 
@@ -470,6 +489,9 @@ const determineDimensions = (text, options) => {
 	}
 
 	// Prevent padding overflow
+	// The box is at least as wide as the corners of its bars
+	options.width = Math.max(options.width, corners - borderWidth, 1);
+
 	if (options.padding.left + options.padding.right >= options.width) {
 		options.padding.left = 0;
 		options.padding.right = 0;
@@ -555,7 +577,8 @@ export default function boxen(text, options) {
 
 	text = makeContentText(text, options);
 
-	return boxContent(text, options.width, options);
+	// A character that is wider than the space left for it widens the row it is on, so the border follows the widest row
+	return boxContent(text, Math.max(options.width, widestLine(text)), options);
 }
 
 export {default as _borderStyles} from 'cli-boxes';

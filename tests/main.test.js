@@ -370,3 +370,24 @@ test('a size that is given is the size the box has', () => {
 	assert.equal(boxen('foo bar', {padding: 0, margin: 0}), box);
 	assert.equal(boxen('foo bar', {textAlignment: 'left', float: 'left', dimBorder: false}), box);
 });
+
+test('the box is as wide as the widest row it draws', () => {
+	// A character that is wider than the space left for it widens the row it is on, so the border follows it
+	assert.equal(boxen('字', {maxWidth: 3}), '┌──┐\n│字│\n└──┘');
+	assert.equal(boxen('字', {width: 2}), '┌──┐\n│字│\n└──┘');
+
+	// The corners of a border can be wider than its sides, and the box is as wide as the corners
+	const wideCorners = {
+		topLeft: '中',
+		topRight: '中',
+		bottomLeft: '中',
+		bottomRight: '中',
+		top: '─',
+		bottom: '─',
+		left: '|',
+		right: '|',
+	};
+
+	assert.equal(boxen('', {borderStyle: wideCorners}), '中中\n|  |\n中中');
+	assert.equal(boxen('foo', {borderStyle: wideCorners}), '中─中\n|foo|\n中─中');
+});

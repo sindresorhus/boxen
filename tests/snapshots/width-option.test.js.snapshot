@@ -1,19 +1,19 @@
 exports[`width option with a character wider than the box 1`] = `
-┌─┐
+┌──┐
 │字│
-└─┘
+└──┘
 `;
 
 exports[`width option with a character wider than the box 2`] = `
-┌─┐
+┌──┐
 │字│
-└─┘
+└──┘
 `;
 
 exports[`width option with a character wider than the box 3`] = `
-┌─┐
+┌──┐
 │字│
-└─┘
+└──┘
 `;
 
 exports[`width option with big padding 1`] = `

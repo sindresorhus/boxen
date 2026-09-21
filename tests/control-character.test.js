@@ -240,3 +240,11 @@ test('a lone surrogate in a border character is a replacement character', () => 
 	assert.ok(box.isWellFormed());
 	assert.equal(box, '+\u{FFFD}\u{FFFD}\u{FFFD}+\n|foo|\n+\u{FFFD}\u{FFFD}\u{FFFD}+');
 });
+
+test('a combining mark after a styling escape keeps the escape whole', () => {
+	// The text is normalized, and a normalizer that sees the sequence would compose its last character with the combining mark and destroy it
+	const colored = '\u{1B}[31m\u{301}xy';
+
+	assert.equal(boxen(colored, {width: 3, borderStyle: 'classic'}), '+-+\n|\u{1B}[31m\u{301}x\u{1B}[39m|\n|\u{1B}[31my|\n+-+');
+	assert.equal(boxen(colored), `┌──┐\n│${colored}│\n└──┘`);
+});

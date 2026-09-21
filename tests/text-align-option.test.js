@@ -220,10 +220,10 @@ test('text alignement option (right) with a character wider than the box', () =>
 	});
 
 	assert.equal(box, [
-		'┌─┐',
+		'┌──┐',
 		'│👍│',
-		'│b│',
-		'└─┘',
+		'│b │',
+		'└──┘',
 	].join('\n'));
 });
 

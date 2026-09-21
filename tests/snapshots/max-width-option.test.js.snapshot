@@ -6,9 +6,9 @@ exports[`maxWidth option is capped by the terminal 1`] = `
 `;
 
 exports[`maxWidth option with a character wider than the box 1`] = `
-┌─┐
+┌──┐
 │字│
-└─┘
+└──┘
 `;
 
 exports[`maxWidth option with border style (none) 1`] = `

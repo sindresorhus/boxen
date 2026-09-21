@@ -330,3 +330,47 @@ test('a border side that draws nothing is drawn as a space', () => {
 	assert.equal(boxen('foo', {borderStyle}), '1---2\n foo \n3---4');
 	assert.equal(boxen('foo', {borderStyle, title: 't'}), '1 t 2\n foo \n3---4');
 });
+
+test('a border corner that is wider than its sides', () => {
+	// A label is drawn between the corners, so the box is as wide as the label and the corners together
+	const borderStyle = {
+		topLeft: '中',
+		topRight: '中',
+		bottomLeft: '中',
+		bottomRight: '中',
+		top: '-',
+		bottom: '-',
+		left: '|',
+		right: '|',
+	};
+
+	assert.equal(boxen('foo', {borderStyle, title: 'title'}), '中 title 中\n|foo      |\n中-------中');
+	assert.equal(boxen('foo', {borderStyle, title: '中'}), '中 中 中\n|foo   |\n中----中');
+	assert.equal(boxen('foo', {borderStyle, footer: '标题'}), '中------中\n|foo     |\n中 标题 中');
+	assert.equal(boxen('foo', {borderStyle, title: '标题标题', maxWidth: 16}), '中 标题标题 中\n|foo         |\n中----------中');
+});
+
+test('a label is fitted between the corners of its own bar', () => {
+	const borderStyle = {
+		topLeft: '+',
+		topRight: '+',
+		bottomLeft: '中',
+		bottomRight: '中',
+		top: '-',
+		bottom: '-',
+		left: '|',
+		right: '|',
+	};
+
+	assert.equal(boxen('x', {width: 6, title: 'ab', borderStyle}), '+ ab +\n|x   |\n中--中');
+	assert.equal(boxen('x', {title: 'ab', borderStyle}), '+ ab +\n|x   |\n中--中');
+	const footerBorderStyle = {
+		...borderStyle,
+		topLeft: '中',
+		topRight: '中',
+		bottomLeft: '+',
+		bottomRight: '+',
+	};
+
+	assert.equal(boxen('x', {width: 6, footer: 'ab', borderStyle: footerBorderStyle}), '中--中\n|x   |\n+ ab +');
+});
