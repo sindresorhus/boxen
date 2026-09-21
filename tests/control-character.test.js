@@ -137,6 +137,17 @@ test('a backspace overtypes the character before it', () => {
 	assertAligned('foo', {footer: 'a\bb'});
 });
 
+test('a backspace does not remove a line break', () => {
+	assert.equal(boxen('a\n\bb'), '┌─┐\n│a│\n│b│\n└─┘');
+});
+
+test('a backspace crosses styling escapes to overtype the preceding character', () => {
+	const red = '\u{1B}[31m';
+	const reset = '\u{1B}[39m';
+
+	assert.equal(boxen(`a${red}\bb${reset}`), `┌─┐\n│${red}b${reset}│\n└─┘`);
+});
+
 test('a control character that moves the cursor is not drawn', () => {
 	// A terminal draws nothing for these, so the box must not count them
 	const escapes = ['\u{1B}[2A', '\u{1B}[1B', '\u{1B}[2K', '\u{1B}[H', '\u{1B}[2J', '\u{1B}[?25l'];
@@ -164,4 +175,30 @@ test('a styling escape and a hyperlink are kept', () => {
 
 	// An escape in a title is kept as well
 	assert.equal(boxen('foo', {title: colored}), '┌ \u{1B}[31mfoo\u{1B}[39m ┐\n│foo  │\n└─────┘');
+});
+
+test('terminal commands other than hyperlinks are not kept', () => {
+	const clipboardCommand = '\u{1B}]52;c;SGVsbG8=\u{7}';
+	const titleCommand = '\u{1B}]2;changed\u{1B}\\';
+
+	assert.equal(boxen(`a${clipboardCommand}b`), '┌──┐\n│ab│\n└──┘');
+	assert.equal(boxen(`a${titleCommand}b`), '┌──┐\n│ab│\n└──┘');
+	assert.equal(boxen('a\u{1B}]2;unfinished'), '┌─┐\n│a│\n└─┘');
+	assert.equal(boxen('a\u{1B}]2;unfinished\u{1B}c'), '┌─┐\n│a│\n└─┘');
+	assert.equal(boxen('a\u{1B}]8;;https://example.com\nb\u{7}'), '┌─┐\n│a│\n└─┘');
+	assert.equal(boxen('a\u{1B}]52;c;SGVsbG8=\u{1B}[31mxyz\u{7}b'), '┌──┐\n│ab│\n└──┘');
+	assert.equal(boxen('a\u{1B}]52;c;SGVsbG8=\u{1B}]8;;https://example.com\u{7}b'), '┌──┐\n│ab│\n└──┘');
+});
+
+test('a backspace does not cut an escape sequence in half', () => {
+	// An escape sequence is not a character that can be overtyped, so the backspace preserves it while removing the preceding displayed character
+	const red = '\u{1B}[31mred\u{1B}[39m';
+
+	assert.equal(boxen(`${red}\b`), '┌──┐\n│\u{1B}[31mre\u{1B}[39m│\n└──┘');
+	assert.equal(boxen(`${red}\bg`), '┌───┐\n│\u{1B}[31mre\u{1B}[39mg│\n└───┘');
+	assert.equal(boxen(`a\b${red}`), `┌───┐\n│${red}│\n└───┘`);
+
+	assertAligned(`${red}\b`);
+	assertAligned(`${red}\bg`);
+	assertAligned(`a\b${red}`);
 });

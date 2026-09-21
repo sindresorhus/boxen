@@ -17,23 +17,34 @@ const LINE_BREAKS = /\r\n|[\n\v\f\r]/gv;
 A text, a label and a border are drawn inside the box, so a control that moves the cursor would break it.
 A style escape and a hyperlink are drawn with the text they wrap, every other escape is dropped, a tab is drawn as a single space, which is not the column it moves the cursor to but keeps the row as wide as it is measured, and a backspace overtypes the character before it.
 */
-const STYLING_ESCAPE = /(\u{1B}\[[0-9:;]*m|\u{1B}\][^\u{7}\u{1B}]*(?:\u{7}|\u{1B}\\))/gv;
-const CURSOR_ESCAPE = /\u{1B}\[[\u{20}-\u{3F}]*[\u{40}-\u{7E}]|\u{1B}[^\u{7}\u{5B}\u{5D}]?/gv;
+const STYLING_ESCAPE = /^(?:\u{1B}\[[0-9:;]*m|\u{1B}\]8;[^\u{0}-\u{1F};\u{7F}]*;[^\u{0}-\u{1F}\u{7F}]*(?:\u{7}|\u{1B}\\))$/v;
+const CONTROL_ESCAPE = /(\u{1B}\].*?(?:\u{7}|\u{1B}\\|$)|\u{1B}\[[\u{20}-\u{3F}]*[\u{40}-\u{7E}]|\u{1B}[^\u{7}\u{5B}\u{5D}]?)/gsv;
 
 const writeControls = text => {
-	// The styling escapes are the odd entries of the split, the rest of the text is stripped of the escapes that move the cursor
-	const written = text
-		.split(STYLING_ESCAPE)
-		.map((part, index) => index % 2 === 1 ? part : part.replaceAll(CURSOR_ESCAPE, '').replaceAll('\t', ' '))
-		.join('');
-
+	// Escapes are the odd entries of the split, so a whole OSC is handled before any styling escape inside it
+	const parts = text.split(CONTROL_ESCAPE);
 	const characters = [];
 
-	for (const character of written) {
-		if (character === '\u{8}') {
-			characters.pop();
-		} else {
-			characters.push(character);
+	for (const [index, part] of parts.entries()) {
+		if (index % 2 === 1) { // A styling escape is written as one piece, so a backspace can not cut it
+			if (STYLING_ESCAPE.test(part)) {
+				characters.push(part);
+			}
+
+			continue;
+		}
+
+		for (const character of part.replaceAll('\t', ' ')) {
+			if (character === '\u{8}') {
+				// A backspace overtypes the character before it, and an escape sequence is not drawn as a character
+				const previousIndex = characters.findLastIndex(previousCharacter => !previousCharacter.startsWith('\u{1B}'));
+
+				if (previousIndex !== -1 && characters[previousIndex] !== NEWLINE) {
+					characters.splice(previousIndex, 1);
+				}
+			} else {
+				characters.push(character);
+			}
 		}
 	}
 
